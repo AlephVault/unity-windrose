@@ -6,7 +6,6 @@
   "unity": "2018.1",
   "dependencies": {
     "com.alephvault.unity.support": "0.0.1",
-    "com.alephvault.unity.support.generic": "0.0.1",
     "com.alephvault.unity.layout": "0.0.1",
     "com.alephvault.unity.menuactions": "0.0.1"
   },
