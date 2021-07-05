@@ -1,0 +1,19 @@
+{
+    "name": "GameMeanMachine.Unity.WindRose.Editor",
+    "references": [
+        "GameMeanMachine.Unity.WindRose.Runtime",
+        "AlephVault.Unity.Support.Runtime",
+        "AlephVault.Unity.MenuActions.Editor",
+        "AlephVault.Unity.Layout.Runtime"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
