@@ -45,8 +45,9 @@ namespace GameMeanMachine.Unity.WindRose
                                 StrategyHolder = GetComponent<ObjectsManagementStrategyHolder>();
                             }
 
-                            private void Start()
+                            protected override void Start()
                             {
+                                base.Start();
 #if UNITY_EDITOR
                                 if (!Application.isPlaying) return;
 #endif
