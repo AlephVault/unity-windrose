@@ -28,6 +28,17 @@ namespace GameMeanMachine.Unity.WindRose
                     [RequireComponent(typeof(MapObject))]
                     public abstract class ObjectStrategy : MonoBehaviour
                     {
+                        /// <summary>
+                        ///   Builds a FQDN property name for a given type and property.
+                        /// </summary>
+                        /// <typeparam name="T">The ObjectStrategy type for which the property has to be got</typeparam>
+                        /// <param name="property">The name of the property</param>
+                        /// <returns>The fully qualified property name</returns>
+                        public static string FullyQualifiedProperty<T>(string property) where T : ObjectStrategy
+                        {
+                            return $"{typeof(T).FullName}.{property}";
+                        }
+
                         private static Type baseCounterpartStrategyType = typeof(World.Layers.Objects.ObjectsManagementStrategies.ObjectsManagementStrategy);
 
                         /// <summary>
@@ -105,16 +116,7 @@ namespace GameMeanMachine.Unity.WindRose
                         /// <param name="newValue">The new value</param>
                         protected void PropertyWasUpdated(string property, object oldValue, object newValue)
                         {
-                            World.Layers.Objects.ObjectsManagementStrategyHolder strategyHolder = null;
-                            try
-                            {
-                                strategyHolder = StrategyHolder.Object.ParentMap.ObjectsLayer.StrategyHolder;
-                            }
-                            catch (NullReferenceException)
-                            {
-                                strategyHolder = null;
-                            }
-                            if (strategyHolder != null) { strategyHolder.PropertyWasUpdated(StrategyHolder, this, property, oldValue, newValue); }
+                            StrategyHolder?.Object?.ParentMap?.ObjectsLayer?.StrategyHolder?.PropertyWasUpdated(StrategyHolder, this, property, oldValue, newValue);
                         }
                     }
 

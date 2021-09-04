@@ -27,6 +27,24 @@ namespace GameMeanMachine.Unity.WindRose
                         public class SolidnessObjectStrategy : ObjectStrategy
                         {
                             /// <summary>
+                            ///   A constant for the <see cref="solidness"/> property,
+                            ///   to be mapped for strategies.
+                            /// </summary>
+                            public static readonly string SolidnessProperty = FullyQualifiedProperty<SolidnessObjectStrategy>("solidness");
+
+                            /// <summary>
+                            ///   A constant for the <see cref="mask"/> property,
+                            ///   to be mapped for strategies.
+                            /// </summary>
+                            public static readonly string MaskProperty = FullyQualifiedProperty<SolidnessObjectStrategy>("mask");
+
+                            /// <summary>
+                            ///   A constant for the <see cref="TraversesOtherSolidsProperty"/> property,
+                            ///   to be mapped for strategies.
+                            /// </summary>
+                            public static readonly string TraversesOtherSolidsProperty = FullyQualifiedProperty<SolidnessObjectStrategy>("traversesOtherSolids");
+
+                            /// <summary>
                             ///   The object's solidness status.
                             /// </summary>
                             [SerializeField]
@@ -115,7 +133,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     var oldValue = solidness;
                                     solidness = value;
                                     ClampSolidness();
-                                    if (oldValue != solidness) PropertyWasUpdated("solidness", oldValue, solidness);
+                                    if (oldValue != solidness) PropertyWasUpdated(SolidnessProperty, oldValue, solidness);
                                 }
                             }
 
@@ -139,7 +157,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     {
                                         mask = value;
                                     }
-                                    PropertyWasUpdated("mask", oldValue, mask);
+                                    PropertyWasUpdated(MaskProperty, oldValue, mask);
                                 }
                             }
 
@@ -154,7 +172,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 {
                                     var oldValue = traversesOtherSolids;
                                     traversesOtherSolids = value;
-                                    if (oldValue != traversesOtherSolids) PropertyWasUpdated("traversesOtherSolids", oldValue, traversesOtherSolids);
+                                    if (oldValue != traversesOtherSolids) PropertyWasUpdated(TraversesOtherSolidsProperty, oldValue, traversesOtherSolids);
                                 }
                             }
                         }

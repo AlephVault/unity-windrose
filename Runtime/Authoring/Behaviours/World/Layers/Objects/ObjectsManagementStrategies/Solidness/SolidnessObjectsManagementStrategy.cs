@@ -20,6 +20,7 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             namespace Solidness
                             {
+                                using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies.Solidness;
                                 using Types;
 
                                 /// <summary>
@@ -46,7 +47,7 @@ namespace GameMeanMachine.Unity.WindRose
 
                                     protected override Type GetCounterpartType()
                                     {
-                                        return typeof(Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy);
+                                        return typeof(SolidnessObjectStrategy);
                                     }
 
                                     public override void InitGlobalCellsData()
@@ -68,7 +69,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     /// </summary>
                                     public override void AttachedStrategy(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
                                     {
-                                        Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy solidnessStrategy = ((Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy)strategy);
+                                        SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         SolidnessStatus solidness = solidnessStrategy.Solidness;
                                         IncrementBody(solidnessStrategy, status, solidness, solidnessStrategy.Mask);
                                     }
@@ -79,7 +80,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     /// </summary>
                                     public override void DetachedStrategy(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
                                     {
-                                        Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy solidnessStrategy = ((Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy)strategy);
+                                        SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         SolidnessStatus solidness = solidnessStrategy.Solidness;
                                         DecrementBody(solidnessStrategy, status, solidness, solidnessStrategy.Mask);
                                     }
@@ -103,7 +104,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     /// </summary>
                                     public override bool CanAllocateMovement(Dictionary<Type, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continuated)
                                     {
-                                        Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy solidnessStrategy = ((Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy)strategy);
+                                        SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         SolidnessStatus solidness = solidnessStrategy.Solidness;
                                         if (solidness.Irregular()) return false;
                                         return solidness.Traverses() || solidnessStrategy.TraversesOtherSolids || IsAdjacencyFree(status.X, status.Y, strategy.StrategyHolder.Object.Width, strategy.StrategyHolder.Object.Height, direction);
@@ -134,7 +135,7 @@ namespace GameMeanMachine.Unity.WindRose
                                         switch (stage)
                                         {
                                             case "AfterMovementAllocation":
-                                                Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy solidnessStrategy = ((Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy)strategy);
+                                                SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                                 SolidnessStatus solidness = solidnessStrategy.Solidness;
                                                 if (stepType == StepType.Safe)
                                                 {
@@ -164,7 +165,7 @@ namespace GameMeanMachine.Unity.WindRose
                                         switch (stage)
                                         {
                                             case "Before":
-                                                Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy solidnessStrategy = ((Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy)strategy);
+                                                SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                                 SolidnessStatus solidness = solidnessStrategy.Solidness;
                                                 if (stepType == StepType.Safe)
                                                 {
@@ -194,7 +195,7 @@ namespace GameMeanMachine.Unity.WindRose
                                         switch (stage)
                                         {
                                             case "AfterPositionChange":
-                                                Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy solidnessStrategy = ((Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy)strategy);
+                                                SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                                 SolidnessStatus solidness = solidnessStrategy.Solidness;
                                                 if (stepType == StepType.Safe)
                                                 {
@@ -222,16 +223,16 @@ namespace GameMeanMachine.Unity.WindRose
                                     public override void DoProcessPropertyUpdate(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, string property, object oldValue, object newValue)
                                     {
                                         // Debug.LogFormat("Type of strategy: {0} - strategy {1}", strategy.GetType().FullName, strategy);
-                                        Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy solidnessStrategy = ((Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy)strategy);
+                                        SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         // Please note: we condition the retrieval of the mask, since the retrieval COPIES the mask value! And would not be needed
                                         //   if the solidness was NOT the Mask one.
-                                        if (property == "solidness")
+                                        if (ReferenceEquals(property, SolidnessObjectStrategy.SolidnessProperty))
                                         {
                                             StrategyHolder.MovementCancel(strategy.StrategyHolder);
                                             DecrementBody(solidnessStrategy, status, (SolidnessStatus)oldValue, (SolidnessStatus)oldValue == SolidnessStatus.Mask ? solidnessStrategy.Mask : null);
                                             IncrementBody(solidnessStrategy, status, (SolidnessStatus)newValue, (SolidnessStatus)newValue == SolidnessStatus.Mask ? solidnessStrategy.Mask : null);
                                         }
-                                        else if (property == "mask")
+                                        else if (ReferenceEquals(property, SolidnessObjectStrategy.MaskProperty))
                                         {
                                             StrategyHolder.MovementCancel(strategy.StrategyHolder);
                                             DecrementBody(solidnessStrategy, status, solidnessStrategy.Solidness, solidnessStrategy.Solidness == SolidnessStatus.Mask ? (SolidObjectMask)oldValue : null);
@@ -251,7 +252,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     /// </summary>
                                     public override void DoTeleport(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, uint x, uint y, string stage)
                                     {
-                                        Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy solidnessStrategy = ((Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy)strategy);
+                                        SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         SolidnessStatus solidness = solidnessStrategy.Solidness;
                                         switch (stage)
                                         {
@@ -271,7 +272,7 @@ namespace GameMeanMachine.Unity.WindRose
                                      * 
                                      */
 
-                                    private void IncrementBody(Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness, SolidObjectMask mask)
+                                    private void IncrementBody(SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness, SolidObjectMask mask)
                                     {
                                         if (solidness.Irregular())
                                         {
@@ -287,7 +288,7 @@ namespace GameMeanMachine.Unity.WindRose
                                         }
                                     }
 
-                                    private void DecrementBody(Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness, SolidObjectMask mask)
+                                    private void DecrementBody(SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness, SolidObjectMask mask)
                                     {
                                         if (solidness.Irregular())
                                         {
@@ -303,7 +304,7 @@ namespace GameMeanMachine.Unity.WindRose
                                         }
                                     }
 
-                                    private void IncrementAdjacent(Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness)
+                                    private void IncrementAdjacent(SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness)
                                     {
                                         if (solidness.Occupies())
                                         {
@@ -315,7 +316,7 @@ namespace GameMeanMachine.Unity.WindRose
                                         }
                                     }
 
-                                    private void DecrementAdjacent(Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness)
+                                    private void DecrementAdjacent(SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness)
                                     {
                                         if (solidness.Occupies())
                                         {
@@ -327,7 +328,7 @@ namespace GameMeanMachine.Unity.WindRose
                                         }
                                     }
 
-                                    private void IncrementBackSide(Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness)
+                                    private void IncrementBackSide(SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness)
                                     {
                                         if (solidness.Occupies())
                                         {
@@ -339,7 +340,7 @@ namespace GameMeanMachine.Unity.WindRose
                                         }
                                     }
 
-                                    private void DecrementBackSide(Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness)
+                                    private void DecrementBackSide(SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness)
                                     {
                                         if (solidness.Occupies())
                                         {
@@ -351,7 +352,7 @@ namespace GameMeanMachine.Unity.WindRose
                                         }
                                     }
 
-                                    private void DecrementOppositeAdjacent(Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness)
+                                    private void DecrementOppositeAdjacent(SolidnessObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, SolidnessStatus solidness)
                                     {
                                         if (solidness.Occupies())
                                         {
