@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using AlephVault.Unity.Support.Utils;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -36,7 +37,7 @@ namespace GameMeanMachine.Unity.WindRose
                         /// <returns>The fully qualified property name</returns>
                         public static string FullyQualifiedProperty<T>(string property) where T : ObjectStrategy
                         {
-                            return $"{typeof(T).FullName}.{property}";
+                            return Classes.FullyQualifiedProperty<T>(property);
                         }
 
                         private static Type baseCounterpartStrategyType = typeof(World.Layers.Objects.ObjectsManagementStrategies.ObjectsManagementStrategy);
