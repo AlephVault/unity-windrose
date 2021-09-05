@@ -310,7 +310,7 @@ namespace GameMeanMachine.Unity.WindRose
                             /// <param name="x">The x position inside the tilemap</param>
                             /// <param name="y">The y position inside the tilemap</param>
                             /// <param name="tile">The tile to set</param>
-                            public void SetTile(int tilemap, uint x, uint y, UnityEngine.Tilemaps.TileBase tile)
+                            public void SetTile(int tilemap, ushort x, ushort y, UnityEngine.Tilemaps.TileBase tile)
                             {
                                 PrepareTilemaps();
                                 fetchedTilemaps[tilemap].SetTile(new Vector3Int((int)x, (int)y, 0), tile);
@@ -337,13 +337,13 @@ namespace GameMeanMachine.Unity.WindRose
                                 /// <summary>
                                 ///   The object's current X position.
                                 /// </summary>
-                                public uint X;
+                                public ushort X;
                                 /// <summary>
                                 ///   The object's current Y position.
                                 /// </summary>
-                                public uint Y;
+                                public ushort Y;
 
-                                public Status(uint x, uint y, Types.Direction? movement = null)
+                                public Status(ushort x, ushort y, Types.Direction? movement = null)
                                 {
                                     X = x;
                                     Y = y;
@@ -411,7 +411,7 @@ namespace GameMeanMachine.Unity.WindRose
                             ///   to fit in the given position. It is also an error to try to attach an
                             ///   object that is already attached.
                             /// </remarks>
-                            public void Attach(Entities.Objects.ObjectStrategyHolder objectStrategyHolder, uint x, uint y)
+                            public void Attach(Entities.Objects.ObjectStrategyHolder objectStrategyHolder, ushort x, ushort y)
                             {
                                 Entities.Objects.Strategies.ObjectStrategy objectStrategy = GetMainCompatible(objectStrategyHolder);
 
@@ -721,7 +721,7 @@ namespace GameMeanMachine.Unity.WindRose
                             /// <param name="y">The Y position to teleport the object to</param>
                             /// <param name="silent">If true, this  teleportation will not trigger the <see cref="onTeleported"/> event on the object</param>
                             /// <remarks>It is an error to detach an object that is not attached. Also, the object must have a compatible strategy.</remarks>
-                            public void Teleport(Entities.Objects.ObjectStrategyHolder objectStrategyHolder, uint x, uint y, bool silent = false)
+                            public void Teleport(Entities.Objects.ObjectStrategyHolder objectStrategyHolder, ushort x, ushort y, bool silent = false)
                             {
                                 Entities.Objects.Strategies.ObjectStrategy objectStrategy = GetMainCompatible(objectStrategyHolder);
 

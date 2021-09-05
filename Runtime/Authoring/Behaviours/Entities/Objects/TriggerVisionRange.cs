@@ -55,8 +55,8 @@ namespace GameMeanMachine.Unity.WindRose
                     [SerializeField]
                     private uint visionLength = 0;
 
-                    private uint halfWidth;
-                    private uint halfHeight;
+                    private ushort halfWidth;
+                    private ushort halfHeight;
 
                     private void OrientationChanged(Types.Direction orientation)
                     {
@@ -71,8 +71,8 @@ namespace GameMeanMachine.Unity.WindRose
                             Destroy(gameObject);
                             throw new Types.Exception("For a vision range to work appropriately, the related map object must have an odd width and height");
                         }
-                        halfHeight = mapObject.Height / 2;
-                        halfWidth = mapObject.Width / 2;
+                        halfHeight = (ushort)(mapObject.Height / 2);
+                        halfWidth = (ushort)(mapObject.Width / 2);
                         mapObject.onOrientationChanged.AddListener(OrientationChanged);
                     }
 

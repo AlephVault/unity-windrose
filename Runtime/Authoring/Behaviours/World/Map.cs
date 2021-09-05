@@ -78,13 +78,13 @@ namespace GameMeanMachine.Unity.WindRose
                     ///   The width of the map. It will be clamped to be between 1 and 32767.
                     /// </summary>
                     [SerializeField]
-                    private uint width;
+                    private ushort width;
 
                     /// <summary>
                     ///   The height of the map. It will be clamped to be between 1 and 32767.
                     /// </summary>
                     [SerializeField]
-                    private uint height;
+                    private ushort height;
 
                     /// <summary>
                     ///   The cell size. This value will be set to the underlying grid component.
@@ -131,19 +131,19 @@ namespace GameMeanMachine.Unity.WindRose
                     /// <summary>
                     ///   See <see cref="height"/>.
                     /// </summary>
-                    public uint Height { get { return height; } }
+                    public ushort Height { get { return height; } }
 
                     /// <summary>
                     ///   See <see cref="width"/>.
                     /// </summary>
-                    public uint Width { get { return width; } }
+                    public ushort Width { get { return width; } }
 
                     // Use this for initialization
                     private void Awake()
                     {
                         // Starting the dimensions
-                        width = Values.Clamp(1, width, (uint)short.MaxValue);
-                        height = Values.Clamp(1, height, (uint)short.MaxValue);
+                        width = Values.Clamp(1, width, (ushort)short.MaxValue);
+                        height = Values.Clamp(1, height, (ushort)short.MaxValue);
                         // Requiring the layers - at most one of each them may exist per map
                         FloorLayer = ExpectOneLayerComponent<Layers.Floor.FloorLayer>(true);
                         ObjectsLayer = ExpectOneLayerComponent<Layers.Objects.ObjectsLayer>(true);
@@ -169,7 +169,7 @@ namespace GameMeanMachine.Unity.WindRose
                     /// <param name="mapObject">The object to attach</param>
                     /// <param name="x">The new X position</param>
                     /// <param name="y">The new Y position</param>
-                    public void Attach(MapObject mapObject, uint x, uint y)
+                    public void Attach(MapObject mapObject, ushort x, ushort y)
                     {
                         ObjectsLayer.Attach(mapObject, x, y);
                     }

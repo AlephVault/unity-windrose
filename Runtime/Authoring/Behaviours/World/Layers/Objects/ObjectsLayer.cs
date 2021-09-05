@@ -107,7 +107,7 @@ namespace GameMeanMachine.Unity.WindRose
                             /// <param name="mapObject">The object to attach</param>
                             /// <param name="x">The new X position</param>
                             /// <param name="y">The new Y position</param>
-                            public void Attach(MapObject mapObject, uint x, uint y)
+                            public void Attach(MapObject mapObject, ushort x, ushort y)
                             {
                                 if (Initialized) StrategyHolder.Attach(mapObject.StrategyHolder, x, y);
                             }

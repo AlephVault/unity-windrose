@@ -176,7 +176,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 Grid grid = Behaviours.RequireComponentInParent<Grid>(gameObject);
                                 Vector3Int cellPosition = grid.WorldToCell(transform.position);
                                 // Then we initialize, and perhaps it may explode due to exception.
-                                Attach(parentLayer.Map, (uint)cellPosition.x, (uint)cellPosition.y);
+                                Attach(parentLayer.Map, (ushort)cellPosition.x, (ushort)cellPosition.y);
                             }
                             // After success of a standalone map object being initialized, either
                             //   by itself or by the parent map invoking the initialization.
@@ -209,24 +209,24 @@ namespace GameMeanMachine.Unity.WindRose
                     /// </summary>
                     [Delayed]
                     [SerializeField]
-                    private uint width = 1;
+                    private ushort width = 1;
 
                     /// <summary>
                     ///   The height of this object, in map cells.
                     /// </summary>
                     [Delayed]
                     [SerializeField]
-                    private uint height = 1;
+                    private ushort height = 1;
 
                     /// <summary>
                     ///   See <see cref="width"/>.
                     /// </summary>
-                    public uint Width { get { return width; } } // Referencing directly allows us to query the width without a map assigned yet.
+                    public ushort Width { get { return width; } } // Referencing directly allows us to query the width without a map assigned yet.
 
                     /// <summary>
                     ///   See <see cref="height"/>.
                     /// </summary>
-                    public uint Height { get { return height; } } // Referencing directly allows us to query the height without a map assigned yet.
+                    public ushort Height { get { return height; } } // Referencing directly allows us to query the height without a map assigned yet.
                     #endregion
 
                     #region Moving
@@ -619,26 +619,26 @@ namespace GameMeanMachine.Unity.WindRose
                     /// <summary>
                     ///   The current X position of the object inside the attached map.
                     /// </summary>
-                    public uint X { get { return parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).X; } }
+                    public ushort X { get { return parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).X; } }
 
                     /// <summary>
                     ///   The current Y position of the object inside the attached map.
                     /// </summary>
-                    public uint Y { get { return parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).Y; } }
+                    public ushort Y { get { return parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).Y; } }
 
                     /// <summary>
                     ///   The opposite X position of this object inside the attached map, with
                     ///     respect of its <see cref="width"/> value.
                     /// </summary>
                     /// <remarks>(Xf, Yf) point is the opposite corner of (X, Y).</remarks>
-                    public uint Xf { get { return parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).X + Width - 1; } }
+                    public ushort Xf { get { return (ushort)(parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).X + Width - 1); } }
 
                     /// <summary>
                     ///   The opposite Y position of this object inside the attached map, with
                     ///     respect of its <see cref="height"/> value.
                     /// </summary>
                     /// <remarks>(Xf, Yf) point is the opposite corner of (X, Y).</remarks>
-                    public uint Yf { get { return parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).Y + Height - 1; } }
+                    public ushort Yf { get { return (ushort)(parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).Y + Height - 1); } }
 
                     /// <summary>
                     ///   See <see cref="ObjectsLayer.GetCellWidth"/>.
@@ -682,10 +682,10 @@ namespace GameMeanMachine.Unity.WindRose
                     ///   If true, the object will be detached from its previous map, and attached to this one.
                     ///   If false and the object is already attached to a map, an error will raise.
                     /// </param>
-                    public void Attach(Map map, uint x, uint y, bool force = false)
+                    public void Attach(Map map, ushort x, ushort y, bool force = false)
                     {
                         if (force) Detach();
-                        map.Attach(this, Values.Clamp(0, x, map.Width - 1), Values.Clamp(0, y, map.Height - 1));
+                        map.Attach(this, Values.Clamp(0, x, (ushort)(map.Width - 1)), Values.Clamp(0, y, (ushort)(map.Height - 1)));
                     }
 
                     /// <summary>
@@ -696,7 +696,7 @@ namespace GameMeanMachine.Unity.WindRose
                     /// <param name="y">The new y position of the object</param>
                     /// <param name="silent">If true, this  teleportation will not trigger the <see cref="onTeleported"/> event</param>
                     /// <remarks>Does nothing if the object is paused.</remarks>
-                    public void Teleport(uint x, uint y, bool silent = false)
+                    public void Teleport(ushort x, ushort y, bool silent = false)
                     {
                         if (parentMap != null && !Paused) parentMap.ObjectsLayer.StrategyHolder.Teleport(StrategyHolder, x, y, silent);
                     }

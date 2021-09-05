@@ -102,12 +102,12 @@ namespace GameMeanMachine.Unity.WindRose
                          */
                         private void ObjectTeleportOperation(MapObject objectToBeTeleported, TeleportTarget teleportTarget, MapObject teleportTargetObject)
                         {
-                            uint tgX = teleportTargetObject.X;
-                            uint tgY = teleportTargetObject.Y;
-                            uint tgWidth = teleportTargetObject.Width;
-                            uint tgHeight = teleportTargetObject.Height;
-                            uint x = tgX + (tgWidth - objectToBeTeleported.Width) / 2;
-                            uint y = tgY + (tgHeight - objectToBeTeleported.Height) / 2;
+                            ushort tgX = teleportTargetObject.X;
+                            ushort tgY = teleportTargetObject.Y;
+                            ushort tgWidth = teleportTargetObject.Width;
+                            ushort tgHeight = teleportTargetObject.Height;
+                            ushort x = (ushort)(tgX + (tgWidth - objectToBeTeleported.Width) / 2);
+                            ushort y = (ushort)(tgY + (tgHeight - objectToBeTeleported.Height) / 2);
 
                             // Choose between an in-map teleport or a full-force-attach to a new map.
                             if (teleportTargetObject.ParentMap != objectToBeTeleported.ParentMap)
