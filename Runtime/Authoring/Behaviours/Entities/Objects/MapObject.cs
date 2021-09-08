@@ -112,7 +112,7 @@ namespace GameMeanMachine.Unity.WindRose
                         onMovementStarted.RemoveAllListeners();
                         onMovementCancelled.RemoveAllListeners();
                         onMovementFinished.RemoveAllListeners();
-                        onPropertyUpdated.RemoveAllListeners();
+                        onStrategyPropertyUpdated.RemoveAllListeners();
                         onTeleported.RemoveAllListeners();
                     }
 
@@ -197,10 +197,10 @@ namespace GameMeanMachine.Unity.WindRose
                     public class UnityPropertyUpdateEvent : UnityEvent<Strategies.ObjectStrategy, string, object, object> { }
 
                     /// <summary>
-                    ///   Event that triggers when the object changes one of its properties.
+                    ///   Event that triggers when the object changes a property in one of its strategies.
                     ///   This event is triggered explicitly via capabilities inside <see cref="Strategies.ObjectStrategy.PropertyWasUpdated(string, object, object)"/>.
                     /// </summary>
-                    public readonly UnityPropertyUpdateEvent onPropertyUpdated = new UnityPropertyUpdateEvent();
+                    public readonly UnityPropertyUpdateEvent onStrategyPropertyUpdated = new UnityPropertyUpdateEvent();
                     #endregion
 
                     #region Sized

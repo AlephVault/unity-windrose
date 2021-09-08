@@ -107,7 +107,7 @@ namespace GameMeanMachine.Unity.WindRose
                             owner.onMovementStarted.AddListener(OwnerMandatoryDirectionEvent);
                             owner.onMovementFinished.AddListener(OwnerMandatoryDirectionEvent);
                             owner.onMovementCancelled.AddListener(OwnerOptionalDirectionEvent);
-                            owner.onPropertyUpdated.AddListener(OwnerPropertyUpdated);
+                            owner.onStrategyPropertyUpdated.AddListener(OwnerPropertyUpdated);
                             UpdateVisibilityStatus();
                             Resort();
                         }
@@ -126,7 +126,7 @@ namespace GameMeanMachine.Unity.WindRose
                             formerOwner.onMovementStarted.RemoveListener(OwnerMandatoryDirectionEvent);
                             formerOwner.onMovementFinished.RemoveListener(OwnerMandatoryDirectionEvent);
                             formerOwner.onMovementCancelled.RemoveListener(OwnerOptionalDirectionEvent);
-                            formerOwner.onPropertyUpdated.RemoveListener(OwnerPropertyUpdated);
+                            formerOwner.onStrategyPropertyUpdated.RemoveListener(OwnerPropertyUpdated);
                             UpdateVisibilityStatus();
                         }
 
