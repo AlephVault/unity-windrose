@@ -62,6 +62,7 @@ namespace GameMeanMachine.Unity.WindRose
                     {
                         BoxCollider boxCollider = (BoxCollider)collider;
                         MapObject mapObject = GetComponent<MapObject>();
+                        if (mapObject.ParentMap == null) return;
                         // collision mask will have certain width and height
                         boxCollider.size = new Vector3(mapObject.Width * mapObject.GetCellWidth(), mapObject.Height * mapObject.GetCellHeight(), 1f);
                         // and starting with those dimensions, we compute the offset as >>> and vvv

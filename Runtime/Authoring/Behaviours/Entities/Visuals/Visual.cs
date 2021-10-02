@@ -162,7 +162,7 @@ namespace GameMeanMachine.Unity.WindRose
                             if (visibilityEnabled)
                             {
                                 // give sorting order just by Y position, and give perspective layer according to level
-                                transform.parent = relatedObject.ParentMap.VisualsLayer[level].transform;
+                                transform.SetParent(relatedObject.ParentMap.VisualsLayer[level].transform);
                                 renderer.sortingOrder = (int)(relatedObject.ParentMap.Height - relatedObject.Y - 1);
                             }
                         }

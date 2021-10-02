@@ -51,6 +51,11 @@ namespace GameMeanMachine.Unity.WindRose
                                 OnMapTriggerPositionChanged(mapObject);
                             }
                         }
+
+                        /// <summary>
+                        ///   The associated map object.
+                        /// </summary>
+                        public MapObject MapObject { get { return mapObject; } }
                     }
                     private Dictionary<TriggerLive, MapTriggerCallbacks> registeredCallbacks = new Dictionary<TriggerLive, MapTriggerCallbacks>();
 
@@ -265,23 +270,20 @@ namespace GameMeanMachine.Unity.WindRose
 
                     void OnTriggerEnter(Collider collision)
                     {
-                        // Debug.LogFormat("{2} Entering {0} into trigger {1}...", collision.name, this.name, System.DateTime.Now);
                         // IF my map is null I will not take any new incoming objects.
                         //   Although this condition will never cause a return in the ideal
                         //   case since when detached the collider will be disabled, this
-                        //   condition is the safeguard if the behaviour is somehoe enabled.
+                        //   condition is the safeguard if the behaviour is somehow enabled.
                         if (mapObject.ParentMap == null) return;
 
-                        // I will only accept TriggerActivator components whose map objects
+                        // I will only accept TriggerLive components whose map objects
                         //   are in the same map as this' one.
                         TriggerLive sender = collision.GetComponent<TriggerLive>();
                         if (sender == null) return;
-
                         MapObject senderMapObject = sender.GetComponent<MapObject>();
                         if (mapObject.ParentMap != senderMapObject.ParentMap) return;
 
-                        // I will also accept a new entry only if the sender is not already
-                        //   registered.
+                        // Then I add the object, if not already present.
                         if (!registeredCallbacks.ContainsKey(sender))
                         {
                             ConnectAndEnter(sender);
@@ -290,7 +292,6 @@ namespace GameMeanMachine.Unity.WindRose
 
                     void OnTriggerExit(Collider collision)
                     {
-                        // Debug.LogFormat("{2} Leaving {0} trigger {1}...", collision.name, this.name, System.DateTime.Now);
                         // Exiting is easier. If I have a registered sender, that sender passed
                         //   all the stated conditions. So I will only check existence and
                         //   registration in order to proceed.
@@ -305,11 +306,27 @@ namespace GameMeanMachine.Unity.WindRose
                     {
                         // Perhaps due to data being changed, this condition may evaluate to false!
                         TriggerLive key = collision.GetComponent<TriggerLive>();
-                        if (registeredCallbacks.ContainsKey(key))
+                        if (registeredCallbacks.TryGetValue(key, out MapTriggerCallbacks value))
                         {
-                            MapTriggerCallbacks value = registeredCallbacks[key];
-                            CallOnMapTriggerStay(key.GetComponent<MapObject>());
-                            value.CheckPosition();
+                            if (mapObject.ParentMap == value.MapObject.ParentMap)
+                            {
+                                // The object is already in the map. Let's "Stay".
+                                CallOnMapTriggerStay(key.GetComponent<MapObject>());
+                                value.CheckPosition();
+                            }
+                            else
+                            {
+                                // The object is no more in the map. Let's "Remove".
+                                ExitAndDisconnect(key);
+                            }
+                        }
+                        else
+                        {
+                            if (mapObject.ParentMap == value.MapObject.ParentMap)
+                            {
+                                // The object is now in the map. Let's "Add".
+                                ConnectAndEnter(key);
+                            }
                         }
                     }
 

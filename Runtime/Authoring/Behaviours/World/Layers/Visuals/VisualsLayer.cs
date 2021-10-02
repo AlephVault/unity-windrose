@@ -50,7 +50,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     if (!levels.TryGetValue(level, out levelObj))
                                     {
                                         GameObject gameObj = new GameObject("Depth Level " + level);
-                                        gameObj.transform.parent = transform;
+                                        gameObj.transform.SetParent(transform);
                                         SortingGroup sortingGroup = gameObj.AddComponent<SortingGroup>();
                                         sortingGroup.sortingOrder = level;
                                         levelObj = gameObj.AddComponent<VisualsDepthLevel>();

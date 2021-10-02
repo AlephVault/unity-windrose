@@ -63,8 +63,8 @@ namespace GameMeanMachine.Unity.WindRose
                              * 3. Finally we must ensure the transform.localPosition be updated accordingly (i.e. forcing a snap).
                              */
                             parentMap = newParentMap;
-                            ObjectsLayer ObjectsLayer = parentMap.GetComponentInChildren<ObjectsLayer>();
-                            transform.SetParent(newParentMap.ObjectsLayer.transform);
+                            ObjectsLayer ObjectsLayer = parentMap.ObjectsLayer;
+                            transform.SetParent(ObjectsLayer.transform);
                             transform.localPosition = new Vector3(
                                 X * ObjectsLayer.GetCellWidth(),
                                 Y * ObjectsLayer.GetCellHeight(),
@@ -83,7 +83,23 @@ namespace GameMeanMachine.Unity.WindRose
                         });
                         onDetached.AddListener(delegate ()
                         {
-                            parentMap = null;
+                            if (parentMap == null || parentMap.transform == null || parentMap.transform.parent == null)
+                            {
+                                transform.SetParent(null);
+                            }
+                            else
+                            {
+                                Scope scope = parentMap.transform.parent.GetComponentInParent<Scope>();
+                                if (scope == null)
+                                {
+                                    transform.SetParent(null);
+                                }
+                                else
+                                {
+                                    transform.SetParent(scope.transform);
+                                }
+                            }
+                            parentMap = null;                            
                         });
                     }
 
