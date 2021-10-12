@@ -152,7 +152,7 @@ namespace GameMeanMachine.Unity.WindRose
                         Grid floorLayerGrid = FloorLayer.GetComponent<Grid>();
                         CopyGridProperties(ObjectsLayer.GetComponent<Grid>(), floorLayerGrid);
                         if (CeilingLayer != null) CopyGridProperties(CeilingLayer.GetComponent<Grid>(), floorLayerGrid);
-                        if (transform.parent) Debug.LogWarning("Warning!!! A Map must be a root object in the scene (i.e. have no parent transform) to be properly recognized by a HUD pausing all the maps!!!");
+                        if (transform.parent && transform.parent.GetComponent<Scope>() == null) Debug.LogWarning("Warning!!! A Map must be a root object in the scene (i.e. have no parent transform), or direct child of a Scope object, to be properly recognized by a HUD pausing all the maps!!!");
                     }
 
                     void CopyGridProperties(Grid dst, Grid src)
