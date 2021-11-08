@@ -48,7 +48,7 @@ namespace GameMeanMachine.Unity.WindRose
                     private Map[] maps = null;
 
                     // A read-only wrapper over that mapping.
-                    public IReadOnlyDictionary<Map, int> mapsToIDs = null;
+                    private IReadOnlyDictionary<Map, int> mapsToIDs = null;
 
                     void Awake()
                     {
