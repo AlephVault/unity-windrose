@@ -318,13 +318,13 @@ namespace GameMeanMachine.Unity.WindRose
 
                     /// <summary>
                     ///   Tells whether the object is moving. It knows that by reading the
-                    ///     current movement in the underlying map object.
+                    ///   current movement in the underlying map object.
                     /// </summary>
                     public bool IsMoving { get { return Movement != null; } }
 
                     /// <summary>
                     ///   Sets the current state to the movement state registered
-                    ///     in this component.
+                    ///   in this component.
                     /// </summary>
                     public void SetMovingState()
                     {
@@ -353,7 +353,7 @@ namespace GameMeanMachine.Unity.WindRose
 
                     /// <summary>
                     ///   Starts a movement in certain direction. It also allocates the internal
-                    ///     movement of the object in the management strategy.
+                    ///   movement of the object in the management strategy.
                     /// </summary>
                     /// <param name="movement">The direction of the new movement</param>
                     /// <param name="continuated">Whether the movement is continuated from another former movement</param>
