@@ -73,7 +73,7 @@ namespace GameMeanMachine.Unity.WindRose
                             origin = transform.localPosition;
                             Snap();
                         });
-                        onTeleported.AddListener(delegate (uint x, uint y)
+                        onTeleported.AddListener(delegate (ushort x, ushort y)
                         {
                             Snap();
                         });
@@ -615,7 +615,7 @@ namespace GameMeanMachine.Unity.WindRose
                     ///     same map.
                     /// </summary>
                     [Serializable]
-                    public class UnityTeleportedEvent : UnityEvent<uint, uint> { }
+                    public class UnityTeleportedEvent : UnityEvent<ushort, ushort> { }
 
                     /// <summary>
                     ///   Event that triggers after the object is teleported to a certain position inside the map.

@@ -88,7 +88,7 @@ namespace GameMeanMachine.Unity.WindRose
                         // These are handlers for the owner object's events - they will perform simple updates
                         private void OwnerOnAttached(World.Map map) { UpdateVisibilityStatus(); }
                         private void OwnerOnDetached() { UpdateVisibilityStatus(); }
-                        private void OwnerOnTeleported(uint x, uint y) { Resort(); }
+                        private void OwnerOnTeleported(ushort x, ushort y) { Resort(); }
                         private void OwnerMandatoryDirectionEvent(Types.Direction direction) { Resort(); }
                         private void OwnerOptionalDirectionEvent(Types.Direction? direction) { Resort(); }
                         private void OwnerPropertyUpdated(Objects.Strategies.ObjectStrategy strategy, string p, object o, object n) { Resort(); }
