@@ -117,8 +117,8 @@ namespace GameMeanMachine.Unity.WindRose
                         // Creating the map component & sorting group.
                         AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<SortingGroup>(mapObject);
                         AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.World.Map>(mapObject, new Dictionary<string, object>() {
-                            { "width", (uint)mapSize.x },
-                            { "height", (uint)mapSize.y },
+                            { "width", (ushort)mapSize.x },
+                            { "height", (ushort)mapSize.y },
                             { "cellSize", cellSize},
                         });
                         // Now, creating the layers as children AND the floors.
