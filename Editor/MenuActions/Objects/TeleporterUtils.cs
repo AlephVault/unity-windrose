@@ -51,8 +51,8 @@ namespace GameMeanMachine.Unity.WindRose
                         gameObject.transform.parent = selectedTransform;
                         gameObject.SetActive(false);
                         AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.MapObject>(gameObject, new Dictionary<string, object>() {
-                            { "width", (uint)objectSize.x },
-                            { "height", (uint)objectSize.y }
+                            { "width", (ushort)objectSize.x },
+                            { "height", (ushort)objectSize.y }
                         });
                         AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.LocalTeleporter>(gameObject);
                         if (addTeleportTargetBehaviour)
