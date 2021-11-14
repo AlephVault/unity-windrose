@@ -334,8 +334,6 @@ namespace GameMeanMachine.Unity.WindRose
                     {
                         base.Awake();
                         mapObject = GetRelatedObject();
-                        mapObject.onDetached.AddListener(Withdraw);
-                        mapObject.onAttached.AddListener(Appear);
                     }
 
                     protected override void Start()
