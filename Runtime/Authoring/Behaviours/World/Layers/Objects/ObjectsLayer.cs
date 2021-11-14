@@ -51,11 +51,20 @@ namespace GameMeanMachine.Unity.WindRose
 #if UNITY_EDITOR
                                 if (!Application.isPlaying) return;
 #endif
+                                Initialize();
+                            }
+
+                            private void Initialize()
+                            {
+                                if (Initialized) return;
+
                                 // Initializing strategy
                                 if (StrategyHolder == null)
                                 {
+                                    Destroy(gameObject);
                                     throw new Types.Exception("An objects management strategy holder is required when the map initializes.");
                                 }
+
                                 StrategyHolder.Initialize();
                                 // We consider this map as initialized after its strategy started.
                                 Initialized = true;
@@ -109,7 +118,8 @@ namespace GameMeanMachine.Unity.WindRose
                             /// <param name="y">The new Y position</param>
                             public void Attach(MapObject mapObject, ushort x, ushort y)
                             {
-                                if (Initialized) StrategyHolder.Attach(mapObject.StrategyHolder, x, y);
+                                Initialize();
+                                StrategyHolder.Attach(mapObject.StrategyHolder, x, y);
                             }
                         }
                     }
