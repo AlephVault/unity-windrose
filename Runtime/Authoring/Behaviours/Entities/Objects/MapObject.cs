@@ -45,6 +45,8 @@ namespace GameMeanMachine.Unity.WindRose
                     #region Lifecycle
                     private bool initialized = false;
 
+                    private bool destroyed = false;
+
                     private void Awake()
                     {
                         // Cleans the initial value of mainVisual
@@ -85,18 +87,18 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             if (parentMap == null || parentMap.transform == null || parentMap.transform.parent == null)
                             {
-                                transform.SetParent(null);
+                                if (!destroyed) transform.SetParent(null);
                             }
                             else
                             {
                                 Scope scope = parentMap.transform.parent.GetComponentInParent<Scope>();
                                 if (scope == null)
                                 {
-                                    transform.SetParent(null);
+                                    if (!destroyed) transform.SetParent(null);
                                 }
                                 else
                                 {
-                                    transform.SetParent(scope.transform);
+                                    if (!destroyed) transform.SetParent(scope.transform);
                                 }
                             }
                             parentMap = null;                            
@@ -122,6 +124,7 @@ namespace GameMeanMachine.Unity.WindRose
 
                     private void OnDestroy()
                     {
+                        destroyed = true;
                         Detach();
                         onAttached.RemoveAllListeners();
                         onDetached.RemoveAllListeners();
@@ -192,7 +195,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 Grid grid = Behaviours.RequireComponentInParent<Grid>(gameObject);
                                 Vector3Int cellPosition = grid.WorldToCell(transform.position);
                                 // Then we initialize, and perhaps it may explode due to exception.
-                                Attach(parentLayer.Map, (ushort)cellPosition.x, (ushort)cellPosition.y);
+                                Attach(parentLayer.Map, (ushort)cellPosition.x, (ushort)cellPosition.y, true);
                             }
                             // After success of a standalone map object being initialized, either
                             //   by itself or by the parent map invoking the initialization.
@@ -855,8 +858,8 @@ namespace GameMeanMachine.Unity.WindRose
                     //   current coordinates.
                     private void Snap()
                     {
-                        // Run this code only if this object is attached to a map
-                        if (!ParentMap) return;
+                        // Run this code only if this object is attached to a map, and not destroyed.
+                        if (destroyed || !ParentMap) return;
 
                         bool snapInX = false;
                         bool snapInY = false;
