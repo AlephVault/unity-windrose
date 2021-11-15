@@ -54,7 +54,19 @@ namespace GameMeanMachine.Unity.WindRose
                                 Initialize();
                             }
 
-                            private void Initialize()
+                            /// <summary>
+                            ///   <para>
+                            ///     Initializes the current layer and all of the children within.
+                            ///     This initialization is run on Start, but may be run earlier if
+                            ///     needed (but still after Awake() of the object).
+                            ///   </para>
+                            ///   <para>
+                            ///     This method must be called before any attempt to initialize
+                            ///     or attach any children inside of it. Otherwise, the attachments
+                            ///     will fail.
+                            ///   </para>
+                            /// </summary>
+                            public void Initialize()
                             {
                                 if (Initialized) return;
 

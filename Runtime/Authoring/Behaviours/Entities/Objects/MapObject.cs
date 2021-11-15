@@ -139,13 +139,17 @@ namespace GameMeanMachine.Unity.WindRose
                     ///   <para>
                     ///     This method is called when the map is initialized (first) and when this
                     ///       object starts its execution in the scene. Both conditions have to be
-                    ///       fulfilled for the logic to initialize.
+                    ///       fulfilled for the logic to initialize. When calling this function
+                    ///       externally, guarantee that the initialization is done in the appropriate
+                    ///       order for this to work.
                     ///   </para>
                     ///   <para>
                     ///     For this method to succeed, this object must be a child object of one
                     ///       holding a <see cref="ObjectsLayer"/> which in turn must be inside a
                     ///       <see cref="Map"/>, and the map must have dimensions that allow this
-                    ///       object considering its size and initial position.
+                    ///       object considering its size and initial position. If it is not attached
+                    ///       to a map, it will work anyway (but the object will not be able to walk
+                    ///       or perform useful interactions).
                     ///   </para>
                     /// </summary>
                     public void Initialize()

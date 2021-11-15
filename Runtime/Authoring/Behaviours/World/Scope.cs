@@ -77,6 +77,23 @@ namespace GameMeanMachine.Unity.WindRose
                     }
 
                     /// <summary>
+                    ///   <para>
+                    ///     Initializes every map (actually: their object layers) within.
+                    ///     Typically, maps know how to initialize themselves on Start(),
+                    ///     but this method is a convenience if the users need them already
+                    ///     initialized (before Start(), but after Awake()).
+                    ///   </para>
+                    /// </summary>
+                    public void Initialize()
+                    {
+                        if (!Ready) throw new InvalidOperationException("The collection of maps is not yet ready");
+                        foreach(Map map in maps)
+                        {
+                            map.ObjectsLayer.Initialize();
+                        }
+                    }
+
+                    /// <summary>
                     ///   On non-static scopes, forces a refresh of the list of identified
                     ///   children maps.
                     /// </summary>
