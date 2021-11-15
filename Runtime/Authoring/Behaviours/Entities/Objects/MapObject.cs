@@ -289,7 +289,7 @@ namespace GameMeanMachine.Unity.WindRose
                     ///   The current movement of the object inside the attached map.
                     ///   It will be <c>null</c> if the object is not moving.
                     /// </summary>
-                    public Direction? Movement { get { return parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).Movement; } }
+                    public Direction? Movement { get { return (parentMap != null) ? parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).Movement : null; } }
 
                     /// <summary>
                     ///   The default state key provided for movement state.
