@@ -138,6 +138,11 @@ namespace GameMeanMachine.Unity.WindRose
                     /// </summary>
                     public ushort Width { get { return width; } }
 
+                    /// <summary>
+                    ///   The parent <see cref="Scope"/> of this map.
+                    /// </summary>
+                    public Scope ParentScope { get; private set; }
+
                     // Use this for initialization
                     private void Awake()
                     {
@@ -153,6 +158,23 @@ namespace GameMeanMachine.Unity.WindRose
                         CopyGridProperties(ObjectsLayer.GetComponent<Grid>(), floorLayerGrid);
                         if (CeilingLayer != null) CopyGridProperties(CeilingLayer.GetComponent<Grid>(), floorLayerGrid);
                         if (transform.parent && transform.parent.GetComponent<Scope>() == null) Debug.LogWarning("Warning!!! A Map must be a root object in the scene (i.e. have no parent transform), or direct child of a Scope object, to be properly recognized by a HUD pausing all the maps!!!");
+                        ParentScope = transform.parent != null ? transform.parent.GetComponent<Scope>() : null;
+                    }
+
+                    private void OnTransformParentChanged()
+                    {
+                        if (ParentScope != null && !ParentScope.IsStatic) ParentScope.RefreshMapArray();
+                        ParentScope = transform.parent != null ? transform.parent.GetComponent<Scope>() : null;
+                        if (ParentScope != null && !ParentScope.IsStatic) ParentScope.RefreshMapArray();
+                    }
+
+                    /// <summary>
+                    ///   Gets the index of this map in the current scope.
+                    /// </summary>
+                    /// <returns>The index, or -1 if it does not belong to any scope</returns>
+                    public int GetIndex()
+                    {
+                        return ParentScope != null ? ParentScope.MapsToIDs[this] : -1;
                     }
 
                     void CopyGridProperties(Grid dst, Grid src)
