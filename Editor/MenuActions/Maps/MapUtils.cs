@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.World;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
@@ -209,7 +210,7 @@ namespace GameMeanMachine.Unity.WindRose
                 [MenuItem("GameObject/Wind Rose/Maps/Create Map", true)]
                 public static bool CanCreateHUD()
                 {
-                    return Selection.activeTransform == null;
+                    return Selection.activeTransform == null || Selection.activeTransform.GetComponent<Scope>() != null;
                 }
             }
         }
