@@ -44,7 +44,7 @@ namespace GameMeanMachine.Unity.WindRose
                         GUIStyle longLabelStyle = MenuActionUtils.GetSingleLabelStyle();
                         GUIStyle indentedStyle = MenuActionUtils.GetIndentedStyle();
 
-                        // minSize = new Vector2(643, 250);
+                        minSize = new Vector2(643, 250);
                         // maxSize = new Vector2(643, 300);
 
                         // General settings start here.
@@ -89,7 +89,6 @@ namespace GameMeanMachine.Unity.WindRose
                         if (contentRect.size != Vector2.zero)
                         {
                             minSize = contentRect.max + contentRect.min;
-                            maxSize = minSize;
                         }
                     }
 
@@ -169,7 +168,6 @@ namespace GameMeanMachine.Unity.WindRose
                     CreateObjectWindow window = ScriptableObject.CreateInstance<CreateObjectWindow>();
                     window.position = new Rect(60, 180, 700, 468);
                     window.minSize = new Vector2(700, 244);
-                    window.maxSize = new Vector2(700, 464);
                     window.selectedTransform = Selection.activeTransform;
                     // window.position = new Rect(new Vector2(57, 336), new Vector2(689, 138));
                     window.ShowUtility();

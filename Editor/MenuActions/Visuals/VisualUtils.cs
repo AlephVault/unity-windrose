@@ -68,11 +68,9 @@ namespace GameMeanMachine.Unity.WindRose
                             EditorGUILayout.LabelField("While the Multi-State behaviours already provide a setting for idle state display, more state bundles can be added to support states in standard behaviours:", longLabelStyle);
                             addMovingBundle = EditorGUILayout.ToggleLeft("Moving (e.g. for walking characters)", addMovingBundle);
                             minSize = new Vector2(689, 186);
-                            maxSize = minSize;
                         }
                         else {
                             minSize = new Vector2(689, 138);
-                            maxSize = minSize;
                         }
 
                         EditorGUILayout.EndVertical();

@@ -76,7 +76,6 @@ namespace GameMeanMachine.Unity.WindRose
                     CreateLocalTeleporterWindow window = ScriptableObject.CreateInstance<CreateLocalTeleporterWindow>();
                     window.position = new Rect(60, 180, 700, 468);
                     window.minSize = new Vector2(700, 196);
-                    window.maxSize = new Vector2(700, 196);
                     window.selectedTransform = Selection.activeTransform;
                     window.ShowUtility();
                 }

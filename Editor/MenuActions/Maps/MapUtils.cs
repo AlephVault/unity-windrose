@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.World;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
@@ -58,7 +57,6 @@ namespace GameMeanMachine.Unity.WindRose
                         GUIStyle indentedStyle = MenuActionUtils.GetIndentedStyle();
 
                         minSize = new Vector2(643, 250);
-                        maxSize = new Vector2(643, 300);
 
                         // General settings start here.
 
@@ -210,7 +208,7 @@ namespace GameMeanMachine.Unity.WindRose
                 [MenuItem("GameObject/Wind Rose/Maps/Create Map", true)]
                 public static bool CanCreateHUD()
                 {
-                    return Selection.activeTransform == null || Selection.activeTransform.GetComponent<Scope>() != null;
+                    return Selection.activeTransform == null;
                 }
             }
         }
