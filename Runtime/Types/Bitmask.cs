@@ -16,12 +16,12 @@ namespace GameMeanMachine.Unity.WindRose
         {
             /// <summary>
             ///   Check types are used when checking several cells together. They return the kind of aggregate value to return.
-            ///   To this extent, we consider that "blocked" is true and "free" is false, for historical reasons.
+            ///   To this extent, we consider that "set" is true and "unset" is false, for historical reasons.
             /// </summary>
             /// <remarks>
             ///   Consider the four aristotelic quantifiers for predicates. They are, actually, those operations.
             /// </remarks>
-            public enum CheckType { ANY_BLOCKED, ANY_FREE, ALL_BLOCKED, ALL_FREE }
+            public enum CheckType { ANY_SET, ANY_UNSET, ALL_SET, ALL_UNSET }
             private ulong[] bits;
             /// <summary>
             ///   Width of this bitmask.
@@ -331,14 +331,14 @@ namespace GameMeanMachine.Unity.WindRose
             ///   Fills a square with a certain value.
             /// </summary>
             /// <remarks>
-            ///   Due to historical reasons, the argument holding the value is <c>blocked</c>.
+            ///   Due to historical reasons, the argument holding the value is <c>set</c>.
             /// </remarks>
             /// <param name="xi">Initial X coordinate.</param>
             /// <param name="yi">Initial Y coordinate.</param>
             /// <param name="xf">Final X coordinate, included.</param>
             /// <param name="yf">Final Y coordinate, included.</param>
-            /// <param name="blocked">The value to fill.</param>
-            public void SetSquare(uint xi, uint yi, uint xf, uint yf, bool blocked)
+            /// <param name="set">The value to fill.</param>
+            public void SetSquare(uint xi, uint yi, uint xf, uint yf, bool set)
             {
                 xi = Values.Clamp<uint>(0, xi, Width - 1);
                 yi = Values.Clamp<uint>(0, yi, Height - 1);
@@ -354,7 +354,7 @@ namespace GameMeanMachine.Unity.WindRose
                 {
                     for (uint y = yi_; y <= yf_; y++)
                     {
-                        this[x, y] = blocked;
+                        this[x, y] = set;
                     }
                 }
             }
@@ -386,16 +386,16 @@ namespace GameMeanMachine.Unity.WindRose
                     {
                         switch (checkType)
                         {
-                            case CheckType.ANY_BLOCKED:
+                            case CheckType.ANY_SET:
                                 if (this[x, y]) { return true; }
                                 break;
-                            case CheckType.ANY_FREE:
+                            case CheckType.ANY_UNSET:
                                 if (!this[x, y]) { return true; }
                                 break;
-                            case CheckType.ALL_BLOCKED:
+                            case CheckType.ALL_SET:
                                 if (!this[x, y]) { return false; }
                                 break;
-                            case CheckType.ALL_FREE:
+                            case CheckType.ALL_UNSET:
                                 if (this[x, y]) { return false; }
                                 break;
                             default:
@@ -405,8 +405,8 @@ namespace GameMeanMachine.Unity.WindRose
                 }
                 switch (checkType)
                 {
-                    case CheckType.ALL_BLOCKED:
-                    case CheckType.ALL_FREE:
+                    case CheckType.ALL_SET:
+                    case CheckType.ALL_UNSET:
                         return true;
                     default:
                         return false;
@@ -419,10 +419,10 @@ namespace GameMeanMachine.Unity.WindRose
             /// <param name="xi">Initial X coordinate.</param>
             /// <param name="xf">Final X coordinate, included.</param>
             /// <param name="y">Y coordinate.</param>
-            /// <param name="blocked">The value to fill.</param>
-            public void SetRow(uint xi, uint xf, uint y, bool blocked)
+            /// <param name="set">The value to fill.</param>
+            public void SetRow(uint xi, uint xf, uint y, bool set)
             {
-                SetSquare(xi, y, xf, y, blocked);
+                SetSquare(xi, y, xf, y, set);
             }
 
             /// <summary>
@@ -444,10 +444,10 @@ namespace GameMeanMachine.Unity.WindRose
             /// <param name="x">X coordinate.</param>
             /// <param name="yi">Initial Y coordinate.</param>
             /// <param name="yf">Final Y coordinate.</param>
-            /// <param name="blocked">The value to fill.</param>
-            public void SetColumn(uint x, uint yi, uint yf, bool blocked)
+            /// <param name="set">The value to fill.</param>
+            public void SetColumn(uint x, uint yi, uint yf, bool set)
             {
-                SetSquare(x, yi, x, yf, blocked);
+                SetSquare(x, yi, x, yf, set);
             }
 
             /// <summary>
@@ -472,10 +472,10 @@ namespace GameMeanMachine.Unity.WindRose
             /// </remarks>
             /// <param name="x">X coordinate.</param>
             /// <param name="y">Y coordinate.</param>
-            /// <param name="blocked">The value to fill.</param>
-            public void SetCell(uint x, uint y, bool blocked)
+            /// <param name="set">The value to fill.</param>
+            public void SetCell(uint x, uint y, bool set)
             {
-                this[Values.Clamp<uint>(0, x, Width - 1), Values.Clamp<uint>(0, y, Height - 1)] = blocked;
+                this[Values.Clamp<uint>(0, x, Width - 1), Values.Clamp<uint>(0, y, Height - 1)] = set;
             }
 
             /// <summary>

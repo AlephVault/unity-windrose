@@ -44,13 +44,13 @@ namespace GameMeanMachine.Unity.WindRose
                                         switch (direction)
                                         {
                                             case Direction.LEFT:
-                                                return blockMask.GetColumn(x - 1, y, y + height - 1, Bitmask.CheckType.ANY_BLOCKED);
+                                                return blockMask.GetColumn(x - 1, y, y + height - 1, Bitmask.CheckType.ANY_SET);
                                             case Direction.DOWN:
-                                                return blockMask.GetRow(x, x + width - 1, y - 1, Bitmask.CheckType.ANY_BLOCKED);
+                                                return blockMask.GetRow(x, x + width - 1, y - 1, Bitmask.CheckType.ANY_SET);
                                             case Direction.RIGHT:
-                                                return blockMask.GetColumn(x + width, y, y + height - 1, Bitmask.CheckType.ANY_BLOCKED);
+                                                return blockMask.GetColumn(x + width, y, y + height - 1, Bitmask.CheckType.ANY_SET);
                                             case Direction.UP:
-                                                return blockMask.GetRow(x, x + width - 1, y + height, Bitmask.CheckType.ANY_BLOCKED);
+                                                return blockMask.GetRow(x, x + width - 1, y + height, Bitmask.CheckType.ANY_SET);
                                             default:
                                                 return true;
                                         }
