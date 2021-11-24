@@ -112,7 +112,8 @@ namespace GameMeanMachine.Unity.WindRose
                                     }
 
                                     /// <summary>
-                                    ///   Initializes an array of blocking flags to know whether the 
+                                    ///   Initializes an array of blocking flags to know whether the movement
+                                    ///   is allowed or not toward that cell.
                                     /// </summary>
                                     public override void InitGlobalCellsData()
                                     {
