@@ -119,10 +119,10 @@ namespace GameMeanMachine.Unity.WindRose
                             ///     object strategy not compatible with the map's main
                             ///     strategy.
                             /// </summary>
-                            public class StrategyNowAllowedException : Types.Exception
+                            public class StrategyNotAllowedException : Types.Exception
                             {
-                                public StrategyNowAllowedException(string message) : base(message) { }
-                                public StrategyNowAllowedException(string message, System.Exception inner) : base(message, inner) { }
+                                public StrategyNotAllowedException(string message) : base(message) { }
+                                public StrategyNotAllowedException(string message, System.Exception inner) : base(message, inner) { }
                             }
 
                             /// <summary>
@@ -421,7 +421,16 @@ namespace GameMeanMachine.Unity.WindRose
                                 // Do we accept or reject the strategy being attached? (no per-strategy-component call is needed here)
                                 if (!AlephVault.Unity.Support.Utils.Classes.IsSameOrSubclassOf(objectStrategy.GetType(), Strategy.CounterpartType))
                                 {
-                                    throw new StrategyNowAllowedException("This strategy is not allowed on this map because is not a valid counterpart of the current map strategy.");
+                                    throw new StrategyNotAllowedException("This strategy is not allowed on this map because is not a valid counterpart of the current map strategy.");
+                                }
+
+                                // Do we accept or reject the strategy being attached? (with a custom logic per strategy component)
+                                if (!CanAttachStrategy(objectStrategy, out string reason))
+                                {
+                                    throw new StrategyNotAllowedException(
+                                        "This strategy is not allowed on this map due to an " +
+                                        "attachment rejection: " + reason
+                                    );
                                 }
 
                                 // Does it fit regarding bounds?
@@ -439,6 +448,37 @@ namespace GameMeanMachine.Unity.WindRose
 
                                 // Finally, notify the client strategy.
                                 objectStrategy.Object.onAttached.Invoke(Map);
+                            }
+                            
+                            /**
+                             * Iterates all the strategies to tell whether it can be attached or not.
+                             */
+                            private bool CanAttachStrategy(
+                                Entities.Objects.Strategies.ObjectStrategy objectStrategy,
+                                out string reason)
+                            {
+                                reason = "";
+                                if (Bypass) return true;
+
+                                string underlyingReason = "";
+                                if (!Collect(delegate(Dictionary<Type, bool> collected,
+                                    ObjectsManagementStrategy strategy)
+                                {
+                                    if (!strategy.CanAttachStrategy(
+                                        GetCompatible(objectStrategy, strategy),
+                                        out underlyingReason)
+                                    )
+                                    {
+                                        return false;
+                                    }
+                                    return true;
+                                }))
+                                {
+                                    reason = underlyingReason;
+                                    return false;
+                                }
+
+                                return true;
                             }
 
                             /**
