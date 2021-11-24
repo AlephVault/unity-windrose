@@ -128,8 +128,27 @@ namespace GameMeanMachine.Unity.WindRose
                                 }
 
                                 /// <summary>
+                                ///   This method may be overridden to tell whether this management strategy accepts or
+                                ///   rejects objects being attached to it. Typically, the only check to do is when the
+                                ///   related strategy counterpart is null, but other checks might be accepted.
+                                /// </summary>
+                                /// <param name="strategy">The object strategy counterpart to accept or reject</param>
+                                /// <param name="reason">And output reason for the rejection</param>
+                                /// <returns>Whether the strategy is accepted or not</returns>
+                                public virtual bool CanAttachStrategy(ObjectStrategy strategy, out string reason)
+                                {
+                                    if (strategy == null)
+                                    {
+                                        reason = "Related object strategy counterpart is missing";
+                                        return false;
+                                    }
+                                    reason = "";
+                                    return true;
+                                }
+
+                                /// <summary>
                                 ///   This method may be implemented to tell how will the strategy react when the underlying object
-                                ///     was just detached to the strategy (is our opportunity to initialize all the associated data).
+                                ///     was just attached to the strategy (is our opportunity to initialize all the associated data).
                                 /// </summary>
                                 /// <param name="strategy">The compatible strategy of the object just attached</param>
                                 /// <param name="status">The status (position and movement) of the underlying object</param>
