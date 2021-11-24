@@ -40,7 +40,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///     and <see cref="Solidness.SolidnessObjectsManagementStrategy.CanAllocateMovement(Dictionary{Type, bool}, ObjectStrategy, ObjectsManagementStrategyHolder.Status, Direction, bool)"/>
                                     ///     with an AND operation.
                                     /// </summary>
-                                    public override bool CanAllocateMovement(Dictionary<Type, bool> otherComponentsResults, ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continuated)
+                                    public override bool CanAllocateMovement(Dictionary<Type, bool> otherComponentsResults, ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued)
                                     {
                                         bool layoutAllowsAllocation = otherComponentsResults[typeof(Base.LayoutObjectsManagementStrategy)];
                                         bool solidnessAllowsAllocaction = otherComponentsResults[typeof(Solidness.SolidnessObjectsManagementStrategy)];

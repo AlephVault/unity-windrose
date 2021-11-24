@@ -66,7 +66,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       for more information on this method signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override bool CanAllocateMovement(Dictionary<Type, bool> otherComponentsResults, ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continuated)
+                                    public override bool CanAllocateMovement(Dictionary<Type, bool> otherComponentsResults, ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued)
                                     {
                                         // Then check for cells being blocked
                                         return !IsAdjacencyBlocked(status.X, status.Y, strategy.StrategyHolder.Object.Width, strategy.StrategyHolder.Object.Height, direction);

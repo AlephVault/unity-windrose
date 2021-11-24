@@ -102,7 +102,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       for more information on this method's signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override bool CanAllocateMovement(Dictionary<Type, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continuated)
+                                    public override bool CanAllocateMovement(Dictionary<Type, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued)
                                     {
                                         SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         SolidnessStatus solidness = solidnessStrategy.Solidness;
