@@ -105,7 +105,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 ///     and runs it for each (x, y) pair on the map
                                 /// </param>
                                 /// <remarks>Seriously, you will seldom to never need to override this method.</remarks>
-                                public virtual void InitIndividualCellsData(Action<Action<uint, uint>> allCellsIterator)
+                                public void InitIndividualCellsData(Action<Action<uint, uint>> allCellsIterator)
                                 {
                                     allCellsIterator(ComputeCellData);
                                 }
@@ -191,9 +191,9 @@ namespace GameMeanMachine.Unity.WindRose
                                 /// <param name="strategy">The compatible strategy of the object allocating the movement</param>
                                 /// <param name="status">The status (position and movement) of the underlying object</param>
                                 /// <param name="direction">The direction of this new movement</param>
-                                /// <param name="continuated">Whether the movement being allocated is considered a continuation of a former movement (in the same direction, and immediate)</param>
+                                /// <param name="continued">Whether the movement being allocated is considered a continuation of a former movement (in the same direction, and immediate)</param>
                                 /// <param name="stage">A string value: "Before", "AfterMovementAllocation", "After"</param>
-                                public virtual void DoAllocateMovement(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Types.Direction direction, bool continuated, string stage)
+                                public virtual void DoAllocateMovement(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Types.Direction direction, bool continued, string stage)
                                 {
                                 }
 

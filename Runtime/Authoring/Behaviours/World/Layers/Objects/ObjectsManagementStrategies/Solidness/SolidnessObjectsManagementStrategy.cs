@@ -130,7 +130,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       for more information on this method signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override void DoAllocateMovement(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continuated, string stage)
+                                    public override void DoAllocateMovement(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued, string stage)
                                     {
                                         switch (stage)
                                         {
