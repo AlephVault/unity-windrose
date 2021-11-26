@@ -124,7 +124,7 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             if (states.ContainsKey(key))
                             {
-                                throw new Types.Exception("State key already in use: " + key);
+                                throw new Exception("State key already in use: " + key);
                             }
                             else
                             {
@@ -143,7 +143,7 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             if (states.ContainsKey(key))
                             {
-                                throw new Types.Exception("state key does not exist: " + key);
+                                throw new Exception("state key does not exist: " + key);
                             }
                             else
                             {
@@ -167,7 +167,7 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             if (fallbacks.ContainsKey(key))
                             {
-                                throw new Types.Exception("state key for fallback already in use: " + key);
+                                throw new Exception("state key for fallback already in use: " + key);
                             }
                             fallbacks[key] = fallback;
                         }

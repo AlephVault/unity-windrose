@@ -167,25 +167,25 @@ namespace GameMeanMachine.Unity.WindRose
                             }
                         }
 
-                        private List<MonoBehaviour> visualBehaviours = new List<MonoBehaviour>();
+                        private List<VisualBehaviour> visualBehaviours = new List<VisualBehaviour>();
 
                         public void DoUpdate()
                         {
                             if (visibilityEnabled)
                             {
                                 transform.localPosition = relatedObject.transform.localPosition;
-                                foreach (VisualBehaviour behavioir in visualBehaviours)
+                                foreach (VisualBehaviour behaviour in visualBehaviours)
                                 {
-                                    behavioir.DoUpdate();
+                                    behaviour.DoUpdate();
                                 }
                             }
                         }
 
                         public void DoStart()
                         {
-                            foreach (VisualBehaviour behavioir in visualBehaviours)
+                            foreach (VisualBehaviour behaviour in visualBehaviours)
                             {
-                                behavioir.DoStart();
+                                behaviour.DoStart();
                             }
                         }
 

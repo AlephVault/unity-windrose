@@ -102,7 +102,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       for more information on this method's signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override bool CanAllocateMovement(Dictionary<Type, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued)
+                                    public override bool CanAllocateMovement(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued)
                                     {
                                         SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         SolidnessStatus solidness = solidnessStrategy.Solidness;
@@ -115,7 +115,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///     Always allows to clear the current movement.
                                     ///   </para>
                                     /// </summary>
-                                    public override bool CanClearMovement(Dictionary<Type, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
+                                    public override bool CanClearMovement(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
                                     {
                                         return true;
                                     }

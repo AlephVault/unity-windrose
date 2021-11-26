@@ -27,7 +27,7 @@ namespace GameMeanMachine.Unity.WindRose
 
                         /// <summary>
                         ///   Triggered when the underlying visual is updated.
-                        /// </summary>
+                        /// </summary>v
                         public virtual void DoUpdate() { }
 
                         /// <summary>

@@ -193,14 +193,14 @@ namespace GameMeanMachine.Unity.WindRose
                              * Iterates and collects the same boolean call to each strategy into a dictionary. Returns the
                              *   value according to the main strategy.
                              */
-                            private bool Collect(Func<Dictionary<Type, bool>, ObjectsManagementStrategy, bool> predicate)
+                            private bool Collect(Func<Dictionary<ObjectsManagementStrategy, bool>, ObjectsManagementStrategy, bool> predicate)
                             {
-                                Dictionary<Type, bool> collected = new Dictionary<Type, bool>();
+                                Dictionary<ObjectsManagementStrategy, bool> collected = new Dictionary<ObjectsManagementStrategy, bool>();
                                 foreach (ObjectsManagementStrategy subStrategy in sortedStrategies)
                                 {
-                                    collected[subStrategy.GetType()] = predicate(collected, subStrategy);
+                                    collected[subStrategy] = predicate(collected, subStrategy);
                                 }
-                                return collected[Strategy.GetType()];
+                                return collected[Strategy];
                             }
 
                             /**
@@ -461,7 +461,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 if (Bypass) return true;
 
                                 string underlyingReason = "";
-                                if (!Collect(delegate(Dictionary<Type, bool> collected,
+                                if (!Collect(delegate(Dictionary<ObjectsManagementStrategy, bool> collected,
                                     ObjectsManagementStrategy strategy)
                                 {
                                     if (!strategy.CanAttachStrategy(
@@ -534,7 +534,7 @@ namespace GameMeanMachine.Unity.WindRose
                             /// <summary>
                             ///   Invokes the start of a movement for a given object.
                             /// </summary>
-                            /// <param name="objectStrategyHolder">The object['s strategy holder] to move</param>
+                            /// <param name="objectStrategyHolder">The object's strategy holder to move</param>
                             /// <param name="direction">The direction to move to</param>
                             /// <param name="continuated">If this movement should be considered a continuation of a previous movement</param>
                             /// <returns>Whether the movement could be started</returns>
@@ -598,7 +598,7 @@ namespace GameMeanMachine.Unity.WindRose
 
                                 if (Bypass) return true;
 
-                                return Collect(delegate (Dictionary<Type, bool> collected, ObjectsManagementStrategy strategy)
+                                return Collect(delegate (Dictionary<ObjectsManagementStrategy, bool> collected, ObjectsManagementStrategy strategy)
                                 {
                                     return strategy.CanAllocateMovement(collected, GetCompatible(objectStrategy, strategy), status, direction, continuated);
                                 });
@@ -665,7 +665,7 @@ namespace GameMeanMachine.Unity.WindRose
                             {
                                 if (Bypass) return true;
 
-                                return Collect(delegate (Dictionary<Type, bool> collected, ObjectsManagementStrategy strategy)
+                                return Collect(delegate (Dictionary<ObjectsManagementStrategy, bool> collected, ObjectsManagementStrategy strategy)
                                 {
                                     return strategy.CanClearMovement(collected, GetCompatible(objectStrategy, strategy), status);
                                 });

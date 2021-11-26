@@ -66,7 +66,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 /// </summary>
                                 public Type CounterpartType { get; private set; }
 
-                                public void Awake()
+                                protected virtual void Awake()
                                 {
                                     StrategyHolder = GetComponent<ObjectsManagementStrategyHolder>();
                                     CounterpartType = GetCounterpartType();
@@ -183,7 +183,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 /// <param name="strategy">The compatible strategy of the object being checked</param>
                                 /// <param name="status">The status (position and movement) of the underlying object</param>
                                 /// <returns>Whether it can cancel the movement or not</returns>
-                                public abstract bool CanAllocateMovement(Dictionary<Type, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Types.Direction direction, bool continued);
+                                public abstract bool CanAllocateMovement(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Types.Direction direction, bool continued);
 
                                 /// <summary>
                                 ///   This method may be implemented to tell how will the strategy react when the underlying object
@@ -233,7 +233,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 /// <param name="strategy">The compatible strategy of the object being checked</param>
                                 /// <param name="status">The status (position and movement) of the underlying object</param>
                                 /// <returns>Whether it can cancel the movement or not</returns>
-                                public abstract bool CanClearMovement(Dictionary<Type, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status);
+                                public abstract bool CanClearMovement(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status);
 
                                 /// <summary>
                                 ///   This method may be implemented to tell how will the strategy react when the underlying object
