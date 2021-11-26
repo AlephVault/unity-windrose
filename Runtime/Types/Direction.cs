@@ -15,6 +15,26 @@ namespace GameMeanMachine.Unity.WindRose
 
         public static class DirectionMethods
         {
+            public static int Axis(this Direction direction)
+            {
+                switch (direction)
+                {
+                    case Direction.UP:
+                    case Direction.DOWN:
+                        return 1;
+                    case Direction.LEFT:
+                    case Direction.RIGHT:
+                        return 0;
+                    default:
+                        return -1;
+                }
+            }
+
+            public static bool SameAxis(this Direction direction, Direction other)
+            {
+                return Axis(direction) == Axis(other);
+            }
+            
             public static Direction? Opposite(this Direction? direction)
             {
                 switch(direction)
