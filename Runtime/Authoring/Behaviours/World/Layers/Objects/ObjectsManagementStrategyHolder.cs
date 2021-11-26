@@ -465,8 +465,9 @@ namespace GameMeanMachine.Unity.WindRose
                                     ObjectsManagementStrategy strategy)
                                 {
                                     if (!strategy.CanAttachStrategy(
+                                        collected,
                                         GetCompatible(objectStrategy, strategy),
-                                        out underlyingReason)
+                                        ref underlyingReason)
                                     )
                                     {
                                         return false;

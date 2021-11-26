@@ -35,39 +35,13 @@ namespace GameMeanMachine.Unity.WindRose
                                 [RequireComponent(typeof(Solidness.SolidnessObjectsManagementStrategy))]
                                 public class SimpleObjectsManagementStrategy : ObjectsManagementStrategy
                                 {
-                                    private Base.LayoutObjectsManagementStrategy layoutObjectsManagementStrategy;
-
-                                    private Solidness.SolidnessObjectsManagementStrategy solidnessObjectsManagementStrategy;
-
-                                    protected override void Awake()
+                                    protected override ObjectsManagementStrategy[] GetDependencies()
                                     {
-                                        base.Awake();
-                                        layoutObjectsManagementStrategy = GetComponent<Base.LayoutObjectsManagementStrategy>();
-                                        solidnessObjectsManagementStrategy = GetComponent<Solidness.SolidnessObjectsManagementStrategy>();
-                                    }
-
-                                    /// <summary>
-                                    ///   Combines the result of <see cref="Base.LayoutObjectsManagementStrategy.CanAllocateMovement(Dictionary{Type, bool}, ObjectStrategy, ObjectsManagementStrategyHolder.Status, Direction, bool)"/>
-                                    ///     and <see cref="Solidness.SolidnessObjectsManagementStrategy.CanAllocateMovement(Dictionary{Type, bool}, ObjectStrategy, ObjectsManagementStrategyHolder.Status, Direction, bool)"/>
-                                    ///     with an AND operation.
-                                    /// </summary>
-                                    public override bool CanAllocateMovement(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued)
-                                    {
-                                        bool layoutAllowsAllocation = otherComponentsResults[layoutObjectsManagementStrategy];
-                                        bool solidnessAllowsAllocation = otherComponentsResults[solidnessObjectsManagementStrategy];
-                                        return layoutAllowsAllocation && solidnessAllowsAllocation;
-                                    }
-
-                                    /// <summary>
-                                    ///   Combines the result of <see cref="Base.LayoutObjectsManagementStrategy.CanClearMovement(Dictionary{Type, bool}, ObjectStrategy, ObjectsManagementStrategyHolder.Status)"/>
-                                    ///     and <see cref="Solidness.SolidnessObjectsManagementStrategy.CanClearMovement(Dictionary{Type, bool}, ObjectStrategy, ObjectsManagementStrategyHolder.Status)"/>
-                                    ///     with an AND operation.
-                                    /// </summary>
-                                    public override bool CanClearMovement(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
-                                    {
-                                        bool layoutAllowsClearing = otherComponentsResults[layoutObjectsManagementStrategy];
-                                        bool solidnessAllowsClearing = otherComponentsResults[solidnessObjectsManagementStrategy];
-                                        return layoutAllowsClearing && solidnessAllowsClearing;
+                                        return new ObjectsManagementStrategy[]
+                                        {
+                                            GetComponent<Base.LayoutObjectsManagementStrategy>(),
+                                            GetComponent<Solidness.SolidnessObjectsManagementStrategy>()
+                                        };
                                     }
 
                                     protected override Type GetCounterpartType()
