@@ -786,7 +786,7 @@ namespace GameMeanMachine.Unity.WindRose
                     /// <summary>
                     ///   Map objects MAY have a visual considered the MAIN one. This
                     ///     is not mandatory but, if done, it will ensure the main visual
-                    ///     is forevert tied to this object.
+                    ///     is forever tied to this object.
                     /// </summary>
                     [SerializeField]
                     private Visuals.Visual mainVisual;

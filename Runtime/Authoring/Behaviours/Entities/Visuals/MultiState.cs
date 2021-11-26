@@ -141,9 +141,9 @@ namespace GameMeanMachine.Unity.WindRose
                         /// <param name="state">The new state to use, or null to undo the replacement</param>
                         public void ReplaceState(string key, StateType state)
                         {
-                            if (states.ContainsKey(key))
+                            if (!states.ContainsKey(key))
                             {
-                                throw new Exception("state key does not exist: " + key);
+                                throw new Exception("State key does not exist: " + key);
                             }
                             else
                             {
