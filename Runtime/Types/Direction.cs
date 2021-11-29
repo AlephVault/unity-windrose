@@ -64,6 +64,8 @@ namespace GameMeanMachine.Unity.WindRose
                         return Direction.RIGHT;
                     case Direction.RIGHT:
                         return Direction.LEFT;
+                    default:
+                        return Direction.FRONT;
                 }
             }
         }
