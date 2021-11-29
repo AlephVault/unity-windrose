@@ -39,7 +39,6 @@ namespace GameMeanMachine.Unity.WindRose
                 ///   </para>
                 /// </summary>
                 [RequireComponent(typeof(Pausable))]
-                [RequireComponent(typeof(ObjectStrategyHolder))]
                 public class MapObject : MonoBehaviour, Common.Pausable.IPausable
                 {
                     #region Lifecycle

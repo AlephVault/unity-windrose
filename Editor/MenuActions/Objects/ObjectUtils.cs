@@ -101,6 +101,7 @@ namespace GameMeanMachine.Unity.WindRose
                             { "width", (ushort)objectSize.x },
                             { "height", (ushort)objectSize.y }
                         });
+                        gameObject.AddComponent<Authoring.Behaviours.Entities.Objects.ObjectStrategyHolder>();
                         if (addCommandSender)
                         {
                             AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.CommandExchange.CloseCommandSender>(gameObject);
