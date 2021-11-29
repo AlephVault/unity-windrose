@@ -42,8 +42,16 @@ namespace GameMeanMachine.Unity.WindRose
                 public class MapObject : MonoBehaviour, Common.Pausable.IPausable
                 {
                     #region Lifecycle
+
+                    // Whether it is initialized.
                     private bool initialized = false;
 
+                    // The current ongoing movement count, involving
+                    // number of movement starts, ends, cancels, and
+                    // also attachments and detachments.
+                    private uint movementCount = 0;
+                    
+                    // Whether it is told to be destroyed or not.
                     private bool destroyed = false;
 
                     private void Awake()
@@ -63,6 +71,8 @@ namespace GameMeanMachine.Unity.WindRose
                              * 2. We set the parent transform of the object to such ObjectsLayer's transform.
                              * 3. Finally we must ensure the transform.localPosition be updated accordingly (i.e. forcing a snap).
                              */
+                            IncrementMovementCounter();
+                            transform.localRotation = Quaternion.identity;
                             parentMap = newParentMap;
                             ObjectsLayer ObjectsLayer = parentMap.ObjectsLayer;
                             transform.SetParent(ObjectsLayer.transform);
@@ -76,14 +86,25 @@ namespace GameMeanMachine.Unity.WindRose
                         });
                         onTeleported.AddListener(delegate (ushort x, ushort y)
                         {
+                            IncrementMovementCounter();
                             Snap();
+                        });
+                        onMovementStarted.AddListener((d) =>
+                        {
+                            IncrementMovementCounter();
                         });
                         onMovementCancelled.AddListener(delegate (Direction? formerMovement)
                         {
+                            IncrementMovementCounter();
                             Snap();
+                        });
+                        onMovementFinished.AddListener((d) =>
+                        {
+                            IncrementMovementCounter();
                         });
                         onDetached.AddListener(delegate ()
                         {
+                            IncrementMovementCounter();
                             if (parentMap == null || parentMap.transform == null || parentMap.transform.parent == null)
                             {
                                 if (!destroyed) transform.SetParent(null);
@@ -132,6 +153,19 @@ namespace GameMeanMachine.Unity.WindRose
                         onMovementFinished.RemoveAllListeners();
                         onStrategyPropertyUpdated.RemoveAllListeners();
                         onTeleported.RemoveAllListeners();
+                    }
+
+                    // Increments the internal movement counter.
+                    private void IncrementMovementCounter()
+                    {
+                        if (movementCount == uint.MaxValue)
+                        {
+                            movementCount = 0;
+                        }
+                        else
+                        {
+                            movementCount++;
+                        }
                     }
 
                     /// <summary>
@@ -464,7 +498,18 @@ namespace GameMeanMachine.Unity.WindRose
 
                                     // We intend to at least finish this movement and perhaps continue with a new one
                                     Direction currentMovement = Movement.Value;
+                                    uint currentMovementCount = movementCount;
                                     parentMap.ObjectsLayer.StrategyHolder.MovementFinish(StrategyHolder);
+                                    // We break this loop if something else is happening (i.e.
+                                    // due to a strategy intercepting the current movement or
+                                    // the finish of the last movement and doing something else).
+                                    // Usually, we would expect that, after finishing a movement,
+                                    // the count is {currentCount} + 1. If something else happens,
+                                    // that will not be true: it will be bigger. In that case, we
+                                    // break the "one-shot movement continuation".
+                                    if (movementCount != currentMovementCount + 1) break;
+                                    currentMovementCount = movementCount;
+                                    
                                     if (traversedDistanceSinceOrigin > targetOffset.magnitude)
                                     {
                                         origin = target;
@@ -477,6 +522,12 @@ namespace GameMeanMachine.Unity.WindRose
                                             transform.localPosition = new Vector3(origin.x, origin.y, transform.localPosition.z);
                                             break;
                                         }
+                                        
+                                        // AND the same check must be done here. In normal conditions,
+                                        // the count would be {currentCount} + 1 unless something else
+                                        // happens, since already a StartMovement happened. If that is
+                                        // not the case, something else happened and we must break.
+                                        if (movementCount != currentMovementCount + 1) break;
                                     }
                                 }
                             }
