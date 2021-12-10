@@ -187,6 +187,9 @@ namespace GameMeanMachine.Unity.WindRose
                                     Destroy(gameObject);
                                     throw new DuplicatedComponentException("Cannot add more than one strategy instance per strategy type to an objects managemnt strategy holder");
                                 }
+                                
+                                // We require the map also here.
+                                Map = Behaviours.RequireComponentInParent<Map>(gameObject);
                             }
 
                             /**
@@ -249,7 +252,6 @@ namespace GameMeanMachine.Unity.WindRose
                             /// </summary>
                             public void Initialize()
                             {
-                                Map = GetComponent<ObjectsLayer>().Map;
                                 Traverse(delegate (ObjectsManagementStrategy strategy)
                                 {
                                     strategy.InitGlobalCellsData();
