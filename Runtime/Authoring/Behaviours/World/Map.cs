@@ -157,14 +157,14 @@ namespace GameMeanMachine.Unity.WindRose
                         Grid floorLayerGrid = FloorLayer.GetComponent<Grid>();
                         CopyGridProperties(ObjectsLayer.GetComponent<Grid>(), floorLayerGrid);
                         if (CeilingLayer != null) CopyGridProperties(CeilingLayer.GetComponent<Grid>(), floorLayerGrid);
-                        if (transform.parent && transform.parent.GetComponent<Scope>() == null) Debug.LogWarning("Warning!!! A Map must be a root object in the scene (i.e. have no parent transform), or direct child of a Scope object, to be properly recognized by a HUD pausing all the maps!!!");
-                        ParentScope = transform.parent != null ? transform.parent.GetComponent<Scope>() : null;
+                        if (transform.parent && (transform.GetComponentInParent<Scope>() == null || transform.GetComponentInParent<MapObject>() != null)) Debug.LogWarning("Warning!!! A Map must be a root object in the scene (i.e. have no parent transform), or descendant of a Scope object and NOT descendant of a MapObject, to be properly recognized by a HUD pausing all the maps!!!");
+                        ParentScope = transform.parent != null ? transform.parent.GetComponentInParent<Scope>() : null;
                     }
 
                     private void OnTransformParentChanged()
                     {
                         if (ParentScope != null && !ParentScope.IsStatic) ParentScope.RefreshMapArray();
-                        ParentScope = transform.parent != null ? transform.parent.GetComponent<Scope>() : null;
+                        ParentScope = (transform.parent != null && transform.parent.GetComponentInParent<MapObject>() == null) ? transform.parent.GetComponentInParent<Scope>() : null;
                         if (ParentScope != null && !ParentScope.IsStatic) ParentScope.RefreshMapArray();
                     }
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects;
 using UnityEngine;
 
 namespace GameMeanMachine.Unity.WindRose
@@ -62,14 +63,36 @@ namespace GameMeanMachine.Unity.WindRose
                     {
                         List<Map> mapList = new List<Map>();
                         Dictionary<Map, int> mapDict = new Dictionary<Map, int>();
+
+                        if (GetComponentInParent<MapObject>() != null)
+                        {
+                            maps = mapList.ToArray();
+                            mapsToIDs = new ReadOnlyDictionary<Map, int>(mapDict);
+                            Debug.LogWarning($"Ignoring and clearing map enumeration in the scope " +
+                                             $"since it is part or child of a MapObject instance. Currently, " +
+                                             $"this is not supported", this);
+                            return;
+                        }
+                        
                         int count = transform.childCount;
                         for(int i = 0; i < count; i++)
                         {
-                            Map map = transform.GetChild(i).GetComponent<Map>();
-                            if (map != null)
+                            Map[] maps = transform.GetChild(i).GetComponentsInChildren<Map>();
+                            foreach (Map map in maps)
                             {
-                                mapList.Add(map);
-                                mapDict.Add(map, mapDict.Count);
+                                if (map != null)
+                                {
+                                    if (map.GetComponentInParent<MapObject>() != null)
+                                    {
+                                        Debug.LogWarning($"Ignoring map {map} from enumeration since it is " +
+                                                         $"part or child of a MapObject instance. Currently, this " +
+                                                         $"is not supported", this);
+                                        continue;
+                                    }
+                                    
+                                    mapList.Add(map);
+                                    mapDict.Add(map, mapDict.Count);
+                                }
                             }
                         }
                         maps = mapList.ToArray();
