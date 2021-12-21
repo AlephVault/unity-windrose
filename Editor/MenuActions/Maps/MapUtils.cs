@@ -205,15 +205,15 @@ namespace GameMeanMachine.Unity.WindRose
                 /// <summary>
                 ///   Validates the menu item: GameObject > Wind Rose > Maps > Create Map.
                 ///   It enables such menu option when no transform is selected in the scene
-                ///     hierarchy.
+                ///   hierarchy, or when the selected transform is not child of <see cref="MapObject"/>
+                ///   and is a child of <see cref="Scope"/>.
                 /// </summary>
                 [MenuItem("GameObject/Wind Rose/Maps/Create Map", true)]
                 public static bool CanCreateMap()
                 {
-                    return Selection.activeTransform.parent && (
-                        Selection.activeTransform.GetComponentInParent<Scope>() == null ||
-                        Selection.activeTransform.GetComponentInParent<MapObject>() != null
-                    );
+                    return Selection.activeTransform == null ||
+                           Selection.activeTransform.GetComponentInParent<MapObject>() == null &&
+                           Selection.activeTransform.GetComponentInParent<Scope>() != null;
                 }
             }
         }
