@@ -276,22 +276,22 @@ namespace GameMeanMachine.Unity.WindRose
                     public static void DrawContour(Map map, GizmoType gizmoType)
                     {
                         Vector3 bottomLeft = map.transform.position;
-                        Vector3 bottomRight = bottomLeft + Vector3.right * map.CellSize.x * map.Width;
-                        Vector3 topLeft = bottomLeft + Vector3.up * map.CellSize.y * map.Height;
+                        Vector3 bottomRight = map.transform.TransformPoint(Vector3.right * map.CellSize.x * map.Width);
+                        Vector3 topLeft = map.transform.TransformPoint(Vector3.up * map.CellSize.y * map.Height);
+
+                        Vector3 hDelta = (bottomRight - bottomLeft) / map.width;
+                        Vector3 vDelta = (topLeft - bottomLeft) / map.height;
+                        
                         Gizmos.color = map.gizmoColor;
                         Gizmos.DrawLine(bottomLeft, bottomRight);
                         for (uint y = 1; y <= map.height; y++)
                         {
-                            Vector3 rowLeft = bottomLeft + Vector3.up * map.CellSize.y * y;
-                            Vector3 rowRight = bottomLeft + Vector3.up * map.CellSize.y * y + Vector3.right * map.CellSize.x * map.Width;
-                            Gizmos.DrawLine(rowLeft, rowRight);
+                            Gizmos.DrawLine(bottomLeft + vDelta * y, bottomRight + vDelta * y);
                         }
                         Gizmos.DrawLine(bottomLeft, topLeft);
                         for (uint x = 1; x <= map.width; x++)
                         {
-                            Vector3 columnBottom = bottomLeft + Vector3.right * map.CellSize.x * x;
-                            Vector3 columnTop = bottomLeft + Vector3.up * map.CellSize.y * map.Height + Vector3.right * map.CellSize.x * x;
-                            Gizmos.DrawLine(columnBottom, columnTop);
+                            Gizmos.DrawLine(bottomLeft + hDelta * x, topLeft + hDelta * x);
                         }
                     }
 #endif
