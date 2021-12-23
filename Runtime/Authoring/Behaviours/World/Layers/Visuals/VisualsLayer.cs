@@ -51,6 +51,9 @@ namespace GameMeanMachine.Unity.WindRose
                                     {
                                         GameObject gameObj = new GameObject("Depth Level " + level);
                                         gameObj.transform.SetParent(transform);
+                                        gameObj.transform.localRotation = Quaternion.identity;
+                                        gameObj.transform.localScale = Vector3.one;
+                                        gameObj.transform.localPosition = Vector3.zero;
                                         SortingGroup sortingGroup = gameObj.AddComponent<SortingGroup>();
                                         sortingGroup.sortingOrder = level;
                                         levelObj = gameObj.AddComponent<VisualsDepthLevel>();
