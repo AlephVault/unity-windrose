@@ -163,6 +163,7 @@ namespace GameMeanMachine.Unity.WindRose
                             {
                                 // give sorting order just by Y position, and give perspective layer according to level
                                 transform.SetParent(relatedObject.ParentMap.VisualsLayer[level].transform);
+                                transform.localRotation = Quaternion.identity;
                                 renderer.sortingOrder = (int)(relatedObject.ParentMap.Height - relatedObject.Y - 1);
                             }
                         }
