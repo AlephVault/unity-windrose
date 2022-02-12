@@ -10,7 +10,7 @@ namespace GameMeanMachine.Unity.WindRose
         ///   These are all the supported directions.
         /// </summary>
         public enum Direction {
-            DOWN, LEFT, RIGHT, UP, FRONT = DOWN
+            DOWN, LEFT, RIGHT, UP, FRONT = DOWN, DEFAULT = DOWN
         }
 
         public static class DirectionMethods
