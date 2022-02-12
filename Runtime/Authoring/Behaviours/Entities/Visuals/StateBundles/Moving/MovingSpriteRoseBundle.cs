@@ -12,7 +12,7 @@
                     {
                         namespace Moving
                         {
-                            public class MovingAnimationRoseBundle : AnimationRoseBundle
+                            public class MovingSpriteRoseBundle : SpriteRoseBundle
                             {
                                 protected override string GetStateKey()
                                 {

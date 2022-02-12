@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GameMeanMachine.Unity.WindRose
 {
@@ -16,19 +15,19 @@ namespace GameMeanMachine.Unity.WindRose
                     /// </summary>
                     public class Animated : VisualBehaviour, Common.Pausable.IPausable
                     {
-                        protected SpriteRenderer spriteRenderer;
+                        private SpriteRenderer spriteRenderer;
 
                         /// <summary>
                         ///   The default animation, for when no other animation is given.
                         /// </summary>
                         [SerializeField]
-                        private ScriptableObjects.Animations.Animation defaultAnimation;
+                        private ScriptableObjects.VisualResources.Animation defaultAnimation;
 
                         /**
                          * Stuff to handle and render the current animation.
                          */
 
-                        private new ScriptableObjects.Animations.Animation animation;
+                        private new ScriptableObjects.VisualResources.Animation animation;
                         private float currentTime;
                         private float frameInterval;
                         private int currentAnimationIndex;
@@ -37,7 +36,7 @@ namespace GameMeanMachine.Unity.WindRose
                         /// <summary>
                         ///   Gets or sets the current animation, and resets it (on set).
                         /// </summary>
-                        public ScriptableObjects.Animations.Animation Animation
+                        public ScriptableObjects.VisualResources.Animation Animation
                         {
                             get { return animation; }
                             set

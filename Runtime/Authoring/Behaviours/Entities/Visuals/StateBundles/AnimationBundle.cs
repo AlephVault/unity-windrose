@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GameMeanMachine.Unity.WindRose
 {
@@ -18,7 +16,7 @@ namespace GameMeanMachine.Unity.WindRose
                         ///   State bundle for animations.
                         /// </summary>
                         [RequireComponent(typeof(MultiAnimated))]
-                        public abstract class AnimationBundle : StateBundle<ScriptableObjects.Animations.Animation>
+                        public abstract class AnimationBundle : StateBundle<ScriptableObjects.VisualResources.Animation>
                         {
                         }
                     }

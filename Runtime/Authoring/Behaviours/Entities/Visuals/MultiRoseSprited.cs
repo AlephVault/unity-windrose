@@ -16,23 +16,23 @@ namespace GameMeanMachine.Unity.WindRose
                 namespace Visuals
                 {
                     /// <summary>
-                    ///   MultiRoseAnimated state managers involve a rose animated behavior and
-                    ///     will give them the state in form of an <see cref="AnimationRose"/>.
+                    ///   MultiRoseSprited state managers involve a rose sprited behavior and
+                    ///     will give them the state in form of an <see cref="SpriteRose"/>.
                     /// </summary>
-                    [RequireComponent(typeof(RoseAnimated))]
-                    public class MultiRoseAnimated : MultiState<AnimationRose>
+                    [RequireComponent(typeof(RoseSprited))]
+                    public class MultiRoseSprited : MultiState<SpriteRose>
                     {
-                        private RoseAnimated roseAnimated;
+                        private RoseSprited roseSprited;
 
-                        protected override void UseState(AnimationRose state)
+                        protected override void UseState(SpriteRose state)
                         {
-                            roseAnimated.AnimationRose = state;
+                            roseSprited.SpriteRose = state;
                         }
 
                         protected override void Awake()
                         {
                             base.Awake();
-                            roseAnimated = GetComponent<RoseAnimated>();
+                            roseSprited = GetComponent<RoseSprited>();
                         }
                     }
                 }

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GameMeanMachine.Unity.WindRose
 {
     namespace Authoring
     {
-        using ScriptableObjects.Animations;
+        using ScriptableObjects.VisualResources;
 
         namespace Behaviours
         {
@@ -21,11 +18,11 @@ namespace GameMeanMachine.Unity.WindRose
                     ///     is incompatible with <see cref="RoseAnimated"/>.
                     /// </summary>
                     [RequireComponent(typeof(Animated))]
-                    public class MultiAnimated : MultiState<ScriptableObjects.Animations.Animation>
+                    public class MultiAnimated : MultiState<Animation>
                     {
                         private Animated animated;
 
-                        protected override void UseState(ScriptableObjects.Animations.Animation state)
+                        protected override void UseState(Animation state)
                         {
                             animated.Animation = state;
                         }

@@ -13,10 +13,10 @@ namespace GameMeanMachine.Unity.WindRose
                     namespace StateBundles
                     {
                         /// <summary>
-                        ///   State bundle for animation roses.
+                        ///   State bundle for sprite roses.
                         /// </summary>
-                        [RequireComponent(typeof(MultiRoseAnimated))]
-                        public abstract class AnimationRoseBundle : StateBundle<ScriptableObjects.VisualResources.AnimationRose>
+                        [RequireComponent(typeof(MultiRoseSprited))]
+                        public abstract class SpriteRoseBundle : StateBundle<ScriptableObjects.VisualResources.SpriteRose>
                         {
                         }
                     }

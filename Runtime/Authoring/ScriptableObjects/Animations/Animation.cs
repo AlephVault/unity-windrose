@@ -8,7 +8,7 @@ namespace GameMeanMachine.Unity.WindRose
     {
         namespace ScriptableObjects
         {
-            namespace Animations
+            namespace VisualResources
             {
                 /// <summary>
                 ///   This class defines a WindRose animation. An animation contains the frames to render
@@ -16,16 +16,9 @@ namespace GameMeanMachine.Unity.WindRose
                 ///     rose (for certain direction in such rose) or as default animation for objects that are not
                 ///     orientable (i.e. they have no direction to look/move to).
                 /// </summary>
-                [CreateAssetMenu(fileName = "NewAnimation", menuName = "Wind Rose/Animations/Animation", order = 202)]
+                [CreateAssetMenu(fileName = "NewAnimation", menuName = "Wind Rose/Visual Resources/Animation", order = 202)]
                 public class Animation : ScriptableObject
                 {
-                    public class Exception : Types.Exception
-                    {
-                        public Exception() { }
-                        public Exception(string message) : base(message) { }
-                        public Exception(string message, System.Exception inner) : base(message, inner) { }
-                    }
-
                     /// <summary>
                     ///   The frames to render.
                     /// </summary>

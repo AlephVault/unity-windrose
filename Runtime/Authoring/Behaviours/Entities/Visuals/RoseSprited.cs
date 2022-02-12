@@ -11,21 +11,20 @@ namespace GameMeanMachine.Unity.WindRose
                 namespace Visuals
                 {
                     /// <summary>
-                    ///   Handles the object's ability to animate, given four sequences of sprites.
-                    ///   From those four sequences, it will pick the appropriate for the current
-                    ///     direction. The fetched animation will be given to its related
-                    ///     <see cref="Animated"/> component.
+                    ///   Handles the object's sprite rendering, given four sprites. From those four
+                    ///     sprites, it will pick the appropriate for the current direction. The
+                    ///     fetched sprite will be given to its related <see cref="SpriteRenderer"/>
+                    ///     component.
                     /// </summary>
-                    [RequireComponent(typeof(Animated))]
-                    public class RoseAnimated : VisualBehaviour
+                    public class RoseSprited : VisualBehaviour
                     {
-                        private Animated animated;
-
+                        private SpriteRenderer spriteRenderer;
+                        
                         /// <summary>
-                        ///   The default animation rose, for when no other animation is given.
+                        ///   The default sprite rose, for when no other sprite is given.
                         /// </summary>
                         [SerializeField]
-                        private ScriptableObjects.VisualResources.AnimationRose defaultAnimationRose;
+                        private ScriptableObjects.VisualResources.SpriteRose defaultSpriteRose;
 
                         /// <summary>
                         ///   The current orientation. Different behaviours will set this value
@@ -34,43 +33,43 @@ namespace GameMeanMachine.Unity.WindRose
                         /// </summary>
                         private Types.Direction orientation = Types.Direction.FRONT;
 
-                        // Track the current state to not update unnecessarily the animation later.
-                        private ScriptableObjects.VisualResources.AnimationRose animationRose;
+                        // Track the current state to not update unnecessarily the sprite later.
+                        private ScriptableObjects.VisualResources.SpriteRose spriteRose;
 
-                        // Refreshes the underlying animation.
-                        private void RefreshAnimation()
+                        // Refreshes the underlying sprite.
+                        private void RefreshSprite()
                         {
-                            animated.Animation = animationRose.GetForDirection(orientation);
+                            spriteRenderer.sprite = spriteRose.GetForDirection(orientation);
                         }
 
                         /// <summary>
-                        ///   Gets or sets the current animation rose, and updates the animation (on set).
+                        ///   Gets or sets the current sprite rose, and updates the sprite (on set).
                         /// </summary>
-                        public ScriptableObjects.VisualResources.AnimationRose AnimationRose
+                        public ScriptableObjects.VisualResources.SpriteRose SpriteRose
                         {
-                            get { return animationRose; }
+                            get { return spriteRose; }
                             set
                             {
-                                if (animationRose != value)
+                                if (spriteRose != value)
                                 {
-                                    animationRose = value;
-                                    RefreshAnimation();
+                                    spriteRose = value;
+                                    RefreshSprite();
                                 }
                             }
                         }
 
                         /// <summary>
-                        ///   Sets the current animation rose to the default one.
+                        ///   Sets the current sprite rose to the default one.
                         /// </summary>
-                        public void SetDefaultAnimationRose()
+                        public void SetDefaultSpriteRose()
                         {
-                            AnimationRose = defaultAnimationRose;
+                            SpriteRose = defaultSpriteRose;
                         }
 
                         protected override void Awake()
                         {
                             base.Awake();
-                            animated = GetComponent<Animated>();
+                            spriteRenderer = GetComponent<SpriteRenderer>();
                         }
 
                         private Objects.MapObject relatedObject;
@@ -79,10 +78,10 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             orientation = newOrientation;
                             // Remember that OnEnable* may be triggered before Start(). In such
-                            //   scenario, animationRose will not be set. In such case, we
-                            //   ignore this call.
+                            //   scenario, spriteRose will not be set. In such case, we ignore
+                            //   this call.
                             // (*OnEnable triggers this function)
-                            if (animationRose) RefreshAnimation();
+                            if (spriteRose) RefreshSprite();
                         }
 
                         private void OnEnable()
@@ -107,7 +106,7 @@ namespace GameMeanMachine.Unity.WindRose
                         /// </summary>
                         public override void DoStart()
                         {
-                            SetDefaultAnimationRose();
+                            SetDefaultSpriteRose();
                         }
                     }
                 }
