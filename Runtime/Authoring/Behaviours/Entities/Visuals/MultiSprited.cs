@@ -14,11 +14,11 @@ namespace GameMeanMachine.Unity.WindRose
                 namespace Visuals
                 {
                     /// <summary>
-                    ///   MultiSprite state managers involve a sprite renderer and will
+                    ///   MultiSprited state managers involve a sprite renderer and will
                     ///     give them the state in form of assigned sprite. This behaviour
                     ///     is incompatible with <see cref="Animated"/> or <see cref="RoseAnimated"/>.
                     /// </summary>
-                    public class MultiSprite : MultiState<Sprite>
+                    public class MultiSprited : MultiState<Sprite>
                     {
                         private SpriteRenderer renderer;
 
@@ -33,7 +33,7 @@ namespace GameMeanMachine.Unity.WindRose
                             if (GetComponent<Animated>() || GetComponent<RoseAnimated>())
                             {
                                 Destroy(gameObject);
-                                throw new Types.Exception(string.Format("{0} components are incompatible with {1} or {2}", typeof(MultiSprite).FullName, typeof(Animated).FullName, typeof(RoseAnimated).FullName));
+                                throw new Types.Exception(string.Format("{0} components are incompatible with {1} or {2}", typeof(MultiSprited).FullName, typeof(Animated).FullName, typeof(RoseAnimated).FullName));
                             }
                             renderer = GetComponent<SpriteRenderer>();
                         }

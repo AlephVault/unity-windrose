@@ -31,7 +31,7 @@ namespace GameMeanMachine.Unity.WindRose
                         string.Format("Animated (Visual, Animated - Using {0})", typeof(Animation).FullName),
                         string.Format("Rose-Sprited (Visual, RoseSprited - Using {0})", typeof(SpriteRose).FullName),
                         string.Format("Rose-Animated (Visual, Animated, RoseAnimated - Using {0})", typeof(AnimationRose).FullName),
-                        "Multi-State static (Visual, MultiSprite - Using Sprite)",
+                        "Multi-State static (Visual, MultiSprited - Using Sprite)",
                         string.Format("Multi-State Animated (Visual, Animated, MultiAnimated - Using {0})", typeof(Animation).FullName),
                         string.Format("Multi-State Rose-Sprited (Visual, RoseSprited, MultiRoseSprited - Using {0})", typeof(SpriteRose).FullName),
                         string.Format("Multi-State Rose-Animated (Visual, Animated, RoseAnimated, MultiRoseAnimated - Using {0})", typeof(AnimationRose).FullName),
@@ -107,7 +107,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<RoseAnimated>(gameObject);
                                 break;
                             case 4:
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<MultiSprite>(gameObject);
+                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<MultiSprited>(gameObject);
                                 if (addMovingBundle)
                                 {
                                     AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<MovingSpriteBundle>(gameObject);

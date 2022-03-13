@@ -17,7 +17,7 @@ namespace GameMeanMachine.Unity.WindRose
                         /// <summary>
                         ///   State bundle for sprites.
                         /// </summary>
-                        [RequireComponent(typeof(MultiSprite))]
+                        [RequireComponent(typeof(MultiSprited))]
                         public abstract class SpriteBundle : StateBundle<Sprite>
                         {
                         }
