@@ -22,11 +22,6 @@ namespace GameMeanMachine.Unity.WindRose
                     ///       cannot add rose-animated while animated multi is present,...).
                     ///   </para>
                     ///   <para>
-                    ///     Elements can be even temporarily replaced. Aside from this replacement feature,
-                    ///       no other logic will be in particular supported here (it must belong to other
-                    ///       behaviour(s)), like state changes.
-                    ///   </para>
-                    ///   <para>
                     ///     Fallbacks are another feature of our interest. Let's assume we have a character
                     ///       main visual holding 2 states: standing, movement. We'd then create an "aura"
                     ///       visual that would have only one single animation: standing. Our goal is to use
@@ -56,9 +51,6 @@ namespace GameMeanMachine.Unity.WindRose
 
                         // All the registered states
                         private Dictionary<string, StateType> states = new Dictionary<string, StateType>();
-
-                        // All the temporary replacements for the registered states
-                        private Dictionary<string, StateType> replacements = new Dictionary<string, StateType>();
 
                         // All the fallbacks
                         private Dictionary<string, string> fallbacks = new Dictionary<string, string>();
@@ -91,11 +83,7 @@ namespace GameMeanMachine.Unity.WindRose
                             try
                             {
                                 StateType state;
-                                if (replacements.TryGetValue(selectedKey, out state))
-                                {
-                                    UseState(state);
-                                }
-                                else if (states.TryGetValue(selectedKey, out state))
+                                if (states.TryGetValue(selectedKey, out state))
                                 {
                                     UseState(state);
                                 }
@@ -145,10 +133,9 @@ namespace GameMeanMachine.Unity.WindRose
                         /// <summary>
                         ///   Replaces an existing state with a new one. This is run at run-time
                         ///     and will require the state being replaced to exist, or fail otherwise.
-                        ///     Set state to <c>null</c> to clear the replacement on a given key.
                         /// </summary>
                         /// <param name="key">The key of the state being replaced</param>
-                        /// <param name="state">The new state to use, or null to undo the replacement</param>
+                        /// <param name="state">The new state to use</param>
                         public void ReplaceState(string key, StateType state)
                         {
                             if (!states.ContainsKey(key))
@@ -157,14 +144,7 @@ namespace GameMeanMachine.Unity.WindRose
                             }
                             else
                             {
-                                if (state != null)
-                                {
-                                    replacements[key] = state;
-                                }
-                                else
-                                {
-                                    replacements.Remove(key);
-                                }
+                                states[key] = state;
                                 RefreshState();
                             }
                         }
