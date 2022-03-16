@@ -18,7 +18,7 @@ namespace GameMeanMachine.Unity.WindRose
                         ///   Provides, in edit time, a way to add stuff to the underlying
                         ///     <see cref="MultiState{StateType}"/> component. 
                         /// </summary>
-                        public abstract class StateBundle<StateType> : MonoBehaviour
+                        public abstract class StateBundle<StateType> : MonoBehaviour where StateType : class
                         {
                             /// <summary>
                             ///   The state key to use - fixed per subclass.
