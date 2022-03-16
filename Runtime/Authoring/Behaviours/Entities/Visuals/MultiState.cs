@@ -115,6 +115,16 @@ namespace GameMeanMachine.Unity.WindRose
                         protected abstract void UseState(StateType state);
 
                         /// <summary>
+                        ///   Tells whether this object defines a particular state.
+                        /// </summary>
+                        /// <param name="state">The state to check</param>
+                        /// <returns>Whether it is defined or not in this object</returns>
+                        public bool HasState(string state)
+                        {
+                            return states.ContainsKey(state);
+                        }
+
+                        /// <summary>
                         ///   Registers an state under a key. This is usually done when initializing
                         ///     other components (e.g. moving components).
                         /// </summary>
