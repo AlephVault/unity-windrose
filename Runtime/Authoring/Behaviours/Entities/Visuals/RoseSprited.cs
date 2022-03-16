@@ -39,7 +39,7 @@ namespace GameMeanMachine.Unity.WindRose
                         // Refreshes the underlying sprite.
                         private void RefreshSprite()
                         {
-                            spriteRenderer.sprite = spriteRose.GetForDirection(orientation);
+                            spriteRenderer.sprite = spriteRose != null ? spriteRose.GetForDirection(orientation) : null;
                         }
 
                         /// <summary>

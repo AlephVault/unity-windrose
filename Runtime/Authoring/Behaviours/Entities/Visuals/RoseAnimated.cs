@@ -40,7 +40,7 @@ namespace GameMeanMachine.Unity.WindRose
                         // Refreshes the underlying animation.
                         private void RefreshAnimation()
                         {
-                            animated.Animation = animationRose.GetForDirection(orientation);
+                            animated.Animation = animationRose != null ? animationRose.GetForDirection(orientation) : null;
                         }
 
                         /// <summary>
