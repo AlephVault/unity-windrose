@@ -85,8 +85,17 @@ namespace GameMeanMachine.Unity.WindRose
                         ///   Updates the current image. To be invoked, in different moments, by
                         ///     the different subclasses.
                         /// </summary>
-                        protected void Frame()
+                        private void Frame()
                         {
+                            // If no animation is set (i.e. null) or the animation
+                            // is empty, then do nothing.
+                            if (animation == null || animation.Sprites.Length == 0)
+                            {
+                                if (spriteRenderer.enabled) spriteRenderer.enabled = false;
+                                return;
+                            }
+                            if (!spriteRenderer.enabled) spriteRenderer.enabled = true;
+                            
                             currentTime += Time.deltaTime;
                             if (currentTime > frameInterval)
                             {

@@ -239,17 +239,17 @@ namespace GameMeanMachine.Unity.WindRose
                                             {
                                                 // The time of the truth: filling the images
                                                 Behaviours.SetObjectFieldValues(down, new Dictionary<string, object>() {
-                                                { "sprites", new Sprite[] { sortedSprites[1] } },
-                                            });
+                                                    { "sprites", new Sprite[] { sortedSprites[1] } },
+                                                });
                                                 Behaviours.SetObjectFieldValues(left, new Dictionary<string, object>() {
-                                                { "sprites", new Sprite[] { sortedSprites[4] } },
-                                            });
+                                                    { "sprites", new Sprite[] { sortedSprites[4] } },
+                                                });
                                                 Behaviours.SetObjectFieldValues(right, new Dictionary<string, object>() {
-                                                { "sprites", new Sprite[] { sortedSprites[7] } },
-                                            });
+                                                    { "sprites", new Sprite[] { sortedSprites[7] } },
+                                                });
                                                 Behaviours.SetObjectFieldValues(up, new Dictionary<string, object>() {
-                                                { "sprites", new Sprite[] { sortedSprites[10] } },
-                                            });
+                                                    { "sprites", new Sprite[] { sortedSprites[10] } },
+                                                });
                                                 break;
                                             }
                                         }
