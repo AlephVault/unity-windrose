@@ -32,22 +32,9 @@ namespace GameMeanMachine.Unity.WindRose
                             [SerializeField]
                             private StateType value;
 
-                            /// <summary>
-                            ///   The fallback to use, if value is null.
-                            /// </summary>
-                            [SerializeField]
-                            private string fallback;
-
                             private void Awake()
                             {
-                                if (value != null)
-                                {
-                                    GetComponent<MultiState<StateType>>().AddState(GetStateKey(), value);
-                                }
-                                else
-                                {
-                                    GetComponent<MultiState<StateType>>().AddFallback(GetStateKey(), fallback);
-                                }
+                                GetComponent<MultiState<StateType>>().AddState(GetStateKey(), value);
                             }
                         }
                     }

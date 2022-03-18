@@ -21,14 +21,6 @@ namespace GameMeanMachine.Unity.WindRose
                     ///       into account (e.g. cannot add a static multi while Animated is present, or
                     ///       cannot add rose-animated while animated multi is present,...).
                     ///   </para>
-                    ///   <para>
-                    ///     Fallbacks are another feature of our interest. Let's assume we have a character
-                    ///       main visual holding 2 states: standing, movement. We'd then create an "aura"
-                    ///       visual that would have only one single animation: standing. Our goal is to use
-                    ///       "standing" regardless what other visuals in the same object, or even the
-                    ///       object key, is telling to: for that purpose, this visual would have just one
-                    ///       animation at "standing" key, and a fallback "movement" -> "standing".
-                    ///   </para>
                     /// </summary>
                     public abstract class MultiState<StateType> : VisualBehaviour
                     {
@@ -51,10 +43,7 @@ namespace GameMeanMachine.Unity.WindRose
 
                         // All the registered states
                         private Dictionary<string, StateType> states = new Dictionary<string, StateType>();
-
-                        // All the fallbacks
-                        private Dictionary<string, string> fallbacks = new Dictionary<string, string>();
-
+                        
                         /***************** Identity *****************/
 
                         // The map object it is tied to
@@ -78,7 +67,7 @@ namespace GameMeanMachine.Unity.WindRose
                         // Uses the appropriate state being selected. If something goes wrong,
                         //   the exception will be absorbed, a warning will be issued, and
                         //   the idle state will be set.
-                        private void RefreshState(bool allowFallback = true)
+                        private void RefreshState()
                         {
                             try
                             {
@@ -86,11 +75,6 @@ namespace GameMeanMachine.Unity.WindRose
                                 if (states.TryGetValue(selectedKey, out state))
                                 {
                                     UseState(state);
-                                }
-                                else if (allowFallback)
-                                {
-                                    selectedKey = fallbacks[selectedKey];
-                                    RefreshState(false);
                                 }
                             }
                             catch (KeyNotFoundException)
@@ -148,20 +132,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 RefreshState();
                             }
                         }
-
-                        /// <summary>
-                        ///   Adds a fallback value, so when a state is not found given a source key, a
-                        ///     destination key will be used instead.
-                        /// </summary>
-                        public void AddFallback(string key, string fallback)
-                        {
-                            if (fallbacks.ContainsKey(key))
-                            {
-                                throw new Exception("state key for fallback already in use: " + key);
-                            }
-                            fallbacks[key] = fallback;
-                        }
-
+                        
                         // Updates the currently selected key
                         private void OnSelectedKeyChanged(string newKey)
                         {
