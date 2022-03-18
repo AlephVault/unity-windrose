@@ -69,7 +69,7 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             currentTime = 0;
                             currentAnimationIndex = 0;
-                            frameInterval = (animation.FPS != 0) ? 1.0f / animation.FPS : float.MaxValue;
+                            frameInterval = animation != null ? (animation.FPS != 0) ? 1.0f / animation.FPS : float.MaxValue : 0;
                         }
 
                         /// <summary>

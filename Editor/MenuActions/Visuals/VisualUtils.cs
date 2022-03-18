@@ -25,7 +25,7 @@ namespace GameMeanMachine.Unity.WindRose
             {
                 private class CreateVisualWindow : EditorWindow
                 {
-                    private static int[] visualTypes = new int[] { 0, 1, 2, 3, 4, 5 };
+                    private static int[] visualTypes = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
                     private static string[] visualTypeLabels = new string[] {
                         "Static (Visual - Using Sprite)",
                         string.Format("Animated (Visual, Animated - Using {0})", typeof(Animation).FullName),
