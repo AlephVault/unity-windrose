@@ -105,7 +105,15 @@ namespace GameMeanMachine.Unity.WindRose
                                             LayoutTileStrategy layoutTileStrategy = BundledTile.GetStrategyFrom<LayoutTileStrategy>(tile);
                                             if (layoutTileStrategy)
                                             {
-                                                blocks = layoutTileStrategy.Blocks;
+                                                switch (layoutTileStrategy.Blocks)
+                                                {
+                                                    case BlockType.Block:
+                                                        blocks = true;
+                                                        break;
+                                                    case BlockType.Release:
+                                                        blocks = false;
+                                                        break;
+                                                }
                                             }
                                         }
                                         blockMask.SetCell(x, y, blocks);

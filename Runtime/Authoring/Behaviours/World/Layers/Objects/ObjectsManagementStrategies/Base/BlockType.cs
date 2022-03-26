@@ -34,6 +34,34 @@ namespace GameMeanMachine.Unity.WindRose
                                     /// </summary>
                                     Block
                                 }
+                                
+                                /// <summary>
+                                ///   Some extension methods for the BlockType.
+                                /// </summary>
+                                public static class BlockTypeExtensions
+                                {
+                                    /// <summary>
+                                    ///   Merges two block types to the strongest condition
+                                    ///   of both (Block > Release > LeaveUnchanged).
+                                    /// </summary>
+                                    /// <param name="type1">The first value to merge</param>
+                                    /// <param name="type2">The second value to merge</param>
+                                    /// <returns>The result</returns>
+                                    public static BlockType Or(this BlockType type1, BlockType type2)
+                                    {
+                                        if (type1 == BlockType.Block || type2 == BlockType.Block)
+                                        {
+                                            return BlockType.Block;
+                                        }
+
+                                        if (type1 == BlockType.Release || type2 == BlockType.Release)
+                                        {
+                                            return BlockType.Release;
+                                        }
+
+                                        return BlockType.LeaveUnchanged;
+                                    }
+                                }
                             }
                         }
                     }
