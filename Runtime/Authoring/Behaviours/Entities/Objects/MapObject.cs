@@ -53,12 +53,7 @@ namespace GameMeanMachine.Unity.WindRose
                     
                     // Whether it is told to be destroyed or not.
                     private bool destroyed = false;
-
-                    // Whether it was moving in the previous state
-                    // or not. This is used to set the idle state
-                    // only once.
-                    private bool wasMoving = false;
-
+                    
                     private void Awake()
                     {
                         // Cleans the initial value of mainVisual
@@ -547,16 +542,15 @@ namespace GameMeanMachine.Unity.WindRose
                         }
                         else
                         {
-                            // Using this wasMoving flag is useful, so this
-                            // test occurs only once: when it was previously
-                            // moving, actually.
-                            if (wasMoving) CurrentStateKey = "";
+                            // In this case, the object is NOT moving.
+                            // So, if the state key is MOVING_STATE then
+                            // now the state key must be IDLE instead.
+                            if (currentStateKey == MOVING_STATE) CurrentStateKey = "";
                         }
 
                         // We clean up the last commanded movement, so future frames
                         //   do not interpret this command as a must, since it expired.
                         CommandedMovement = null;
-                        wasMoving = IsMoving;
                     }
 
                     /// <summary>
