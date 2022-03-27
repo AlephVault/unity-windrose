@@ -57,21 +57,21 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             uint fps = 4;
                             Behaviours.SetObjectFieldValues(down, new Dictionary<string, object>() {
-                            { "fps", fps },
-                            { "sprites", new Sprite[4] },
-                        });
+                                { "fps", fps },
+                                { "sprites", new Sprite[4] },
+                            });
                             Behaviours.SetObjectFieldValues(left, new Dictionary<string, object>() {
-                            { "fps", fps },
-                            { "sprites", new Sprite[4] },
-                        });
+                                { "fps", fps },
+                                { "sprites", new Sprite[4] },
+                            });
                             Behaviours.SetObjectFieldValues(right, new Dictionary<string, object>() {
-                            { "fps", fps },
-                            { "sprites", new Sprite[4] },
-                        });
+                                { "fps", fps },
+                                { "sprites", new Sprite[4] },
+                            });
                             Behaviours.SetObjectFieldValues(up, new Dictionary<string, object>() {
-                            { "fps", fps },
-                            { "sprites", new Sprite[4] },
-                        });
+                                { "fps", fps },
+                                { "sprites", new Sprite[4] },
+                            });
 
                             string title = "Do you want to fill the animations' sprites?";
                             string message = "You can select a character spritesheet of 12 sprites to fill this animation rose. If you don't, you will have to fill the animation manually later.\n\n" +
@@ -164,21 +164,21 @@ namespace GameMeanMachine.Unity.WindRose
                             uint fps = 1;
                             // The time of the truth: filling the images
                             Behaviours.SetObjectFieldValues(down, new Dictionary<string, object>() {
-                            { "fps", fps },
-                            { "sprites", new Sprite[1] },
-                        });
+                                { "fps", fps },
+                                { "sprites", new Sprite[1] },
+                            });
                             Behaviours.SetObjectFieldValues(left, new Dictionary<string, object>() {
-                            { "fps", fps },
-                            { "sprites", new Sprite[1] },
-                        });
+                                { "fps", fps },
+                                { "sprites", new Sprite[1] },
+                            });
                             Behaviours.SetObjectFieldValues(right, new Dictionary<string, object>() {
-                            { "fps", fps },
-                            { "sprites", new Sprite[1] },
-                        });
+                                { "fps", fps },
+                                { "sprites", new Sprite[1] },
+                            });
                             Behaviours.SetObjectFieldValues(up, new Dictionary<string, object>() {
-                            { "fps", fps },
-                            { "sprites", new Sprite[1] },
-                        });
+                                { "fps", fps },
+                                { "sprites", new Sprite[1] },
+                            });
 
                             string title = "Do you want to fill the animations' sprites?";
                             string message = "You can select a character spritesheet of 12 sprites to fill this animation rose. If you don't, you will have to fill the animation manually later.\n\n" +

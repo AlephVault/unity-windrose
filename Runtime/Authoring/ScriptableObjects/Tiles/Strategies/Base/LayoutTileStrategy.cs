@@ -1,6 +1,9 @@
 ﻿using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.World.Layers.Objects.ObjectsManagementStrategies.Base;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using System;
+using UnityEditor;
+#endif
 
 namespace GameMeanMachine.Unity.WindRose
 {
@@ -156,106 +159,6 @@ namespace GameMeanMachine.Unity.WindRose
                                                    .Or(blocksLeftEntry).Or(blocksRightEntry)
                                                    .Or(blocksDownExit).Or(blocksUpExit)
                                                    .Or(blocksLeftExit).Or(blocksRightExit);
-                                        default:
-                                            return BlockType.LeaveUnchanged;
-                                    }
-                                }
-                            }
-
-                            /// <summary>
-                            ///   Tells a custom-enter or custom-symmetric block setting
-                            ///   for this tile. Typically, the setting comes from a convergence
-                            ///   of the enter and exit modes, or taking only taking the enter
-                            ///   mode. This only applies for the down direction.
-                            /// </summary>
-                            public BlockType BlocksDown
-                            {
-                                get
-                                {
-                                    switch (blockMode)
-                                    {
-                                        case BlockMode.Standard:
-                                            return blocks ? BlockType.Block : BlockType.Release;
-                                        case BlockMode.CustomEnter:
-                                        case BlockMode.CustomSymmetric:
-                                            return blocksDownEntry;
-                                        case BlockMode.Custom:
-                                            return blocksDownEntry.Or(blocksDownExit);
-                                        default:
-                                            return BlockType.LeaveUnchanged;
-                                    }
-                                }
-                            }
-
-                            /// <summary>
-                            ///   Tells a custom-enter or custom-symmetric block setting
-                            ///   for this tile. Typically, the setting comes from a convergence
-                            ///   of the enter and exit modes, or taking only taking the enter
-                            ///   mode. This only applies for the left direction.
-                            /// </summary>
-                            public BlockType BlocksLeft
-                            {
-                                get
-                                {
-                                    switch (blockMode)
-                                    {
-                                        case BlockMode.Standard:
-                                            return blocks ? BlockType.Block : BlockType.Release;
-                                        case BlockMode.CustomEnter:
-                                        case BlockMode.CustomSymmetric:
-                                            return blocksLeftEntry;
-                                        case BlockMode.Custom:
-                                            return blocksLeftEntry.Or(blocksLeftExit);
-                                        default:
-                                            return BlockType.LeaveUnchanged;
-                                    }
-                                }
-                            }
-                            
-                            /// <summary>
-                            ///   Tells a custom-enter or custom-symmetric block setting
-                            ///   for this tile. Typically, the setting comes from a convergence
-                            ///   of the enter and exit modes, or taking only taking the enter
-                            ///   mode. This only applies for the right direction.
-                            /// </summary>
-                            public BlockType BlocksRight
-                            {
-                                get
-                                {
-                                    switch (blockMode)
-                                    {
-                                        case BlockMode.Standard:
-                                            return blocks ? BlockType.Block : BlockType.Release;
-                                        case BlockMode.CustomEnter:
-                                        case BlockMode.CustomSymmetric:
-                                            return blocksRightEntry;
-                                        case BlockMode.Custom:
-                                            return blocksRightEntry.Or(blocksRightExit);
-                                        default:
-                                            return BlockType.LeaveUnchanged;
-                                    }
-                                }
-                            }
-                            
-                            /// <summary>
-                            ///   Tells a custom-enter or custom-symmetric block setting
-                            ///   for this tile. Typically, the setting comes from a convergence
-                            ///   of the enter and exit modes, or taking only taking the enter
-                            ///   mode. This only applies for the Up direction.
-                            /// </summary>
-                            public BlockType BlocksUp
-                            {
-                                get
-                                {
-                                    switch (blockMode)
-                                    {
-                                        case BlockMode.Standard:
-                                            return blocks ? BlockType.Block : BlockType.Release;
-                                        case BlockMode.CustomEnter:
-                                        case BlockMode.CustomSymmetric:
-                                            return blocksUpEntry;
-                                        case BlockMode.Custom:
-                                            return blocksUpEntry.Or(blocksUpExit);
                                         default:
                                             return BlockType.LeaveUnchanged;
                                     }
@@ -448,6 +351,72 @@ namespace GameMeanMachine.Unity.WindRose
                         }
                         
 #if UNITY_EDITOR
+                        [CustomEditor(typeof(LayoutTileStrategy))]
+                        public class LayoutTileStrategyEditor : Editor
+                        {
+                            private LayoutTileStrategy strategy => target as LayoutTileStrategy;
+                            SerializedProperty blockMode;
+                            SerializedProperty blocks;
+                            SerializedProperty blocksDownEntry;
+                            SerializedProperty blocksLeftEntry;
+                            SerializedProperty blocksRightEntry;
+                            SerializedProperty blocksUpEntry;
+                            SerializedProperty blocksDownExit;
+                            SerializedProperty blocksLeftExit;
+                            SerializedProperty blocksRightExit;
+                            SerializedProperty blocksUpExit;
+                            private BlockMode[] blockModeValues;
+
+                            private void OnEnable()
+                            {
+                                blockMode = serializedObject.FindProperty("blockMode");
+                                blockModeValues = Enum.GetValues(typeof(BlockMode)) as BlockMode[];
+                                blocks = serializedObject.FindProperty("blocks");
+                                blocksDownEntry = serializedObject.FindProperty("blocksDownEntry");
+                                blocksLeftEntry = serializedObject.FindProperty("blocksLeftEntry");
+                                blocksRightEntry = serializedObject.FindProperty("blocksRightEntry");
+                                blocksUpEntry = serializedObject.FindProperty("blocksUpEntry");
+                                blocksDownExit = serializedObject.FindProperty("blocksDownExit");
+                                blocksLeftExit = serializedObject.FindProperty("blocksLeftExit");
+                                blocksRightExit = serializedObject.FindProperty("blocksRightExit");
+                                blocksUpExit = serializedObject.FindProperty("blocksUpExit");
+                            }
+                            
+                            public override void OnInspectorGUI()
+                            {
+                                EditorGUILayout.PropertyField(blockMode);
+                                switch (blockModeValues[blockMode.enumValueIndex])
+                                {
+                                    case BlockMode.Standard:
+                                        EditorGUILayout.PropertyField(blocks);
+                                        break;
+                                    case BlockMode.CustomEnter:
+                                        EditorGUILayout.PropertyField(blocksDownEntry);
+                                        EditorGUILayout.PropertyField(blocksLeftEntry);
+                                        EditorGUILayout.PropertyField(blocksRightEntry);
+                                        EditorGUILayout.PropertyField(blocksUpEntry);
+                                        break;
+                                    case BlockMode.CustomSymmetric:
+                                        EditorGUILayout.PropertyField(blocksDownEntry, new GUIContent("Blocks Down"));
+                                        EditorGUILayout.PropertyField(blocksLeftEntry, new GUIContent("Blocks Left"));
+                                        EditorGUILayout.PropertyField(blocksRightEntry, new GUIContent("Blocks Right"));
+                                        EditorGUILayout.PropertyField(blocksUpEntry, new GUIContent("Blocks Up"));
+                                        break;
+                                    case BlockMode.Custom:
+                                        EditorGUILayout.PropertyField(blocksDownEntry);
+                                        EditorGUILayout.PropertyField(blocksLeftEntry);
+                                        EditorGUILayout.PropertyField(blocksRightEntry);
+                                        EditorGUILayout.PropertyField(blocksUpEntry);
+                                        EditorGUILayout.PropertyField(blocksDownExit);
+                                        EditorGUILayout.PropertyField(blocksLeftExit);
+                                        EditorGUILayout.PropertyField(blocksRightExit);
+                                        EditorGUILayout.PropertyField(blocksUpExit);
+                                        break;
+                                }
+                                
+                                serializedObject.ApplyModifiedProperties();
+                            }
+                        }
 #endif
                     }
                 }
