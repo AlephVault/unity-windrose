@@ -38,7 +38,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 /// <summary>
                                 ///   Some extension methods for the BlockType.
                                 /// </summary>
-                                public static class BlockTypeExtensions
+                                public static class BlockTypeMethods
                                 {
                                     /// <summary>
                                     ///   Merges two block types to the strongest condition

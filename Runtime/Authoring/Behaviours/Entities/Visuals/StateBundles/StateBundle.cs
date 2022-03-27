@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GameMeanMachine.Unity.WindRose.Types;
 using UnityEngine;
 
 namespace GameMeanMachine.Unity.WindRose
@@ -21,10 +22,10 @@ namespace GameMeanMachine.Unity.WindRose
                         public abstract class StateBundle<StateType> : MonoBehaviour where StateType : class
                         {
                             /// <summary>
-                            ///   The state key to use - fixed per subclass.
+                            ///   The state to use - fixed per subclass.
                             /// </summary>
                             /// <returns>The state key to use</returns>
-                            protected abstract string GetStateKey();
+                            protected abstract State GetState();
 
                             /// <summary>
                             ///   The state value to use.
@@ -34,7 +35,7 @@ namespace GameMeanMachine.Unity.WindRose
 
                             private void Awake()
                             {
-                                GetComponent<MultiState<StateType>>().AddState(GetStateKey(), value);
+                                GetComponent<MultiState<StateType>>().AddState(GetState(), value);
                             }
                         }
                     }

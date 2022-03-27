@@ -22,7 +22,12 @@ namespace GameMeanMachine.Unity.WindRose
                 stateName = state;
             }
 
-            public State Get(string state)
+            public override string ToString()
+            {
+                return stateName;
+            }
+
+            public static State Get(string state)
             {
                 if (states.TryGetValue(state, out WeakReference<State> value) && value.TryGetTarget(out State target))
                 {

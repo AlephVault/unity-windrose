@@ -132,7 +132,7 @@ namespace GameMeanMachine.Unity.WindRose
                         if (Application.isPlaying)
                         {
                             InitVisuals();
-                            onStateKeyChanged.Invoke(currentStateKey);
+                            OnStateChanged.Invoke(currentState);
                         }
                     }
 
@@ -329,9 +329,14 @@ namespace GameMeanMachine.Unity.WindRose
                     public Direction? Movement { get { return (parentMap != null) ? parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).Movement : null; } }
 
                     /// <summary>
-                    ///   The default state key provided for movement state.
+                    ///   The default state provided for movement state.
                     /// </summary>
-                    public const string MOVING_STATE = "moving";
+                    public static readonly State MOVING_STATE = State.Get("moving");
+
+                    /// <summary>
+                    ///   The default state provided for idle state.
+                    /// </summary>
+                    public static readonly State IDLE_STATE = State.Get("");
 
                     // Origin and target of movement. This has to do with the min/max values
                     //   of Snapped, but specified for the intended movement.
@@ -361,16 +366,7 @@ namespace GameMeanMachine.Unity.WindRose
                     ///   current movement in the underlying map object.
                     /// </summary>
                     public bool IsMoving { get { return Movement != null; } }
-
-                    /// <summary>
-                    ///   Sets the current state to the movement state registered
-                    ///   in this component.
-                    /// </summary>
-                    public void SetMovingState()
-                    {
-                        CurrentStateKey = MOVING_STATE;
-                    }
-
+                    
                     /// <summary>
                     ///   Event that triggers when the object starts moving.
                     /// </summary>
@@ -420,7 +416,7 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             origin = new Vector3(X * GetCellWidth(), Y * GetCellHeight(), transform.localPosition.z);
                             target = origin + VectorForCurrentDirection();
-                            SetMovingState();
+                            CurrentState = MOVING_STATE;
                             return true;
                         }
                         else
@@ -538,14 +534,14 @@ namespace GameMeanMachine.Unity.WindRose
                             StartMovement(CommandedMovement.Value);
                             origin = transform.localPosition;
                             target = origin + VectorForCurrentDirection();
-                            SetMovingState();
+                            CurrentState = MOVING_STATE;
                         }
                         else
                         {
                             // In this case, the object is NOT moving.
                             // So, if the state key is MOVING_STATE then
                             // now the state key must be IDLE instead.
-                            if (currentStateKey == MOVING_STATE) CurrentStateKey = "";
+                            if (currentState == MOVING_STATE) CurrentState = IDLE_STATE;
                         }
 
                         // We clean up the last commanded movement, so future frames
@@ -580,35 +576,35 @@ namespace GameMeanMachine.Unity.WindRose
 
                     #region Stateful
                     /// <summary>
-                    ///   This event notifies state-property changes.
+                    ///   This event notifies state property changes.
                     /// </summary>
                     [Serializable]
-                    public class StateKeyEvent : UnityEvent<string> { }
+                    public class StateEvent : UnityEvent<State> { }
 
                     /// <summary>
-                    ///   Notofies when the state key property changes.
+                    ///   Notifies when the state property changes.
                     /// </summary>
-                    public readonly StateKeyEvent onStateKeyChanged = new StateKeyEvent();
+                    public readonly StateEvent OnStateChanged = new StateEvent();
 
                     // Keeps the current selected state, if any.
-                    private string currentStateKey = "";
+                    private State currentState = IDLE_STATE;
 
                     /// <summary>
                     ///   Gets or sets the selected state key. Notifies the interested
                     ///     behaviours of the key change. By default, the state is an
                     ///     empty string (which means: not moving).
                     /// </summary>
-                    public string CurrentStateKey
+                    public State CurrentState
                     {
                         get
                         {
-                            return currentStateKey;
+                            return currentState;
                         }
                         set
                         {
                             if (Paused) return;
-                            currentStateKey = value;
-                            onStateKeyChanged.Invoke(currentStateKey);
+                            currentState = value;
+                            OnStateChanged.Invoke(currentState);
                         }
                     }
                     #endregion

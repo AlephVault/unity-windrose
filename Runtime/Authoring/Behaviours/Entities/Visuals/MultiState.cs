@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using GameMeanMachine.Unity.WindRose.Types;
 using UnityEngine;
 
 namespace GameMeanMachine.Unity.WindRose
@@ -26,10 +28,8 @@ namespace GameMeanMachine.Unity.WindRose
                     {
                         /***************** Core data elements *****************/
 
-                        /// <summary>
-                        ///   The default state key.
-                        /// </summary>
-                        public const string IDLE = "";
+                        // The default (idle) state.
+                        private static readonly State IDLE_STATE = State.Get("");
 
                         /// <summary>
                         ///   Tells when an error is raised inside multi-state component methods.
@@ -42,7 +42,7 @@ namespace GameMeanMachine.Unity.WindRose
                         }
 
                         // All the registered states
-                        private Dictionary<string, StateType> states = new Dictionary<string, StateType>();
+                        private Dictionary<State, StateType> states = new Dictionary<State, StateType>();
                         
                         /***************** Identity *****************/
 
@@ -59,10 +59,10 @@ namespace GameMeanMachine.Unity.WindRose
                         private StateType idleState;
 
                         /// <summary>
-                        ///   The key of the state being rendered. It will be grabbed from
+                        ///   The state being rendered. It will be grabbed from
                         ///     the <see cref="Objects.MapObject"/> component.
                         /// </summary>
-                        private string selectedKey = IDLE;
+                        private State selectedState = IDLE_STATE;
 
                         // Uses the appropriate state being selected. If something goes wrong,
                         //   the exception will be absorbed, a warning will be issued, and
@@ -72,7 +72,7 @@ namespace GameMeanMachine.Unity.WindRose
                             try
                             {
                                 StateType state;
-                                if (states.TryGetValue(selectedKey, out state))
+                                if (states.TryGetValue(selectedState, out state))
                                 {
                                     UseState(state);
                                 }
@@ -80,7 +80,7 @@ namespace GameMeanMachine.Unity.WindRose
                             catch (KeyNotFoundException)
                             {
                                 // Key IDLE will always be available
-                                selectedKey = IDLE;
+                                selectedState = IDLE_STATE;
                             }
                         }
 
@@ -91,7 +91,7 @@ namespace GameMeanMachine.Unity.WindRose
                         /// </summary>
                         /// <param name="state">The state to check</param>
                         /// <returns>Whether it is defined or not in this object</returns>
-                        public bool HasState(string state)
+                        public bool HasState(State state)
                         {
                             return states.ContainsKey(state);
                         }
@@ -100,17 +100,17 @@ namespace GameMeanMachine.Unity.WindRose
                         ///   Registers an state under a key. This is usually done when initializing
                         ///     other components (e.g. moving components).
                         /// </summary>
-                        /// <param name="key">The key to use</param>
-                        /// <param name="state">The state to register</param>
-                        public void AddState(string key, StateType state)
+                        /// <param name="state">The state to use</param>
+                        /// <param name="stateValue">The value to register</param>
+                        public void AddState(State state, StateType stateValue)
                         {
-                            if (states.ContainsKey(key))
+                            if (states.ContainsKey(state))
                             {
-                                throw new Exception("State key already in use: " + key);
+                                throw new Exception("State already in use: " + state);
                             }
                             else
                             {
-                                states.Add(key, state);
+                                states.Add(state, stateValue);
                             }
                         }
 
@@ -118,27 +118,27 @@ namespace GameMeanMachine.Unity.WindRose
                         ///   Replaces an existing state with a new one. This is run at run-time
                         ///     and will require the state being replaced to exist, or fail otherwise.
                         /// </summary>
-                        /// <param name="key">The key of the state being replaced</param>
-                        /// <param name="state">The new state to use</param>
-                        public void ReplaceState(string key, StateType state)
+                        /// <param name="state">The state being replaced</param>
+                        /// <param name="stateValue">The new state to use</param>
+                        public void ReplaceState(State state, StateType stateValue)
                         {
-                            if (!states.ContainsKey(key))
+                            if (!states.ContainsKey(state))
                             {
-                                throw new Exception("State key does not exist: " + key);
+                                throw new Exception("State key does not exist: " + state);
                             }
                             else
                             {
-                                states[key] = state;
+                                states[state] = stateValue;
                                 RefreshState();
                             }
                         }
                         
                         // Updates the currently selected key
-                        private void OnSelectedKeyChanged(string newKey)
+                        private void OnSelectedKeyChanged(State newKey)
                         {
-                            if (newKey != selectedKey)
+                            if (newKey != selectedState)
                             {
-                                selectedKey = newKey;
+                                selectedState = newKey;
                                 RefreshState();
                             }
                         }
@@ -149,7 +149,7 @@ namespace GameMeanMachine.Unity.WindRose
                             mapObject = visual.RelatedObject;
                             if (mapObject)
                             {
-                                mapObject.onStateKeyChanged.AddListener(OnSelectedKeyChanged);
+                                mapObject.OnStateChanged.AddListener(OnSelectedKeyChanged);
                             }
                         }
 
@@ -158,7 +158,7 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             if (mapObject)
                             {
-                                mapObject.onStateKeyChanged.RemoveListener(OnSelectedKeyChanged);
+                                mapObject.OnStateChanged.RemoveListener(OnSelectedKeyChanged);
                             }
                             mapObject = null;
                         }
@@ -167,7 +167,7 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             base.Awake();
                             // Ensures at least the idle state exists
-                            AddState(IDLE, idleState);
+                            AddState(IDLE_STATE, idleState);
                         }
                     }
                 }

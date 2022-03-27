@@ -1,4 +1,6 @@
-﻿namespace GameMeanMachine.Unity.WindRose
+﻿using GameMeanMachine.Unity.WindRose.Types;
+
+namespace GameMeanMachine.Unity.WindRose
 {
     namespace Authoring
     {
@@ -14,9 +16,12 @@
                         {
                             public class MovingSpriteBundle : SpriteBundle
                             {
-                                protected override string GetStateKey()
+                                // The moving state.
+                                private static readonly State MOVING_STATE = State.Get("moving");
+
+                                protected override State GetState()
                                 {
-                                    return "moving";
+                                    return MOVING_STATE;
                                 }
                             }
                         }
