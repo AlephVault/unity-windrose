@@ -25,10 +25,10 @@ namespace GameMeanMachine.Unity.WindRose
                     ///     added on top of this one.
                     /// </summary>
                     [RequireComponent(typeof(Common.Pausable))]
-                    [RequireComponent(typeof(SpriteRenderer))]
+                    [RequireComponent(typeof(Renderer))]
                     public class Visual : MonoBehaviour
                     {
-                        private SpriteRenderer renderer;
+                        private Renderer renderer;
 
                         /// <summary>
                         ///   Tells whether this visual is the main visual of an
@@ -69,6 +69,11 @@ namespace GameMeanMachine.Unity.WindRose
                         ///   See <see cref="relatedObject"/>.
                         /// </summary>
                         public Objects.MapObject RelatedObject { get { return relatedObject; } }
+
+                        /// <summary>
+                        ///   An optional offset to its related object.
+                        /// </summary>
+                        public Vector3 RelatedObjectOffset;
 
                         /// <summary>
                         ///   Tracks the current status of the visibility.
@@ -140,17 +145,17 @@ namespace GameMeanMachine.Unity.WindRose
                                 {
                                     renderer.enabled = true;
                                     Resort();
-                                    foreach (VisualBehaviour behavioir in GetComponents<VisualBehaviour>())
+                                    foreach (VisualBehaviour behaviour in GetComponents<VisualBehaviour>())
                                     {
-                                        behavioir.enabled = true;
+                                        behaviour.enabled = true;
                                     }
                                 }
                                 else
                                 {
                                     renderer.enabled = false;
-                                    foreach (VisualBehaviour behavioir in GetComponents<VisualBehaviour>())
+                                    foreach (VisualBehaviour behaviour in GetComponents<VisualBehaviour>())
                                     {
-                                        behavioir.enabled = false;
+                                        behaviour.enabled = false;
                                     }
                                 }
                             }
@@ -164,7 +169,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 // give sorting order just by Y position, and give perspective layer according to level
                                 transform.SetParent(relatedObject.ParentMap.VisualsLayer[level].transform);
                                 transform.localRotation = Quaternion.identity;
-                                renderer.sortingOrder = (int)(relatedObject.ParentMap.Height - relatedObject.Y - 1);
+                                renderer.sortingOrder = relatedObject.ParentMap.Height - relatedObject.Y - 1;
                             }
                         }
 
@@ -174,7 +179,7 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             if (visibilityEnabled)
                             {
-                                transform.localPosition = relatedObject.transform.localPosition;
+                                transform.localPosition = relatedObject.transform.localPosition + RelatedObjectOffset;
                                 foreach (VisualBehaviour behaviour in visualBehaviours)
                                 {
                                     behaviour.DoUpdate();
@@ -194,12 +199,12 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             relatedObject = transform.parent ? transform.parent.GetComponent<Objects.MapObject>() : null;
                             if (relatedObject.MainVisual == this) IsMain = true;
-                            renderer = GetComponent<SpriteRenderer>();
+                            renderer = GetComponent<Renderer>();
                             UpdateVisibilityStatus();
-                            Animated animated = GetComponent<Animated>();
-                            RoseAnimated roseAnimated = GetComponent<RoseAnimated>();
-                            if (animated) visualBehaviours.Add(animated);
-                            if (roseAnimated) visualBehaviours.Add(roseAnimated);
+                            foreach (VisualBehaviour behaviour in GetComponents<VisualBehaviour>())
+                            {
+                                visualBehaviours.Add(behaviour);
+                            }
                         }
 
                         /// <summary>

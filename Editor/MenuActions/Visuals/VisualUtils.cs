@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -63,21 +64,16 @@ namespace GameMeanMachine.Unity.WindRose
                         visualType = EditorGUILayout.IntPopup(visualType, visualTypeLabels, visualTypes);
                         visualLevel = (ushort)Values.Clamp(0, EditorGUILayout.IntField("Level [1 to 32767]", visualLevel), (1 << 15) - 1);
 
-                        if (visualType >= 3)
+                        if (visualType >= 4)
                         {
-                            // Visual bundles.
-
                             EditorGUILayout.LabelField("While the Multi-State behaviours already provide a setting for idle state display, more state bundles can be added to support states in standard behaviours:", longLabelStyle);
                             addMovingBundle = EditorGUILayout.ToggleLeft("Moving (e.g. for walking characters)", addMovingBundle);
-                            minSize = new Vector2(689, 186);
-                        }
-                        else {
-                            minSize = new Vector2(689, 138);
                         }
 
+                        bool execute = GUILayout.Button("Create Visual");
                         EditorGUILayout.EndVertical();
-
-                        if (GUILayout.Button("Create Visual")) Execute();
+                        
+                        if (execute) Execute();
                     }
 
                     private void Execute()

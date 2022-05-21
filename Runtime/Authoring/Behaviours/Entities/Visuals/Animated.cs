@@ -13,6 +13,7 @@ namespace GameMeanMachine.Unity.WindRose
                     /// <summary>
                     ///   Handles the object's ability to animate, given a sequence of sprites.
                     /// </summary>
+                    [RequireComponent(typeof(SpriteRenderer))]
                     public class Animated : VisualBehaviour, Common.Pausable.IPausable
                     {
                         private SpriteRenderer spriteRenderer;

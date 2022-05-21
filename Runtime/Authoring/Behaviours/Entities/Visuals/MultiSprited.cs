@@ -18,6 +18,7 @@ namespace GameMeanMachine.Unity.WindRose
                     ///     give them the state in form of assigned sprite. This behaviour
                     ///     is incompatible with <see cref="Animated"/> or <see cref="RoseAnimated"/>.
                     /// </summary>
+                    [RequireComponent(typeof(SpriteRenderer))]
                     public class MultiSprited : MultiState<Sprite>
                     {
                         private SpriteRenderer renderer;

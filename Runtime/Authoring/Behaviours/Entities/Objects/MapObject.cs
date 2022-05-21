@@ -859,7 +859,7 @@ namespace GameMeanMachine.Unity.WindRose
                     // Attaches all the visuals that are direct children.
                     private void InitVisuals()
                     {
-                        foreach (Visuals.Visual visual in GetChildVisuals())
+                        foreach (Visuals.Visual visual in GetChildVisuals().ToArray())
                         {
                             AddVisual(visual);
                             visual.DoStart();

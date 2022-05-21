@@ -16,6 +16,7 @@ namespace GameMeanMachine.Unity.WindRose
                     ///     fetched sprite will be given to its related <see cref="SpriteRenderer"/>
                     ///     component.
                     /// </summary>
+                    [RequireComponent(typeof(SpriteRenderer))]
                     public class RoseSprited : VisualBehaviour
                     {
                         private SpriteRenderer spriteRenderer;

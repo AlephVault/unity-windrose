@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -43,10 +44,7 @@ namespace GameMeanMachine.Unity.WindRose
                     {
                         GUIStyle longLabelStyle = MenuActionUtils.GetSingleLabelStyle();
                         GUIStyle indentedStyle = MenuActionUtils.GetIndentedStyle();
-
-                        minSize = new Vector2(643, 250);
-                        // maxSize = new Vector2(643, 300);
-
+                        
                         // General settings start here.
 
                         Rect contentRect = EditorGUILayout.BeginVertical();
@@ -86,9 +84,17 @@ namespace GameMeanMachine.Unity.WindRose
                         if (GUILayout.Button("Create Object")) Execute();
                         EditorGUILayout.EndVertical();
 
-                        if (contentRect.size != Vector2.zero)
+                        try
                         {
-                            minSize = contentRect.max + contentRect.min;
+                            float height = (contentRect.max - contentRect.min).y + 8;
+                            if (height > 8)
+                            {
+                                minSize = new Vector2(minSize.x, height);
+                                maxSize = minSize;
+                            }
+                        }
+                        catch (Exception e)
+                        {
                         }
                     }
 
@@ -168,7 +174,8 @@ namespace GameMeanMachine.Unity.WindRose
                 {
                     CreateObjectWindow window = ScriptableObject.CreateInstance<CreateObjectWindow>();
                     window.position = new Rect(60, 180, 700, 468);
-                    window.minSize = new Vector2(700, 244);
+                    window.minSize = new Vector2(700, 215);
+                    window.maxSize = window.minSize;
                     window.selectedTransform = Selection.activeTransform;
                     // window.position = new Rect(new Vector2(57, 336), new Vector2(689, 138));
                     window.ShowUtility();

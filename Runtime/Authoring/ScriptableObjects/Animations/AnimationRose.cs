@@ -53,7 +53,7 @@ namespace GameMeanMachine.Unity.WindRose
                     [MenuItem("Assets/Create/Wind Rose/Visual Resources/Animation Rose (with Moving animations)")]
                     public static void CreateMovingInstanceWithChildSpecs()
                     {
-                        CreateInstanceWithChildSpecs(delegate (string path, AnimationRose rose, Animation down, Animation left, Animation right, Animation up)
+                        CreateInstanceWithChildSpecs("Moving", delegate (string path, AnimationRose rose, Animation down, Animation left, Animation right, Animation up)
                         {
                             uint fps = 4;
                             Behaviours.SetObjectFieldValues(down, new Dictionary<string, object>() {
@@ -159,7 +159,7 @@ namespace GameMeanMachine.Unity.WindRose
                     [MenuItem("Assets/Create/Wind Rose/Visual Resources/Animation Rose (with Staying animations)")]
                     public static void CreateStayingInstanceWithChildSpecs()
                     {
-                        CreateInstanceWithChildSpecs(delegate (string path, AnimationRose rose, Animation down, Animation left, Animation right, Animation up)
+                        CreateInstanceWithChildSpecs("Staying", delegate (string path, AnimationRose rose, Animation down, Animation left, Animation right, Animation up)
                         {
                             uint fps = 1;
                             // The time of the truth: filling the images
@@ -266,12 +266,12 @@ namespace GameMeanMachine.Unity.WindRose
                     [MenuItem("Assets/Create/Wind Rose/Visual Resources/Animation Rose (with empty animations)")]
                     public static void CreateInstanceWithNoChildSpecs()
                     {
-                        CreateInstanceWithChildSpecs(delegate (string path, AnimationRose rose, Animation down, Animation left, Animation right, Animation up)
+                        CreateInstanceWithChildSpecs("", delegate (string path, AnimationRose rose, Animation down, Animation left, Animation right, Animation up)
                         {
                         });
                     }
 
-                    private static void CreateInstanceWithChildSpecs(AnimationRoseInitializationCallback callback)
+                    private static void CreateInstanceWithChildSpecs(string prefix, AnimationRoseInitializationCallback callback)
                     {
                         AnimationRose instance = CreateInstance<AnimationRose>();
                         Animation instanceUp = CreateInstance<Animation>();
@@ -297,11 +297,11 @@ namespace GameMeanMachine.Unity.WindRose
 
                         callback(newAssetPath, instance, instanceDown, instanceLeft, instanceRight, instanceUp);
 
-                        AssetDatabase.CreateAsset(instanceUp, Path.Combine(newAssetPath, "AnimationUp.asset"));
-                        AssetDatabase.CreateAsset(instanceDown, Path.Combine(newAssetPath, "AnimationDown.asset"));
-                        AssetDatabase.CreateAsset(instanceLeft, Path.Combine(newAssetPath, "AnimationLeft.asset"));
-                        AssetDatabase.CreateAsset(instanceRight, Path.Combine(newAssetPath, "AnimationRight.asset"));
-                        AssetDatabase.CreateAsset(instance, Path.Combine(newAssetPath, "AnimationRose.asset"));
+                        AssetDatabase.CreateAsset(instanceUp, Path.Combine(newAssetPath, $"Animation{prefix}Up.asset"));
+                        AssetDatabase.CreateAsset(instanceDown, Path.Combine(newAssetPath, $"Animation{prefix}Down.asset"));
+                        AssetDatabase.CreateAsset(instanceLeft, Path.Combine(newAssetPath, $"Animation{prefix}Left.asset"));
+                        AssetDatabase.CreateAsset(instanceRight, Path.Combine(newAssetPath, $"Animation{prefix}Right.asset"));
+                        AssetDatabase.CreateAsset(instance, Path.Combine(newAssetPath, $"Animation{prefix}Rose.asset"));
                     }
 #endif
 
