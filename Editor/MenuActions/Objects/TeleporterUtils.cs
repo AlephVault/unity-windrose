@@ -15,12 +15,13 @@ namespace GameMeanMachine.Unity.WindRose
             /// </summary>
             public static class TeleporterUtils
             {
-                private class CreateLocalTeleporterWindow : EditorWindow
+                private class CreateTeleporterWindow : EditorWindow
                 {
                     public Transform selectedTransform;
                     private string objectName = "New Teleporter";
                     private Vector2Int objectSize;
-                    private bool addTeleportTargetBehaviour = false;
+                    private bool addTeleportTargetBehaviour;
+                    private bool useTaggedSystem;
 
                     private void OnGUI()
                     {
@@ -38,6 +39,7 @@ namespace GameMeanMachine.Unity.WindRose
                         objectSize = new Vector2Int(Values.Clamp(1, objectSize.x, 32767), Values.Clamp(1, objectSize.y, 32767));
 
                         addTeleportTargetBehaviour = EditorGUILayout.ToggleLeft("This teleport will also be a target for other possible teleports", addTeleportTargetBehaviour);
+                        useTaggedSystem = EditorGUILayout.ToggleLeft("Use tagged teleports (useful for dynamic systems, but more prone to errors)", useTaggedSystem);
 
                         EditorGUILayout.LabelField("A target must be manually set for this teleporter. The target must have dimensions supporting the intended object(s) to be transferred.", captionLabelStyle);
 
@@ -53,26 +55,39 @@ namespace GameMeanMachine.Unity.WindRose
                             { "width", (ushort)objectSize.x },
                             { "height", (ushort)objectSize.y }
                         });
-                        AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.LocalTeleporter>(gameObject);
-                        if (addTeleportTargetBehaviour)
+                        if (!useTaggedSystem)
                         {
-                            AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.TeleportTarget>(gameObject);
+                            AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.SimpleTeleporter>(gameObject);
+                            if (addTeleportTargetBehaviour)
+                            {
+                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.SimpleTeleportTarget>(gameObject);
+                            }
+                        }
+                        else
+                        {
+                            AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.TaggedTeleporter>(gameObject);
+                            if (addTeleportTargetBehaviour)
+                            {
+                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.TaggedTeleportTarget>(gameObject);
+                            }
                         }
                         gameObject.SetActive(true);
-                        Undo.RegisterCreatedObjectUndo(gameObject, "Create Local Teleporter");
+                        Undo.RegisterCreatedObjectUndo(gameObject, "Create Teleporter");
                         Close();
                     }
                 }
 
                 /// <summary>
-                ///   This method is used in the menu action: GameObject > Wind Rose > Objects > Create Local Teleporter.
-                ///   It creates a <see cref="Behaviours.Entities.Objects.Teleport.LocalTeleporter"/> under the selected objects
-                ///     layer, in the scene editor.
+                ///   This method is used in the menu action: GameObject > Wind Rose > Objects > Create Teleporter.
+                ///   It creates a <see cref="Behaviours.Entities.Objects.Teleport.SimpleTeleporter"/> under the
+                ///   selected objects layer, in the scene editor. If appropriately flagged, it creates a tagged
+                ///   teleporter (instead of a simple one). The difference between both teleporters is that the
+                ///   simple teleporter directly references the target, while the tagged teleporter
                 /// </summary>
-                [MenuItem("GameObject/Wind Rose/Objects/Create Local Teleporter", false, 12)]
-                public static void CreateLocalTeleporter()
+                [MenuItem("GameObject/Wind Rose/Objects/Create Teleporter", false, 12)]
+                public static void CreateTeleporter()
                 {
-                    CreateLocalTeleporterWindow window = ScriptableObject.CreateInstance<CreateLocalTeleporterWindow>();
+                    CreateTeleporterWindow window = ScriptableObject.CreateInstance<CreateTeleporterWindow>();
                     window.position = new Rect(60, 180, 700, 468);
                     window.minSize = new Vector2(700, 196);
                     window.selectedTransform = Selection.activeTransform;
@@ -80,12 +95,12 @@ namespace GameMeanMachine.Unity.WindRose
                 }
 
                 /// <summary>
-                ///   Validates the menu item: GameObject > Wind Rose > Objects > Create Local Teleporter.
+                ///   Validates the menu item: GameObject > Wind Rose > Objects > Create Teleporter.
                 ///   It enables such menu option when an <see cref="Behaviours.World.Layers.Objects.ObjectsLayer"/>
                 ///     is selected in the scene editor.
                 /// </summary>
-                [MenuItem("GameObject/Wind Rose/Objects/Create Local Teleporter", true)]
-                public static bool CanCreateLocalTeleporter()
+                [MenuItem("GameObject/Wind Rose/Objects/Create Teleporter", true)]
+                public static bool CanCreateTeleporter()
                 {
                     return Selection.activeTransform && Selection.activeTransform.GetComponent<Authoring.Behaviours.World.Layers.Objects.ObjectsLayer>();
                 }

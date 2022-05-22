@@ -15,7 +15,7 @@ namespace GameMeanMachine.Unity.WindRose
                     ///   <para>
                     ///     A local teleporter will ensure that an object that enters
                     ///       (walks) into it, will be teleported to a related
-                    ///       <see cref="TeleportTarget"/>, located in the same
+                    ///       <see cref="SimpleTeleportTarget"/>, located in the same
                     ///       scene (perhaps in another map).
                     ///   </para>
                     ///   <para>
@@ -26,7 +26,7 @@ namespace GameMeanMachine.Unity.WindRose
                     ///   </para>
                     ///   <para>
                     ///     For two-sided teleporters, the object holding this component
-                    ///       may also hold <see cref="TeleportTarget"/>, and having
+                    ///       may also hold <see cref="SimpleTeleportTarget"/>, and having
                     ///       another object in similar conditions, they can specify
                     ///       each other's <see cref="Target"/> and so have a bidirectional
                     ///       path of teleportation.
@@ -34,17 +34,17 @@ namespace GameMeanMachine.Unity.WindRose
                     /// </summary>
                     /// <remarks>
                     ///   You may subclass this component to customize the
-                    ///     <see cref="CanTeleport(MapObject, TeleportTarget)"/> and
+                    ///     <see cref="CanTeleport(MapObject, SimpleTeleportTarget)"/> and
                     ///     <see cref="DoTeleport(Action)"/> methods if you want to run
                     ///     asynchronous code or add fade effects.
                     /// </remarks>
                     [RequireComponent(typeof(TriggerPlatform))]
-                    public class LocalTeleporter : MonoBehaviour
+                    public class SimpleTeleporter : MonoBehaviour
                     {
                         /// <summary>
                         ///   The end side of this teleport.
                         /// </summary>
-                        public TeleportTarget Target;
+                        public SimpleTeleportTarget Target;
 
                         // Use this for initialization
                         private void Start()
@@ -90,7 +90,7 @@ namespace GameMeanMachine.Unity.WindRose
                         /// <param name="objectToBeTeleported">The object intending to be teleported</param>
                         /// <param name="teleportTarget">The teleport target</param>
                         /// <returns>Whether the teleport can occur</returns>
-                        protected virtual bool CanTeleport(MapObject objectToBeTeleported, TeleportTarget teleportTarget)
+                        protected virtual bool CanTeleport(MapObject objectToBeTeleported, SimpleTeleportTarget teleportTarget)
                         {
                             return true;
                         }
@@ -100,7 +100,7 @@ namespace GameMeanMachine.Unity.WindRose
                          *   callback of a process that can be deferred by the user (DoTeleport). Also updates the camera appropriately,
                          *   if now using different providers.
                          */
-                        private void ObjectTeleportOperation(MapObject objectToBeTeleported, TeleportTarget teleportTarget, MapObject teleportTargetObject)
+                        private void ObjectTeleportOperation(MapObject objectToBeTeleported, SimpleTeleportTarget teleportTarget, MapObject teleportTargetObject)
                         {
                             ushort tgX = teleportTargetObject.X;
                             ushort tgY = teleportTargetObject.Y;
@@ -135,7 +135,7 @@ namespace GameMeanMachine.Unity.WindRose
                         /// <param name="objectToBeTeleported">The object being teleported.</param>
                         /// <param name="teleportTarget">The target of the teleport.</param>
                         /// <param name="teleportTargetObject">The underlying object of that target.</param>
-                        protected virtual void DoTeleport(Action teleport, MapObject objectToBeTeleported, TeleportTarget teleportTarget, MapObject teleportTargetObject)
+                        protected virtual void DoTeleport(Action teleport, MapObject objectToBeTeleported, SimpleTeleportTarget teleportTarget, MapObject teleportTargetObject)
                         {
                             teleport();
                         }

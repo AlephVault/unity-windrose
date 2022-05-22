@@ -13,11 +13,11 @@ namespace GameMeanMachine.Unity.WindRose
                 namespace Teleport
                 {
                     /// <summary>
-                    ///   The end side of a <see cref="LocalTeleporter"/>. See that
+                    ///   The end side of a <see cref="SimpleTeleporter"/>. See that
                     ///     class for more informaation.
                     /// </summary>
                     [RequireComponent(typeof(TriggerPlatform))]
-                    public class TeleportTarget : MonoBehaviour
+                    public class SimpleTeleportTarget : MonoBehaviour
                     {
                         /// <summary>
                         ///   Tells whether the just teleported object will look
