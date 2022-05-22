@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using AlephVault.Unity.Support.Utils;
@@ -29,7 +28,7 @@ namespace GameMeanMachine.Unity.WindRose
                         GUIStyle captionLabelStyle = MenuActionUtils.GetCaptionLabelStyle();
 
                         titleContent = new GUIContent("Wind Rose - Creating a new local teleporter object");
-                        EditorGUILayout.LabelField("This wizard will create a local teleporter object in the hierarchy of the current scene, under the selected objects layer in the hierarchy.", longLabelStyle);
+                        EditorGUILayout.LabelField("This wizard will create a local teleporter object object under the currently selected objects layer in the hierarchy editor.", longLabelStyle);
 
                         EditorGUILayout.LabelField("This is the name the game object will have when added to the hierarchy.", longLabelStyle);
                         objectName = MenuActionUtils.EnsureNonEmpty(EditorGUILayout.TextField("Object name", objectName), "New Teleporter");
