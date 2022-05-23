@@ -373,6 +373,11 @@ namespace GameMeanMachine.Unity.WindRose
                     public readonly UnityMovementEvent onMovementStarted = new UnityMovementEvent();
 
                     /// <summary>
+                    ///   Event that triggers when the object cannot start moving.
+                    /// </summary>
+                    public readonly UnityMovementEvent onMovementRejected = new UnityMovementEvent();
+
+                    /// <summary>
                     ///   Event that triggers when the object cancels its movement.
                     /// </summary>
                     public readonly UnityOptionalMovementEvent onMovementCancelled = new UnityOptionalMovementEvent();

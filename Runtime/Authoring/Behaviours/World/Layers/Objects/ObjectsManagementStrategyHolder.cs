@@ -570,6 +570,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 }
                                 else
                                 {
+                                    objectStrategy.Object.onMovementRejected.Invoke(direction);
                                     return false;
                                 }
                             }
