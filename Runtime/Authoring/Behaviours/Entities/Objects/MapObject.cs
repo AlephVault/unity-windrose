@@ -95,11 +95,13 @@ namespace GameMeanMachine.Unity.WindRose
                         });
                         onMovementCancelled.AddListener(delegate (Direction? formerMovement)
                         {
+                            queueRemainingDuration = 0;
                             IncrementMovementCounter();
                             Snap();
                         });
                         onMovementFinished.AddListener((d) =>
                         {
+                            queueRemainingDuration = 0;
                             IncrementMovementCounter();
                         });
                         onDetached.AddListener(delegate ()
@@ -342,6 +344,9 @@ namespace GameMeanMachine.Unity.WindRose
                     //   of Snapped, but specified for the intended movement.
                     private Vector2 origin = Vector2.zero, target = Vector2.zero;
 
+                    // The remaining duration for a queued movement in the queue.
+                    private float queueRemainingDuration = 0f;
+
                     /// <summary>
                     ///   The movement speed, in game units per second.
                     /// </summary>
@@ -413,6 +418,8 @@ namespace GameMeanMachine.Unity.WindRose
                             //   is a movement in progess
                             if (queueIfMoving)
                             {
+                                // Set the time lapse for the queue.
+                                queueRemainingDuration = speed == 0 ? float.MaxValue : 1 / (4f * speed);
                                 CommandedMovement = movement;
                             }
                             return false;
@@ -537,6 +544,7 @@ namespace GameMeanMachine.Unity.WindRose
                         else if (CommandedMovement != null)
                         {
                             StartMovement(CommandedMovement.Value);
+                            queueRemainingDuration = 0;
                             origin = transform.localPosition;
                             target = origin + VectorForCurrentDirection();
                             CurrentState = MOVING_STATE;
@@ -549,9 +557,14 @@ namespace GameMeanMachine.Unity.WindRose
                             if (currentState == MOVING_STATE) CurrentState = IDLE_STATE;
                         }
 
-                        // We clean up the last commanded movement, so future frames
-                        //   do not interpret this command as a must, since it expired.
-                        CommandedMovement = null;
+                        queueRemainingDuration -= Time.deltaTime;
+                        if (queueRemainingDuration <= 0)
+                        {
+                            queueRemainingDuration = 0;
+                            // We clean up the last commanded movement, so future frames
+                            //   do not interpret this command as a must, since it expired.
+                            CommandedMovement = null;
+                        }
                     }
 
                     /// <summary>
