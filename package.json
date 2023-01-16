@@ -7,7 +7,8 @@
   "dependencies": {
     "com.alephvault.unity.support": "0.0.2",
     "com.alephvault.unity.layout": "0.0.1",
-    "com.alephvault.unity.menuactions": "0.0.1"
+    "com.alephvault.unity.menuactions": "0.0.1",
+    "com.alephvault.unity.boilerplates": "0.0.1"
   },
   "author": {
     "name": "Game Mean Machine",
