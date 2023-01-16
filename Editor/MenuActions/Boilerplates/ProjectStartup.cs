@@ -16,6 +16,19 @@ namespace GameMeanMachine.Unity.WindRose
             /// </summary>
             public static class ProjectStartup
             {
+                /// <summary>
+                ///   This boilerplate function creates:
+                ///   - Graphics/: Decals/, Objects/, Tiles/ and UI/.
+                ///   - Objects/Prefabs/: Maps/, Objects/, Scopes/, Visual.
+                ///   - Objects/Tiles/: Base/, Bundled/.
+                ///   - Scripts/UI/.
+                ///   - Scripts/Core/:
+                ///     - Types/.
+                ///     - Authoring/:
+                ///       - Types/.
+                ///       - ScriptableObjects/TileStrategies.
+                ///       - Behaviours/: MapObjects/ObjectStrategies, Maps/ObjectStrategies.
+                /// </summary>
                 [MenuItem("Assets/Create/Wind Rose/Boilerplates/Project Startup", false, 11)]
                 public static void ExecuteBoilerplate()
                 {
@@ -62,6 +75,8 @@ namespace GameMeanMachine.Unity.WindRose
                                         .End()
                                     .End()
                                     .IntoDirectory("ScriptableObjects")
+                                        .IntoDirectory("TileStrategies")
+                                        .End()
                                     .End()
                                     .IntoDirectory("Types")
                                     .End()
