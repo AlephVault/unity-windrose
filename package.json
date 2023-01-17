@@ -1,6 +1,6 @@
 {
   "name": "com.gamemeanmachine.unity.windrose",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "displayName": "Game Mean Machine - Unity - WindRose",
   "description": "Allows the developer to create an orthogonal RPG game using a maps layout.",
   "unity": "2018.1",
