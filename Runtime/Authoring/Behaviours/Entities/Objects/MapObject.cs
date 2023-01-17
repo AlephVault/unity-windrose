@@ -402,13 +402,13 @@ namespace GameMeanMachine.Unity.WindRose
                     ///   movement of the object in the management strategy.
                     /// </summary>
                     /// <param name="movement">The direction of the new movement</param>
-                    /// <param name="continuated">Whether the movement is continuated from another former movement</param>
+                    /// <param name="continued">Whether the movement is continued from another former movement</param>
                     /// <param name="queueIfMoving">
                     ///   If <c>true</c>, this movement is "stored" and will execute automatically
                     ///     after the current movement ends.
                     /// </param>
                     /// <returns>Whether the movement could be started</returns>
-                    public bool StartMovement(Direction movement, bool continuated = false, bool queueIfMoving = true)
+                    public bool StartMovement(Direction movement, bool continued = false, bool queueIfMoving = true)
                     {
                         if (ParentMap == null || Paused) return false;
 
@@ -424,7 +424,7 @@ namespace GameMeanMachine.Unity.WindRose
                             }
                             return false;
                         }
-                        else if (parentMap.ObjectsLayer.StrategyHolder.MovementStart(StrategyHolder, movement, continuated))
+                        else if (parentMap.ObjectsLayer.StrategyHolder.MovementStart(StrategyHolder, movement, continued))
                         {
                             origin = new Vector3(X * GetCellWidth(), Y * GetCellHeight(), transform.localPosition.z);
                             target = origin + VectorForCurrentDirection();

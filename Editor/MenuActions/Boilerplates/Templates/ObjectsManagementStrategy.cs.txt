@@ -1,0 +1,269 @@
+using System;
+using System.Collections.Generic;
+using GameMeanMachine.Unity.WindRose.Types;
+using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies;
+using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.World.Layers.Objects;
+using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.World.Layers.Objects.ObjectsManagementStrategies;
+
+namespace Core.Authoring.Behaviours.Maps.ObjectsManagementStrategies
+{
+    using MapObjects.ObjectStrategies;
+    
+    public class #SCRIPTNAME# : ObjectsManagementStrategy
+    {
+        /// <summary>
+        ///   Returns the related ObjectStrategy type.
+        /// </summary>
+        protected override Type GetCounterpartType()
+        {
+            // By default, this type is #OBJECTSTRATEGY#, which
+            // is also generated at the same time than this script.
+            return typeof(#OBJECTSTRATEGY#);
+        }
+
+        /// <summary>
+        ///   Returns the dependencies of this management strategy.
+        /// </summary>        
+        protected override ObjectsManagementStrategy[] GetDependencies()
+        {
+            // This can be left by default and, while typically should match
+            // whatever [RequireComponent(typeof(SomeObjectsManagementStrategy))]
+            // is in the class definition, it can also be not the case, and
+            // this determines the order of the processing as needed when this
+            // strategy needs to compute some data (in the next methods) for
+            // movement management across this map.
+            //
+            // By default, no dependencies are needed. Change this manually
+            // as much as needed, returning all the ObjectsManagementStrategy
+            // that are relevant to this object by using GetComponent<T>.
+            return Array.Empty<ObjectsManagementStrategy>();
+        }
+
+        /// <summary>
+        ///   Initializes custom global data for this strategy.
+        /// </summary>        
+        public virtual void InitGlobalCellsData()
+        {
+            // As an example, you might consider allocating some sort of data
+            // set or two-dimensional array matching the width and height of
+            // the map, to further use in the next steps.
+            //
+            // This method is optional, although perhaps desirable to use.
+        }
+
+        /// <summary>
+        ///   Initializes custom per-cell data for this strategy.
+        /// </summary>
+        public virtual void ComputeCellData(uint x, uint y)
+        {
+            // Typically, you might fetch some data for the (x, y) cell from
+            // two places:
+            // - From another objects management strategy, typically one among
+            //   the dependencies returned in GetDependencies<>().
+            // - From the map this strategy is related to and, in particular, from
+            //   the underlying tilemaps and their tiles. Take this loop as example:
+            //
+            //       foreach (UnityEngine.Tilemaps.Tilemap tilemap in StrategyHolder.Tilemaps)
+            //       {
+            //           UnityEngine.Tilemaps.TileBase tile = tilemap.GetTile(new Vector3Int((int)x, (int)y, 0));
+            //           // Let's assume SomeTileStrategyType exists and is relevant for
+            //           // this #SCRIPTNAME# type.
+            //           SomeTileStrategyType tileStrategy = BundledTile.GetStrategyFrom<SomeTileStrategyType>(tile);
+            //           if (tileStrategy)
+            //           {
+            //               // Do something. Compute something. This, typically will be
+            //               // for the (x, y) cell.
+            //           }
+            //       }
+            //
+            // This method is optional, although perhaps desirable to use.
+        }
+        
+        /// <summary>
+        ///   Tells whether an incoming object can be added to the underlying map
+        ///   or not. If this function returns false, the attachment will fail and
+        ///   an exception will be thrown for the related attachment operation.
+        /// </summary>
+        public override bool CanAttachStrategy(
+            Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults,
+            ObjectStrategy strategy, ref string reason
+        ) {
+            // This method is optional. It can be deleted. The default implementation
+            // (in the base call) is to check the following conditions:
+            // - Whether, in `otherComponentsResults`, any of the values is false.
+            //   This means that another component (a direct or indirect dependency)
+            //   already told that the underlying object cannot be attached, thus
+            //   also returning `false` if that's the case.
+            // - Whether the strategy is null. This means that the underlying object
+            //   does not have a component of the counterpart type (by default, this
+            //   type is: #OBJECTSTRATEGY#). In that case, `false` is returned.
+            //
+            // Use `strategy.MapObject` to access the underlying map object.
+            return base.CanAttachStrategy(otherComponentsResults, strategy, ref reason);
+        }
+        
+        /// <summary>
+        ///   This method is invoked when an object is successfully attached to the
+        ///   map this strategy belongs to.
+        /// </summary>
+        public override void AttachedStrategy(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
+        {
+            // This method is optional. It can be deleted. Can be defined to tell
+            // how this strategy is affected when an object is attached to the
+            // underlying map. Use `strategy.MapObject` to access the underlying
+            // map object.
+        }
+
+        /// <summary>
+        ///   This method is invoked when an object is detached from the map this
+        ///   strategy belongs to.
+        /// </summary>
+        public virtual void DetachedStrategy(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
+        {
+            // This method is optional. It can be deleted. Can be defined to tell
+            // how this strategy is affected when an object is detached from the
+            // underlying map. Use `strategy.MapObject` to access the underlying
+            // map object.
+        }
+
+        /// <summary>
+        ///   Tells whether an object can start a movement. This is invoked when
+        ///   the object attempted a StartMovement(direction, continued, ?).
+        /// </summary>
+        public virtual bool CanAllocateMovement(
+            Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults,
+            ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status,
+            Direction direction, bool continued
+        ) {
+            // This method is optional. It can be deleted. Can be defined to tell
+            // whether an object succeeds on its StartMovement call. By returning
+            // false, no movement occurs. By returning true, the movement occurs
+            // one cell in the desired direction.
+            //
+            // Use `strategy.MapObject` to get the object and `status`' members
+            // to get the current starting position. Also use the `direction` to
+            // get the current intended movement direction, and the `continued`
+            // flag to tell whether the movement comes from another previous one
+            // (e.g. when the object was "slipping").
+            //
+            // The default criteria is to check: what was the result from the other
+            // strategies (that are dependencies of this strategy). If none of those
+            // strategies returned false, then this method returns true.
+            return base.CanAllocateMovement(
+                otherComponentsResults, strategy, status, direction, continued
+            );
+        }
+
+        /// <summary>
+        ///   This method is invoked when an object successfully allocated the
+        ///   movement (i.e. just started it). Data in the strategy might be needed
+        ///   an update considering the movement start.
+        /// </summary>
+        public virtual void DoAllocateMovement(
+            ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status,
+            Direction direction, bool continued, string stage
+        ) {
+            // This method is optional. It can be deleted. Use it to set movement.
+            // Use `strategy.MapObject` to get the object and `status`' members
+            // to get the current starting position. Also use the `direction` to
+            // get the current intended movement direction, and the `continued`
+            // flag to tell whether the movement comes from another previous one
+            // (e.g. when the object was "slipping").
+        }
+
+        /// <summary>
+        ///   Tells whether an object can cancel its movement or not.
+        /// </summary>
+        public override bool CanClearMovement(
+            Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults,
+            ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status
+        ) {
+            // This method is optional. It can be deleted. A useful case for
+            // this method is to prevent a "slipping" object from cancelling
+            // its movement.
+            //
+            // The default implementation is to return `true` unless at least one
+            // of the strategies stated in the dependencies returned `false`.
+            return base.CanClearMovement(otherComponentsResults, strategy, status);
+        }
+        
+        /// <summary>
+        ///   This method is invoked when the object successfully cancelled its
+        ///   previous movement.
+        /// </summary>
+        public override void DoClearMovement(
+            ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status,
+            Direction? formerMovement, string stage
+        ) {
+            // This method is optional. It can be deleted. Use it to clear movement.
+            // Use `strategy.MapObject` to get the object and `status`' members
+            // to get the current starting position. Also use the `direction` to
+            // get the previous cancelled movement direction, and the `stage` field
+            // to know which of the 3 times this method is being used: "Before" for
+            // the moment before clearing the movement, "AfterMovementClear" before
+            // the per-object behaviour `onMovementCancelled` events, and "After"
+            // for when all the cancel was processed.
+        }
+        
+        /// <summary>
+        ///   This method is invoked when the object successfully finished its
+        ///   previous movement to the next square.
+        /// </summary> 
+        public override void DoConfirmMovement(
+            ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status,
+            Direction? formerMovement, string stage
+        ) {
+            // This method is optional. It can be deleted. Use it to finish movement.
+            // Use `strategy.MapObject` to get the object and `status`' members
+            // to get the current starting position. Also use the `direction` to
+            // get the previous completed movement direction, and the `stage` field
+            // to know which of the 4 times this method is being used: "Before" for
+            // the moment before updating the position, "AfterPositionChange" before
+            // the movement clear, "AfterMovementClear" before the per-object behaviour
+            // `onMovementFinished` events, and "After" for when all the finish was
+            // processed.
+        }
+
+        /// <summary>
+        ///   This method is invoked when the object is teleported to a new position.
+        /// </summary>
+        public override void DoTeleport(
+            ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status,
+            uint x, uint y, string stage
+        ) {
+            // This method is optional. It can be deleted. Use it to refresh the
+            // map in the different stages of the teleportation. This all means:
+            // Use `strategy.MapObject` to get the object, and the `x` and `y`
+            // variables to get the new teleport positions. The stages are the
+            // following: "Before" means before teleportation (rely on object's
+            // `X` and `Y` positions as pre-teleport), "AfterPositionChange" is
+            // the stage for when the object was teleported (rely on the object's
+            // `X` and `Y` positions as post-teleport) but prior to triggering
+            // the per-object behaviours' `onTeleported` events, and "After" is
+            // for when all the teleport was processed.
+        }
+        
+        /// <summary>
+        ///   This method is invoked when the object strategy notifies the changes
+        ///   of a per-strategy property.
+        /// </summary>
+        public virtual void DoProcessPropertyUpdate(
+            ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status,
+            string property, object oldValue, object newValue
+        ) {
+            // This method is optional, but should be mandatory if the object
+            // strategy defined some strategy properties. Since this is custom
+            // to the object implementation, depending on the property name the
+            // method implementation should cast both the old and new values to
+            // the proper type and do the proper comparisons to reflect what is
+            // needed in this strategy related to that.
+            
+            // According to the generated sample in the #OBJECTSTRATEGY#.cs file,
+            // this attends for that property change.
+            if (property == #OBJECTSTRATEGY#.FooProperty) {
+                int _old = (int)oldValue;
+                int _new = (int)newValue;                
+            }
+        }
+    }
+}

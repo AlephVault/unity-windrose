@@ -1,0 +1,10 @@
+using GameMeanMachine.Unity.WindRose.Authoring.ScriptableObjects.Tiles.Strategies;
+
+namespace Core.Authoring.ScriptableObjects.Tiles.Strategies
+{
+    public class #SCRIPTNAME# : TileStrategy
+    {
+        // Define any [SerializeField] or public member you need
+        // for this strategy to serve some sort of in-game purpose.
+    }
+}

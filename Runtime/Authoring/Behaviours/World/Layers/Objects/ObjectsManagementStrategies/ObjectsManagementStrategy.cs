@@ -114,7 +114,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 ///     method reference to <see cref="ComputeCellData(uint, uint)"/>.
                                 /// </summary>
                                 /// <param name="allCellsIterator">
-                                ///   A function that takes a data initializator function for a particular cell,
+                                ///   A function that takes a data initializer function for a particular cell,
                                 ///     and runs it for each (x, y) pair on the map
                                 /// </param>
                                 /// <remarks>Seriously, you will seldom to never need to override this method.</remarks>
@@ -146,8 +146,9 @@ namespace GameMeanMachine.Unity.WindRose
                                 ///   related strategy counterpart is null, but other checks might be accepted.
                                 /// </summary>
                                 /// <param name="otherComponentsResults">
-                                ///   A dictionary holding the calculated value, for this method, in the dependencies. You can -and often
-                                ///     WILL- also take those values into account for this calculation</param>
+                                ///   A dictionary holding the calculated value, for this method, in the dependencies.
+                                ///   You can -and often WILL- also take those values into account for this calculation.
+                                /// </param>
                                 /// <param name="strategy">The object strategy counterpart to accept or reject</param>
                                 /// <param name="reason">And output reason for the rejection</param>
                                 /// <returns>Whether the strategy is accepted or not</returns>
@@ -208,8 +209,8 @@ namespace GameMeanMachine.Unity.WindRose
                                     Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults,
                                     Entities.Objects.Strategies.ObjectStrategy strategy,
                                     ObjectsManagementStrategyHolder.Status status, Types.Direction direction,
-                                    bool continued)
-                                {
+                                    bool continued
+                                ) {
                                     foreach (ObjectsManagementStrategy dependency in dependencies)
                                     {
                                         if (!otherComponentsResults[dependency]) return false;
@@ -269,8 +270,8 @@ namespace GameMeanMachine.Unity.WindRose
                                 public virtual bool CanClearMovement(
                                     Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults,
                                     Entities.Objects.Strategies.ObjectStrategy strategy,
-                                    ObjectsManagementStrategyHolder.Status status)
-                                {
+                                    ObjectsManagementStrategyHolder.Status status
+                                ) {
                                     foreach (ObjectsManagementStrategy dependency in dependencies)
                                     {
                                         if (!otherComponentsResults[dependency]) return false;

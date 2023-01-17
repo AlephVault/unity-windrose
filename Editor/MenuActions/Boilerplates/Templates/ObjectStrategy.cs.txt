@@ -1,0 +1,53 @@
+using System;
+using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies;
+using UnityEngine;
+
+namespace Core.Authoring.Behaviours.MapObjects.ObjectStrategies
+{
+    using Maps.ObjectsManagementStrategies;
+
+    public class #SCRIPTNAME# : ObjectStrategy
+    {
+        /// <summary>
+        ///   Returns the related ObjectsManagementStrategy type.
+        /// </summary>
+        protected override Type GetCounterpartType()
+        {
+            return typeof(#OBJECTSMANAGEMENTSTRATEGY#);
+        }
+        
+        // You can define many properties like this. The next
+        // one is just an example and you can freely delete it,
+        // but comes out of the box so you can create your own
+        // properties using the same approach.
+        
+        // First, the property name is meant to be a constant.
+        
+        /// <summary>
+        ///   The property name constant.
+        /// </summary>
+        public static readonly string FooProperty = FullyQualifiedProperty<#SCRIPTNAME#>("foo");
+        
+        // Then, the property implementation, with a call to
+        // the PropertyWasUpdated method.
+        
+        /// <summary>
+        ///   The underlying field (in this example, int). Perhaps you'll
+        ///   want to mark it as [SerializeField] as well.
+        /// </summary>
+        [SerializeField]
+        private int myField = 0;
+        
+        /// <summary>
+        ///   The exposed property, which invokes <see cref="ObjectStrategy.PropertyWasUpdated" />.
+        /// </summary>
+        public int MyField {
+            get { return myField; }
+            set {
+               int _old = myField;
+               myField = value;
+               if (_old != myField) PropertyWasUpdated(FooProperty, _old, myField);
+            }
+        }
+    }
+}

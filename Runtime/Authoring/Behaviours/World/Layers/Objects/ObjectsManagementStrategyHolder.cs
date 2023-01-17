@@ -539,10 +539,10 @@ namespace GameMeanMachine.Unity.WindRose
                             /// </summary>
                             /// <param name="objectStrategyHolder">The object's strategy holder to move</param>
                             /// <param name="direction">The direction to move to</param>
-                            /// <param name="continuated">If this movement should be considered a continuation of a previous movement</param>
+                            /// <param name="continued">If this movement should be considered a continuation of a previous movement</param>
                             /// <returns>Whether the movement could be started</returns>
                             /// <remarks>It is an error to detach an object that is not attached. Also, the object must have a compatible strategy.</remarks>
-                            public bool MovementStart(Entities.Objects.ObjectStrategyHolder objectStrategyHolder, Types.Direction direction, bool continuated = false)
+                            public bool MovementStart(Entities.Objects.ObjectStrategyHolder objectStrategyHolder, Types.Direction direction, bool continued = false)
                             {
                                 Entities.Objects.Strategies.ObjectStrategy objectStrategy = GetMainCompatible(objectStrategyHolder);
 
@@ -551,21 +551,21 @@ namespace GameMeanMachine.Unity.WindRose
 
                                 Status status = attachedStrategies[objectStrategy];
 
-                                return AllocateMovement(objectStrategy, status, direction, continuated);
+                                return AllocateMovement(objectStrategy, status, direction, continued);
                             }
 
                             /**
                              * Executes the actual movement allocation.
                              */
-                            private bool AllocateMovement(Entities.Objects.Strategies.ObjectStrategy objectStrategy, Status status, Types.Direction direction, bool continuated = false)
+                            private bool AllocateMovement(Entities.Objects.Strategies.ObjectStrategy objectStrategy, Status status, Types.Direction direction, bool continued = false)
                             {
-                                if (CanAllocateMovement(objectStrategy, status, direction, continuated))
+                                if (CanAllocateMovement(objectStrategy, status, direction, continued))
                                 {
-                                    DoAllocateMovement(objectStrategy, status, direction, continuated, "Before");
+                                    DoAllocateMovement(objectStrategy, status, direction, continued, "Before");
                                     status.Movement = direction;
-                                    DoAllocateMovement(objectStrategy, status, direction, continuated, "AfterMovementAllocation");
+                                    DoAllocateMovement(objectStrategy, status, direction, continued, "AfterMovementAllocation");
                                     objectStrategy.Object.onMovementStarted.Invoke(direction);
-                                    DoAllocateMovement(objectStrategy, status, direction, continuated, "After");
+                                    DoAllocateMovement(objectStrategy, status, direction, continued, "After");
                                     return true;
                                 }
                                 else
@@ -578,7 +578,7 @@ namespace GameMeanMachine.Unity.WindRose
                             /**
                              * Iterates all the strategies to tell whether it can allocate the movement or not.
                              */
-                            private bool CanAllocateMovement(Entities.Objects.Strategies.ObjectStrategy objectStrategy, Status status, Types.Direction direction, bool continuated = false)
+                            private bool CanAllocateMovement(Entities.Objects.Strategies.ObjectStrategy objectStrategy, Status status, Types.Direction direction, bool continued = false)
                             {
                                 if (status.Movement != null) return false;
 
@@ -604,18 +604,18 @@ namespace GameMeanMachine.Unity.WindRose
 
                                 return Collect(delegate (Dictionary<ObjectsManagementStrategy, bool> collected, ObjectsManagementStrategy strategy)
                                 {
-                                    return strategy.CanAllocateMovement(collected, GetCompatible(objectStrategy, strategy), status, direction, continuated);
+                                    return strategy.CanAllocateMovement(collected, GetCompatible(objectStrategy, strategy), status, direction, continued);
                                 });
                             }
 
                             /**
                              * Iterates all the strategies for the different stages of movement allocation.
                              */
-                            private void DoAllocateMovement(Entities.Objects.Strategies.ObjectStrategy objectStrategy, Status status, Types.Direction direction, bool continuated, string stage)
+                            private void DoAllocateMovement(Entities.Objects.Strategies.ObjectStrategy objectStrategy, Status status, Types.Direction direction, bool continued, string stage)
                             {
                                 Traverse(delegate (ObjectsManagementStrategy strategy)
                                 {
-                                    strategy.DoAllocateMovement(GetCompatible(objectStrategy, strategy), status, direction, continuated, stage);
+                                    strategy.DoAllocateMovement(GetCompatible(objectStrategy, strategy), status, direction, continued, stage);
                                 });
                             }
 
