@@ -159,7 +159,7 @@ WARNING: THIS MIGHT OVERRIDE EXISTING CODE. Always use proper source code manage
                 /// <summary>
                 ///   Opens a dialog to execute the strategy creation boilerplate.
                 /// </summary>
-                [MenuItem("Assets/Create/Wind Rose/Boilerplates/Create Object Strategy", false, 11)]
+                [MenuItem("Assets/Create/Wind Rose/Boilerplates/Create Object Strategy", false, 12)]
                 public static void ExecuteBoilerplate()
                 {
                     CreateObjectStrategyWindow window = ScriptableObject.CreateInstance<CreateObjectStrategyWindow>();
