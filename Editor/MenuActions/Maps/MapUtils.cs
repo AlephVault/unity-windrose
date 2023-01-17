@@ -23,7 +23,7 @@ namespace GameMeanMachine.Unity.WindRose
             {
                 /// <summary>
                 ///   Utility window used to create a Map. It fills its properties, adds optional layers,
-                ///     and allows setting the names of the floors.
+                ///   and allows setting the names of the floors.
                 /// </summary>
                 public class CreateMapWindow : EditorWindow
                 {
@@ -31,7 +31,7 @@ namespace GameMeanMachine.Unity.WindRose
                     private Vector2Int mapSize = new Vector2Int(8, 6);
                     private Vector3 cellSize = Vector3.one;
                     private string mapObjectName = "New Map";
-                    private string[] floors = new string[] { "New Floor" };
+                    private string[] floors = { "New Floor" };
                     private bool addCeilingsLayer = false;
                     private int strategy = 0;
                     private Vector2 scrollPosition = Vector2.zero;

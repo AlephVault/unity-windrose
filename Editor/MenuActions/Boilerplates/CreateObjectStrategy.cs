@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using AlephVault.Unity.Boilerplates.Utils;
+using AlephVault.Unity.MenuActions.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,12 +12,78 @@ namespace GameMeanMachine.Unity.WindRose
     {
         namespace Boilerplates
         {
+            /// <summary>
+            ///   This boilerplate creates a strategy in the WindRose project,
+            ///   which must already have the startup layout defined by prior
+            ///   calling to <see cref="ProjectStartup"/>.
+            /// </summary>
             public static class CreateObjectStrategy
             {
+                /// <summary>
+                ///   Utility window used to create strategy files. It takes
+                ///   a name and whether to put both the ObjectStrategy and
+                ///   ObjectManagementStrategy files and the TileStrategy
+                ///   file, or just the TileStrategy file, or just the other
+                ///   two files.
+                /// </summary>
+                public class CreateObjectStrategyWindow : EditorWindow
+                {
+                    // The base name to use.
+                    private Regex baseNameCriterion = new Regex("^[A-Z][A-Za-z0-9_]*$");
+                    private string baseName = "MyCustom";
+                    // The flags.
+                    private bool objectStrategies = true;
+                    private bool tileStrategy = true;
+                    
+                    private void OnGUI()
+                    {
+                        GUIStyle longLabelStyle = MenuActionUtils.GetSingleLabelStyle();
+                        GUIStyle captionLabelStyle = MenuActionUtils.GetCaptionLabelStyle();
+                        GUIStyle indentedStyle = MenuActionUtils.GetIndentedStyle();
+
+                        EditorGUILayout.BeginVertical();
+                        EditorGUILayout.LabelField("Strategies generation", captionLabelStyle);
+                        EditorGUILayout.LabelField(@"
+This utility generates up to three strategy files, with boilerplate code and instructions on how to understand that code.
+
+First, the base name has to be chosen (carefully and according to the game design):
+- It must start with an uppercase letter.
+- It must continue with letters, numbers, and/or underscores.
+
+Then, two flags may be selected (they are selected by default), and they have the following behaviour:
+- Object Strategy files: will generate two scripts named '{base name}ObjectsManagementStrategy' and '{base name}ObjectStrategy'.
+- Tile Strategy file: will generate one script named '{base name}TileStrategy'.
+
+WARNING: THIS MIGHT OVERRIDE EXISTING CODE. Always use proper source code management & versioning.
+".Trim(), longLabelStyle);
+                        baseName = EditorGUILayout.TextField("Base name", baseName).Trim();
+                        bool validBaseName = baseNameCriterion.IsMatch(baseName);
+                        if (!validBaseName)
+                        {
+                            EditorGUILayout.LabelField("The base name is invalid!", indentedStyle);
+                        }
+
+                        objectStrategies = EditorGUILayout.ToggleLeft("Object Strategy files", objectStrategies);
+                        tileStrategy = EditorGUILayout.ToggleLeft("Tile Strategy files", tileStrategy);
+
+                        bool execute = validBaseName && (objectStrategies || tileStrategy) &&
+                                       GUILayout.Button("Generate");
+                        EditorGUILayout.EndVertical();
+                        
+                        if (execute) Execute();
+                    }
+
+                    private void Execute()
+                    {
+                        DumpObjectStrategyTemplates(baseName, tileStrategy, objectStrategies);
+                        Close();
+                    }
+                }
+                
+                // Performs the full dump of the code.
                 private static void DumpObjectStrategyTemplates(
                     string basename, bool tileStrategy, bool objectStrategies
-                )
-                {
+                ) {
                     string directory = "Packages/com.gamemeanmachine.unity.windrose/" +
                                        "Editor/MenuActions/Boilerplates/Templates";
                     TextAsset osText = AssetDatabase.LoadAssetAtPath<TextAsset>(
@@ -93,7 +162,13 @@ namespace GameMeanMachine.Unity.WindRose
                 [MenuItem("Assets/Create/Wind Rose/Boilerplates/Create Object Strategy", false, 11)]
                 public static void ExecuteBoilerplate()
                 {
-                    DumpObjectStrategyTemplates("Glorgax", true, true);
+                    CreateObjectStrategyWindow window = ScriptableObject.CreateInstance<CreateObjectStrategyWindow>();
+                    Vector2 size = new Vector2(750, 290);
+                    window.position = new Rect(new Vector2(110, 250), size);
+                    window.minSize = size;
+                    window.maxSize = size;
+                    window.titleContent = new GUIContent("WindRose Strategies generation");
+                    window.ShowUtility();
                 }
             }
         }
