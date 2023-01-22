@@ -66,21 +66,11 @@ namespace Core.Authoring.Behaviours.Maps.ObjectsManagementStrategies
         ///   an exception will be thrown for the related attachment operation.
         /// </summary>
         public override bool CanAttachStrategy(
-            Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults,
             ObjectStrategy strategy, ref string reason
         ) {
             // This method is optional. It can be deleted. The default implementation
-            // (in the base call) is to check the following conditions:
-            // - Whether, in `otherComponentsResults`, any of the values is false.
-            //   This means that another component (a direct or indirect dependency)
-            //   already told that the underlying object cannot be attached, thus
-            //   also returning `false` if that's the case.
-            // - Whether the strategy is null. This means that the underlying object
-            //   does not have a component of the counterpart type (by default, this
-            //   type is: #OBJECTSTRATEGY#). In that case, `false` is returned.
-            //
-            // Use `strategy.MapObject` to access the underlying map object.
-            return base.CanAttachStrategy(otherComponentsResults, strategy, ref reason);
+            // (in the base call) is to return true if the strategy is not null.
+            return base.CanAttachStrategy(strategy, ref reason);
         }
         
         /// <summary>
@@ -111,8 +101,7 @@ namespace Core.Authoring.Behaviours.Maps.ObjectsManagementStrategies
         ///   Tells whether an object can start a movement. This is invoked when
         ///   the object attempted a StartMovement(direction, continued, ?).
         /// </summary>
-        public virtual bool CanAllocateMovement(
-            Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults,
+        public override bool CanAllocateMovement(
             ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status,
             Direction direction, bool continued
         ) {
@@ -126,13 +115,7 @@ namespace Core.Authoring.Behaviours.Maps.ObjectsManagementStrategies
             // get the current intended movement direction, and the `continued`
             // flag to tell whether the movement comes from another previous one
             // (e.g. when the object was "slipping").
-            //
-            // The default criteria is to check: what was the result from the other
-            // strategies (that are dependencies of this strategy). If none of those
-            // strategies returned false, then this method returns true.
-            return base.CanAllocateMovement(
-                otherComponentsResults, strategy, status, direction, continued
-            );
+            throw new NotImplementedException("CanAllocateMovement must be implemented");
         }
 
         /// <summary>
@@ -156,16 +139,14 @@ namespace Core.Authoring.Behaviours.Maps.ObjectsManagementStrategies
         ///   Tells whether an object can cancel its movement or not.
         /// </summary>
         public override bool CanClearMovement(
-            Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults,
             ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status
         ) {
             // This method is optional. It can be deleted. A useful case for
             // this method is to prevent a "slipping" object from cancelling
             // its movement.
             //
-            // The default implementation is to return `true` unless at least one
-            // of the strategies stated in the dependencies returned `false`.
-            return base.CanClearMovement(otherComponentsResults, strategy, status);
+            // The default implementation is to return `true`.
+            return true;
         }
         
         /// <summary>
