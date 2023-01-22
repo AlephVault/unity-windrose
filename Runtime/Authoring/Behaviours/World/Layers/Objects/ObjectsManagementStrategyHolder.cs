@@ -38,18 +38,6 @@ namespace GameMeanMachine.Unity.WindRose
                         public class ObjectsManagementStrategyHolder : MonoBehaviour
                         {
                             /// <summary>
-                            ///   Tells when the object's dimensions are unsuitable for this map.
-                            /// </summary>
-                            public class InvalidDimensionsException : Types.Exception
-                            {
-                                public readonly uint Width;
-                                public readonly uint Height;
-                                public InvalidDimensionsException(uint width, uint height) { Width = width; Height = height; }
-                                public InvalidDimensionsException(string message, uint width, uint height) : base(message) { Width = width; Height = height; }
-                                public InvalidDimensionsException(string message, uint width, uint height, System.Exception inner) : base(message, inner) { Width = width; Height = height; }
-                            }
-
-                            /// <summary>
                             ///   Tells when the object's position is unsuitable for this map.
                             /// </summary>
                             public class InvalidPositionException : Types.Exception
@@ -461,27 +449,7 @@ namespace GameMeanMachine.Unity.WindRose
                             {
                                 reason = "";
                                 if (Bypass) return true;
-
-                                string underlyingReason = "";
-                                if (!Collect(delegate(Dictionary<ObjectsManagementStrategy, bool> collected,
-                                    ObjectsManagementStrategy strategy)
-                                {
-                                    if (!strategy.CanAttachStrategy(
-                                        collected,
-                                        GetCompatible(objectStrategy, strategy),
-                                        ref underlyingReason)
-                                    )
-                                    {
-                                        return false;
-                                    }
-                                    return true;
-                                }))
-                                {
-                                    reason = underlyingReason;
-                                    return false;
-                                }
-
-                                return true;
+                                return Strategy.CanAttachStrategy(objectStrategy, ref reason);
                             }
 
                             /**
@@ -601,11 +569,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 }
 
                                 if (Bypass) return true;
-
-                                return Collect(delegate (Dictionary<ObjectsManagementStrategy, bool> collected, ObjectsManagementStrategy strategy)
-                                {
-                                    return strategy.CanAllocateMovement(collected, GetCompatible(objectStrategy, strategy), status, direction, continued);
-                                });
+                                return Strategy.CanAllocateMovement(objectStrategy, status, direction, continued);
                             }
 
                             /**
@@ -668,11 +632,7 @@ namespace GameMeanMachine.Unity.WindRose
                             private bool CanClearMovement(Entities.Objects.Strategies.ObjectStrategy objectStrategy, Status status)
                             {
                                 if (Bypass) return true;
-
-                                return Collect(delegate (Dictionary<ObjectsManagementStrategy, bool> collected, ObjectsManagementStrategy strategy)
-                                {
-                                    return strategy.CanClearMovement(collected, GetCompatible(objectStrategy, strategy), status);
-                                });
+                                return Strategy.CanClearMovement(objectStrategy, status);
                             }
 
                             /**

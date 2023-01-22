@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies.Simple;
 using UnityEngine;
 
 namespace GameMeanMachine.Unity.WindRose
@@ -35,18 +35,44 @@ namespace GameMeanMachine.Unity.WindRose
                                 [RequireComponent(typeof(Solidness.SolidnessObjectsManagementStrategy))]
                                 public class SimpleObjectsManagementStrategy : ObjectsManagementStrategy
                                 {
-                                    protected override ObjectsManagementStrategy[] GetDependencies()
-                                    {
-                                        return new ObjectsManagementStrategy[]
-                                        {
-                                            GetComponent<Base.LayoutObjectsManagementStrategy>(),
-                                            GetComponent<Solidness.SolidnessObjectsManagementStrategy>()
-                                        };
-                                    }
+                                    /// <summary>
+                                    ///   The related layout strategy.
+                                    /// </summary>
+                                    public Base.LayoutObjectsManagementStrategy LayoutStrategy { get; private set; }
 
+                                    /// <summary>
+                                    ///   The related solidness strategy.
+                                    /// </summary>
+                                    public Solidness.SolidnessObjectsManagementStrategy SolidnessStrategy { get;
+                                        private set;
+                                    }
+                                    
+                                    protected override void Awake()
+                                    {
+                                        base.Awake();
+                                        LayoutStrategy = GetComponent<Base.LayoutObjectsManagementStrategy>();
+                                        SolidnessStrategy =
+                                            GetComponent<Solidness.SolidnessObjectsManagementStrategy>();
+                                    }
+                                    
                                     protected override Type GetCounterpartType()
                                     {
-                                        return typeof(Entities.Objects.Strategies.Simple.SimpleObjectStrategy);
+                                        return typeof(SimpleObjectStrategy);
+                                    }
+
+                                    public override bool CanAllocateMovement(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction,
+                                        bool continued)
+                                    {
+                                        SimpleObjectStrategy simpleStrategy = (SimpleObjectStrategy)strategy;
+                                        return LayoutStrategy.CanAllocateMovement(simpleStrategy.LayoutStrategy, status, direction,
+                                                   continued) &&
+                                               SolidnessStrategy.CanAllocateMovement(simpleStrategy.SolidnessStrategy, status, direction,
+                                                   continued);
+                                    }
+
+                                    public override bool CanClearMovement(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
+                                    {
+                                        return true;
                                     }
                                 }
                             }

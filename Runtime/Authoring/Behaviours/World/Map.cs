@@ -53,7 +53,7 @@ namespace GameMeanMachine.Unity.WindRose
                                 Debug.LogWarning(string.Format("One {0} component of type {1} is expected on this object. This object will be destroyed on play.", require ? "mandatory" : "optional", typeof(T).FullName));
                             }
 #else
-                        Destroy(gameObject);
+                            Destroy(gameObject);
 #endif
                             throw new OneComponentIsNeeded(string.Format("One {0} component of type {1} is expected on this object", require ? "mandatory" : "optional", typeof(T).FullName));
                         }

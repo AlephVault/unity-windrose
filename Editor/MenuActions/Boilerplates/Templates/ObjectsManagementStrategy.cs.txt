@@ -22,24 +22,6 @@ namespace Core.Authoring.Behaviours.Maps.ObjectsManagementStrategies
         }
 
         /// <summary>
-        ///   Returns the dependencies of this management strategy.
-        /// </summary>        
-        protected override ObjectsManagementStrategy[] GetDependencies()
-        {
-            // This can be left by default and, while typically should match
-            // whatever [RequireComponent(typeof(SomeObjectsManagementStrategy))]
-            // is in the class definition, it can also be not the case, and
-            // this determines the order of the processing as needed when this
-            // strategy needs to compute some data (in the next methods) for
-            // movement management across this map.
-            //
-            // By default, no dependencies are needed. Change this manually
-            // as much as needed, returning all the ObjectsManagementStrategy
-            // that are relevant to this object by using GetComponent<T>.
-            return Array.Empty<ObjectsManagementStrategy>();
-        }
-
-        /// <summary>
         ///   Initializes custom global data for this strategy.
         /// </summary>        
         public virtual void InitGlobalCellsData()
@@ -58,8 +40,7 @@ namespace Core.Authoring.Behaviours.Maps.ObjectsManagementStrategies
         {
             // Typically, you might fetch some data for the (x, y) cell from
             // two places:
-            // - From another objects management strategy, typically one among
-            //   the dependencies returned in GetDependencies<>().
+            // - From another objects management strategy.
             // - From the map this strategy is related to and, in particular, from
             //   the underlying tilemaps and their tiles. Take this loop as example:
             //

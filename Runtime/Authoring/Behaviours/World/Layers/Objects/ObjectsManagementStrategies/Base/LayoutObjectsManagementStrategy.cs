@@ -173,11 +173,11 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       to move through tiles marked as blocked.
                                     ///   </para>
                                     ///   <para>
-                                    ///     See <see cref="ObjectsManagementStrategy.CanAllocateMovement(Dictionary{Type, bool}, ObjectStrategy, ObjectsManagementStrategyHolder.Status, Direction, bool)"/>
+                                    ///     See <see cref="ObjectsManagementStrategy.CanAllocateMovement(ObjectStrategy, ObjectsManagementStrategyHolder.Status, Direction, bool)"/>
                                     ///       for more information on this method signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override bool CanAllocateMovement(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued)
+                                    public override bool CanAllocateMovement(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued)
                                     {
                                         // Then check for cells being blocked
                                         return !isAdjacencyBlockedCallback(status.X, status.Y, strategy.StrategyHolder.Object.Width, strategy.StrategyHolder.Object.Height, direction);
@@ -188,7 +188,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///     Always allows to clear the current movement.
                                     ///   </para>
                                     /// </summary>
-                                    public override bool CanClearMovement(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
+                                    public override bool CanClearMovement(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
                                     {
                                         // Just follows what the BaseStrategy tells
                                         return true;

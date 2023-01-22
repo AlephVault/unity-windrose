@@ -65,9 +65,6 @@ namespace GameMeanMachine.Unity.WindRose
                                 ///   The compatible strategy type, as returned by <see cref="GetCounterpartType"/>.
                                 /// </summary>
                                 public Type CounterpartType { get; private set; }
-                                
-                                // The dependencies of this object.
-                                private ObjectsManagementStrategy[] dependencies;
 
                                 protected virtual void Awake()
                                 {
@@ -78,16 +75,6 @@ namespace GameMeanMachine.Unity.WindRose
                                         Destroy(gameObject);
                                         throw new UnsupportedTypeException(string.Format("The type returned by CounterpartType must be a subclass of {0}", baseCounterpartStrategyType.FullName));
                                     }
-
-                                    dependencies = GetDependencies();
-                                }
-
-                                /// <summary>
-                                ///   Retrieves the (other) dependencies of this strategy, if any.
-                                /// </summary>
-                                protected virtual ObjectsManagementStrategy[] GetDependencies()
-                                {
-                                    return Array.Empty<ObjectsManagementStrategy>();
                                 }
 
                                 /// <summary>
@@ -145,20 +132,11 @@ namespace GameMeanMachine.Unity.WindRose
                                 ///   rejects objects being attached to it. Typically, the only check to do is when the
                                 ///   related strategy counterpart is null, but other checks might be accepted.
                                 /// </summary>
-                                /// <param name="otherComponentsResults">
-                                ///   A dictionary holding the calculated value, for this method, in the dependencies.
-                                ///   You can -and often WILL- also take those values into account for this calculation.
-                                /// </param>
                                 /// <param name="strategy">The object strategy counterpart to accept or reject</param>
                                 /// <param name="reason">And output reason for the rejection</param>
                                 /// <returns>Whether the strategy is accepted or not</returns>
-                                public virtual bool CanAttachStrategy(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, ObjectStrategy strategy, ref string reason)
+                                public virtual bool CanAttachStrategy(ObjectStrategy strategy, ref string reason)
                                 {
-                                    foreach (ObjectsManagementStrategy dependency in dependencies)
-                                    {
-                                        if (!otherComponentsResults[dependency]) return false;
-                                    }
-                                    
                                     if (strategy == null)
                                     {
                                         reason = "Related object strategy counterpart is missing";
@@ -191,7 +169,7 @@ namespace GameMeanMachine.Unity.WindRose
 
                                 /// <summary>
                                 ///   <para>
-                                ///     This method may be implemented to tell whether an object can allocate a movement.
+                                ///     This method must be implemented to tell whether an object can allocate a movement.
                                 ///   </para>
                                 ///   <para>
                                 ///     Allocating a movement is an explicit action given from the user, and it must be implemented
@@ -199,25 +177,13 @@ namespace GameMeanMachine.Unity.WindRose
                                 ///       main rule of movement).
                                 ///   </para>
                                 /// </summary>
-                                /// <param name="otherComponentsResults">
-                                ///   A dictionary holding the calculated value, for this method, in the dependencies. You can -and often
-                                ///     WILL- also take those values into account for this calculation</param>
                                 /// <param name="strategy">The compatible strategy of the object being checked</param>
                                 /// <param name="status">The status (position and movement) of the underlying object</param>
                                 /// <returns>Whether it can cancel the movement or not</returns>
-                                public virtual bool CanAllocateMovement(
-                                    Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults,
-                                    Entities.Objects.Strategies.ObjectStrategy strategy,
-                                    ObjectsManagementStrategyHolder.Status status, Types.Direction direction,
-                                    bool continued
-                                ) {
-                                    foreach (ObjectsManagementStrategy dependency in dependencies)
-                                    {
-                                        if (!otherComponentsResults[dependency]) return false;
-                                    }
-
-                                    return true;
-                                }
+                                public abstract bool CanAllocateMovement(
+                                    ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status,
+                                    Types.Direction direction, bool continued
+                                );
 
                                 /// <summary>
                                 ///   This method may be implemented to tell how will the strategy react when the underlying object
@@ -261,25 +227,13 @@ namespace GameMeanMachine.Unity.WindRose
                                 ///       on a slippery tile.
                                 ///   </para>
                                 /// </summary>
-                                /// <param name="otherComponentsResults">
-                                ///   A dictionary holding the calculated value, for this method, in the dependencies. You can -and often
-                                ///     WILL- also take those values into account for this calculation</param>
                                 /// <param name="strategy">The compatible strategy of the object being checked</param>
                                 /// <param name="status">The status (position and movement) of the underlying object</param>
                                 /// <returns>Whether it can cancel the movement or not</returns>
-                                public virtual bool CanClearMovement(
-                                    Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults,
-                                    Entities.Objects.Strategies.ObjectStrategy strategy,
-                                    ObjectsManagementStrategyHolder.Status status
-                                ) {
-                                    foreach (ObjectsManagementStrategy dependency in dependencies)
-                                    {
-                                        if (!otherComponentsResults[dependency]) return false;
-                                    }
-
-                                    return true;
-                                }
-
+                                public abstract bool CanClearMovement(
+                                    ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status
+                                );
+                                
                                 /// <summary>
                                 ///   This method may be implemented to tell how will the strategy react when the underlying object
                                 ///     cancels its movement. Switch conditions will likely be applied on the <paramref name="stage"/>

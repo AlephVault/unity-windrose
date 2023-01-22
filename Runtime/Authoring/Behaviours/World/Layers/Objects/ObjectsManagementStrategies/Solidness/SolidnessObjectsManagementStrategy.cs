@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies;
 using UnityEngine;
 
 namespace GameMeanMachine.Unity.WindRose
@@ -67,7 +68,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///   When the object is attached to the map, its solidness will be added to the
                                     ///     cell(s) it occupies.
                                     /// </summary>
-                                    public override void AttachedStrategy(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
+                                    public override void AttachedStrategy(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
                                     {
                                         SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         SolidnessStatus solidness = solidnessStrategy.Solidness;
@@ -78,7 +79,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///   When the object is detached from the map, its solidness will be cleared from the
                                     ///     cell(s) it occupies.
                                     /// </summary>
-                                    public override void DetachedStrategy(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
+                                    public override void DetachedStrategy(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
                                     {
                                         SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         SolidnessStatus solidness = solidnessStrategy.Solidness;
@@ -98,28 +99,18 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       counting the current object's solidness.
                                     ///   </para>
                                     ///   <para>
-                                    ///     See <see cref="ObjectsManagementStrategy.CanAllocateMovement(Dictionary{Type, bool}, Objects.Strategies.ObjectStrategy, ObjectsManagementStrategyHolder.Status, Direction, bool)"/>
+                                    ///     See <see cref="ObjectsManagementStrategy.CanAllocateMovement(Objects.Strategies.ObjectStrategy, ObjectsManagementStrategyHolder.Status, Direction, bool)"/>
                                     ///       for more information on this method's signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override bool CanAllocateMovement(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued)
+                                    public override bool CanAllocateMovement(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued)
                                     {
                                         SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         SolidnessStatus solidness = solidnessStrategy.Solidness;
                                         if (solidness.Irregular()) return false;
                                         return solidness.Traverses() || solidnessStrategy.TraversesOtherSolids || IsAdjacencyFree(status.X, status.Y, strategy.StrategyHolder.Object.Width, strategy.StrategyHolder.Object.Height, direction);
                                     }
-
-                                    /// <summary>
-                                    ///   <para>
-                                    ///     Always allows to clear the current movement.
-                                    ///   </para>
-                                    /// </summary>
-                                    public override bool CanClearMovement(Dictionary<ObjectsManagementStrategy, bool> otherComponentsResults, Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
-                                    {
-                                        return true;
-                                    }
-
+                                    
                                     /// <summary>
                                     ///   <para>
                                     ///     Allocating a movement involves setting the solidness in the tiles "in front" of our object
@@ -130,7 +121,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       for more information on this method signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override void DoAllocateMovement(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued, string stage)
+                                    public override void DoAllocateMovement(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction direction, bool continued, string stage)
                                     {
                                         switch (stage)
                                         {
@@ -151,6 +142,17 @@ namespace GameMeanMachine.Unity.WindRose
                                     }
 
                                     /// <summary>
+                                    ///   Solidness strategy always allows to clear the movement.
+                                    /// </summary>
+                                    /// <param name="strategy">The main object strategy</param>
+                                    /// <param name="status">The current object status</param>
+                                    /// <returns>Whether it can clear the status or not</returns>
+                                    public override bool CanClearMovement(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status)
+                                    {
+                                        return true;
+                                    }
+
+                                    /// <summary>
                                     ///   <para>
                                     ///     Cancelling the movement involves releasing the solidness of the allocated movement, which involve the tiles
                                     ///       "in front" (in terms of movement) of the object.
@@ -160,7 +162,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       for more information on this method signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override void DoClearMovement(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction? formerMovement, string stage)
+                                    public override void DoClearMovement(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction? formerMovement, string stage)
                                     {
                                         switch (stage)
                                         {
@@ -190,7 +192,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       for more information on this method signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override void DoConfirmMovement(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction? formerMovement, string stage)
+                                    public override void DoConfirmMovement(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, Direction? formerMovement, string stage)
                                     {
                                         switch (stage)
                                         {
@@ -220,7 +222,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       for more information on this method signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override void DoProcessPropertyUpdate(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, string property, object oldValue, object newValue)
+                                    public override void DoProcessPropertyUpdate(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, string property, object oldValue, object newValue)
                                     {
                                         // Debug.LogFormat("Type of strategy: {0} - strategy {1}", strategy.GetType().FullName, strategy);
                                         SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
@@ -250,7 +252,7 @@ namespace GameMeanMachine.Unity.WindRose
                                     ///       for more information on this method signature and intention.
                                     ///   </para>
                                     /// </summary>
-                                    public override void DoTeleport(Entities.Objects.Strategies.ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, uint x, uint y, string stage)
+                                    public override void DoTeleport(ObjectStrategy strategy, ObjectsManagementStrategyHolder.Status status, uint x, uint y, string stage)
                                     {
                                         SolidnessObjectStrategy solidnessStrategy = (SolidnessObjectStrategy)strategy;
                                         SolidnessStatus solidness = solidnessStrategy.Solidness;
