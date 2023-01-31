@@ -75,8 +75,8 @@ namespace GameMeanMachine.Unity.WindRose
 
                                     public SolidMask(uint width, uint height)
                                     {
-                                        this.width = Values.Clamp(1, width, (uint)short.MaxValue);
-                                        this.height = Values.Clamp(1, height, (uint)short.MaxValue);
+                                        this.width = Values.Clamp(1, width, Map.MaxWidth);
+                                        this.height = Values.Clamp(1, height, Map.MaxHeight);
                                         this.positions = new short[this.width * this.height];
                                         Array.Clear(this.positions, 0, (int)(this.width * this.height));
                                     }

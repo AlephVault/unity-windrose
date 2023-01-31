@@ -22,6 +22,16 @@ namespace GameMeanMachine.Unity.WindRose
                 public class Map : MonoBehaviour
                 {
                     /// <summary>
+                    ///   The max map width.
+                    /// </summary>
+                    public const ushort MaxWidth = 4095;
+
+                    /// <summary>
+                    ///   The map max height.
+                    /// </summary>
+                    public const ushort MaxHeight = 4095;
+                    
+                    /// <summary>
                     ///   This exception is deprecated. In the future, we should change this
                     ///     exception (and <see cref="ExpectOneLayerComponent{T}(bool)"/>) to
                     ///     the use of <see cref="DisallowMultipleComponent"/>.
@@ -147,8 +157,8 @@ namespace GameMeanMachine.Unity.WindRose
                     private void Awake()
                     {
                         // Starting the dimensions
-                        width = Values.Clamp(1, width, (ushort)short.MaxValue);
-                        height = Values.Clamp(1, height, (ushort)short.MaxValue);
+                        width = Values.Clamp(1, width, MaxWidth);
+                        height = Values.Clamp(1, height, MaxHeight);
                         // Requiring the layers - at most one of each them may exist per map
                         FloorLayer = ExpectOneLayerComponent<Layers.Floor.FloorLayer>(true);
                         ObjectsLayer = ExpectOneLayerComponent<Layers.Objects.ObjectsLayer>(true);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AlephVault.Unity.Support.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -43,6 +44,12 @@ namespace GameMeanMachine.Unity.WindRose
                         private ushort level = 1 << 14;
 
                         /// <summary>
+                        ///   The priority (in-same-depth rendering preference) of the visual.
+                        /// </summary>
+                        [SerializeField]
+                        private byte priority = 0;
+
+                        /// <summary>
                         ///   See <see cref="level"/>.
                         /// </summary>
                         public ushort Level
@@ -54,6 +61,19 @@ namespace GameMeanMachine.Unity.WindRose
                             set
                             {
                                 level = value;
+                                Resort();
+                            }
+                        }
+
+                        public byte Priority
+                        {
+                            get
+                            {
+                                return priority;
+                            }
+                            set
+                            {
+                                priority = Values.Min<byte>(7, priority);
                                 Resort();
                             }
                         }
@@ -164,12 +184,14 @@ namespace GameMeanMachine.Unity.WindRose
                         private void Resort()
                         {
                             if (level > 32767) level = 32767;
+                            if (priority > 7) priority = 7;
                             if (visibilityEnabled)
                             {
                                 // give sorting order just by Y position, and give perspective layer according to level
-                                transform.SetParent(relatedObject.ParentMap.VisualsLayer[level].transform);
-                                transform.localRotation = Quaternion.identity;
-                                renderer.sortingOrder = relatedObject.ParentMap.Height - relatedObject.Y - 1;
+                                Transform transform1 = transform;
+                                transform1.SetParent(relatedObject.ParentMap.VisualsLayer[level].transform);
+                                transform1.localRotation = Quaternion.identity;
+                                renderer.sortingOrder = (relatedObject.ParentMap.Height - relatedObject.Y - 1) * 8 + priority;
                             }
                         }
 
