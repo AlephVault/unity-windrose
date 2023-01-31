@@ -137,6 +137,14 @@ namespace GameMeanMachine.Unity.WindRose
                     ///     or translucent, so the player can see what is inside.
                     /// </summary>
                     public Layers.Ceiling.CeilingLayer CeilingLayer { get; private set; }
+                    
+                    /// <summary>
+                    ///   The darkness layer is totally optional. It holds floating
+                    ///   overlays that are not necessarily fully opaque but, to some
+                    ///   extent, they are and of black color. Useful for night-related
+                    ///   game layouts.
+                    /// </summary>
+                    public Layers.Darkness.DarknessLayer DarknessLayer { get; private set; }
 
                     /// <summary>
                     ///   See <see cref="height"/>.
@@ -164,6 +172,7 @@ namespace GameMeanMachine.Unity.WindRose
                         ObjectsLayer = ExpectOneLayerComponent<Layers.Objects.ObjectsLayer>(true);
                         VisualsLayer = ExpectOneLayerComponent<Layers.Visuals.VisualsLayer>(true);
                         CeilingLayer = ExpectOneLayerComponent<Layers.Ceiling.CeilingLayer>();
+                        DarknessLayer = ExpectOneLayerComponent<Layers.Darkness.DarknessLayer>();
                         Grid floorLayerGrid = FloorLayer.GetComponent<Grid>();
                         CopyGridProperties(ObjectsLayer.GetComponent<Grid>(), floorLayerGrid);
                         if (CeilingLayer != null) CopyGridProperties(CeilingLayer.GetComponent<Grid>(), floorLayerGrid);
