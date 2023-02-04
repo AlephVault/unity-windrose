@@ -1,5 +1,3 @@
-using System;
-using Codice.Client.BaseCommands;
 using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.World.Layers.Darkness;
 using UnityEngine;
 using UnityEngine.Rendering;
