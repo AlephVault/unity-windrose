@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects;
+using GameMeanMachine.Unity.WindRose.Vendor.RBush;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -114,6 +116,21 @@ namespace GameMeanMachine.Unity.WindRose
                             }
 
                             /// <summary>
+                            ///   Tells whether this map uses spatial indexing
+                            ///   for their objects or not.
+                            /// </summary>
+                            [SerializeField]
+                            private bool usesSpatialIndexing;
+
+                            /// <summary>
+                            ///   See <see cref="usesSpatialIndexing" />.
+                            /// </summary>
+                            public bool UsesSpatialIndexing => usesSpatialIndexing;
+
+                            // The spatial index to use.
+                            private RBush<MapObject> spatialIndex = null;
+
+                            /// <summary>
                             ///   The map this manager... manages. Also, the map is used by the
                             ///     strategies to fetch per-cell information.
                             /// </summary>
@@ -178,6 +195,9 @@ namespace GameMeanMachine.Unity.WindRose
                                 
                                 // We require the map also here.
                                 Map = Behaviours.RequireComponentInParent<Map>(gameObject);
+
+                                // Instantiate the spatial index.
+                                if (usesSpatialIndexing) spatialIndex = new RBush<MapObject>();
                             }
 
                             /**
@@ -268,16 +288,28 @@ namespace GameMeanMachine.Unity.WindRose
                             }
 
                             /// <summary>
+                            ///   Performs a search on the index. If index is not being
+                            ///   used, then returns an empty enumerator.
+                            /// </summary>
+                            /// <param name="x">The initial X position</param>
+                            /// <param name="y">The initial Y position</param>
+                            /// <param name="xf">The final X position</param>
+                            /// <param name="yf">The final Y position</param>
+                            public IEnumerable<MapObject> Search(ushort x, ushort y, ushort? xf = null, ushort? yf = null)
+                            {
+                                xf ??= (ushort)(x + 1);
+                                yf ??= (ushort)(y + 1);
+                                if (!usesSpatialIndexing) return Enumerable.Empty<MapObject>();
+                                return spatialIndex.Search(new Envelope {
+                                    MinX = x + 0.1f, MinY = y + 0.1f, MaxX = xf.Value - 0.1f, MaxY = yf.Value - 0.1f
+                                });
+                            }
+
+                            /// <summary>
                             ///   Returns the map's tilemaps.
                             /// </summary>
                             /// <seealso cref="Layers.Floor.FloorLayer.Tilemaps"/>
-                            public IEnumerable<UnityEngine.Tilemaps.Tilemap> Tilemaps
-                            {
-                                get
-                                {
-                                    return Map.FloorLayer.Tilemaps;
-                                }
-                            }
+                            public IEnumerable<UnityEngine.Tilemaps.Tilemap> Tilemaps => Map.FloorLayer.Tilemaps;
 
                             /// <summary>
                             ///   Gets a tile in one of the tilemaps.
@@ -435,9 +467,15 @@ namespace GameMeanMachine.Unity.WindRose
 
                                 // Notify the map strategy, so data may be updated
                                 AttachedStrategy(objectStrategy, status);
-
+                                
                                 // Finally, notify the client strategy.
                                 objectStrategy.Object.onAttached.Invoke(Map);
+
+                                // Add it to the spatial index.
+                                if (usesSpatialIndexing)
+                                {
+                                    spatialIndex.Insert(objectStrategy.Object);
+                                }
                             }
                             
                             /**
@@ -480,12 +518,18 @@ namespace GameMeanMachine.Unity.WindRose
                                 // Cancels the movement, if any
                                 ClearMovement(objectStrategy, status);
 
+                                // Take it from the spatial index.
+                                if (usesSpatialIndexing)
+                                {
+                                    spatialIndex.Delete(objectStrategy.Object);
+                                }
+
                                 // Notify the map strategy, so data may be cleaned
                                 DetachedStrategy(objectStrategy, status);
 
                                 // Clear its position
                                 attachedStrategies.Remove(objectStrategy);
-
+                                
                                 // Finally, notify the client strategy.
                                 objectStrategy.Object.onDetached.Invoke();
                             }
@@ -671,6 +715,12 @@ namespace GameMeanMachine.Unity.WindRose
                                 {
                                     Types.Direction formerMovement = status.Movement.Value;
                                     Strategy.DoConfirmMovement(objectStrategy, status, formerMovement, "Before");
+                                    // Take it from the spatial index.
+                                    if (usesSpatialIndexing)
+                                    {
+                                        spatialIndex.Delete(objectStrategy.Object);
+                                    }
+
                                     switch (formerMovement)
                                     {
                                         case Types.Direction.UP:
@@ -685,6 +735,12 @@ namespace GameMeanMachine.Unity.WindRose
                                         case Types.Direction.RIGHT:
                                             status.X++;
                                             break;
+                                    }
+
+                                    // Add it to the spatial index.
+                                    if (usesSpatialIndexing)
+                                    {
+                                        spatialIndex.Insert(objectStrategy.Object);
                                     }
                                     DoConfirmMovement(objectStrategy, status, formerMovement, "AfterPositionChange");
                                     status.Movement = null;
@@ -740,8 +796,18 @@ namespace GameMeanMachine.Unity.WindRose
 
                                 ClearMovement(objectStrategy, status);
                                 DoTeleport(objectStrategy, status, x, y, "Before");
+                                // Take it from the spatial index.
+                                if (usesSpatialIndexing)
+                                {
+                                    spatialIndex.Delete(objectStrategy.Object);
+                                }
                                 status.X = x;
                                 status.Y = y;
+                                // Add it to the spatial index.
+                                if (usesSpatialIndexing)
+                                {
+                                    spatialIndex.Insert(objectStrategy.Object);
+                                }
                                 DoTeleport(objectStrategy, status, x, y, "AfterPositionChange");
                                 if (!silent) objectStrategy.Object.onTeleported.Invoke(x, y);
                                 DoTeleport(objectStrategy, status, x, y, "After");
@@ -800,24 +866,33 @@ namespace GameMeanMachine.Unity.WindRose
                         public class ObjectsManagementStrategyHolderEditor : Editor
                         {
                             SerializedProperty strategy;
+                            private SerializedProperty usesSpatialIndexing;
+                            private SerializedProperty bypass;
 
                             protected virtual void OnEnable()
                             {
                                 strategy = serializedObject.FindProperty("strategy");
+                                usesSpatialIndexing = serializedObject.FindProperty("usesSpatialIndexing");
+                                bypass = serializedObject.FindProperty("Bypass");
                             }
 
                             public override void OnInspectorGUI()
                             {
                                 serializedObject.Update();
 
+                                // Retrieving the object.
                                 ObjectsManagementStrategyHolder underlyingObject = (serializedObject.targetObject as ObjectsManagementStrategyHolder);
+                                
+                                // Setting the main strategy.
                                 ObjectsManagementStrategy[] strategies = underlyingObject.GetComponents<ObjectsManagementStrategy>();
                                 GUIContent[] strategyNames = (from strategy in strategies select new GUIContent(strategy.GetType().Name)).ToArray();
-
                                 int index = ArrayUtility.IndexOf(strategies, strategy.objectReferenceValue as ObjectsManagementStrategy);
                                 index = EditorGUILayout.Popup(new GUIContent("Main Strategy"), index, strategyNames);
                                 strategy.objectReferenceValue = index >= 0 ? strategies[index] : null;
 
+                                EditorGUILayout.PropertyField(usesSpatialIndexing);
+                                EditorGUILayout.PropertyField(bypass);
+                                
                                 serializedObject.ApplyModifiedProperties();
                             }
                         }

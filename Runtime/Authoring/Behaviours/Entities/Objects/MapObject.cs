@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using AlephVault.Unity.Support.Utils;
+using GameMeanMachine.Unity.WindRose.Vendor.RBush;
 
 namespace GameMeanMachine.Unity.WindRose
 {
@@ -39,7 +40,7 @@ namespace GameMeanMachine.Unity.WindRose
                 ///   </para>
                 /// </summary>
                 [RequireComponent(typeof(Pausable))]
-                public class MapObject : MonoBehaviour, Common.Pausable.IPausable
+                public class MapObject : MonoBehaviour, Pausable.IPausable, ISpatialData
                 {
                     #region Lifecycle
 
@@ -277,14 +278,36 @@ namespace GameMeanMachine.Unity.WindRose
                     private ushort height = 1;
 
                     /// <summary>
+                    ///   An extra height only considered for spatial indices.
+                    ///   Some sort of perspective faking to visually locate
+                    ///   this object in a spatial index, related to some sort
+                    ///   of conceptual height (in virtual z-axis). E.g. Games
+                    ///   like Pokemon use zHeight == 0, and games like Tibia
+                    ///   or Argentum Online use zHeight == 1, typically.
+                    /// </summary>
+                    [Delayed]
+                    [SerializeField]
+                    private ushort zHeight = 0;
+
+                    /// <summary>
                     ///   See <see cref="width"/>.
                     /// </summary>
-                    public ushort Width { get { return width; } } // Referencing directly allows us to query the width without a map assigned yet.
+                    public ushort Width => width; // Referencing directly allows us to query the width without a map assigned yet.
 
                     /// <summary>
                     ///   See <see cref="height"/>.
                     /// </summary>
-                    public ushort Height { get { return height; } } // Referencing directly allows us to query the height without a map assigned yet.
+                    public ushort Height => height; // Referencing directly allows us to query the height without a map assigned yet.
+
+                    /// <summary>
+                    ///   See <see cref="zHeight"/>.
+                    /// </summary>
+                    public ushort ZHeight => zHeight; // Referencing directly allows us to query the height without a map assigned yet.
+                    
+                    /// <summary>
+                    ///   Returns the spatial data (useful for spatial indices).
+                    /// </summary>
+                    public Envelope Envelope => new Envelope { MinX = X, MinY = Y, MaxX = X + width, MaxY =Y + height + zHeight };
                     #endregion
 
                     #region Moving
@@ -699,22 +722,22 @@ namespace GameMeanMachine.Unity.WindRose
                     /// <summary>
                     ///   The map this object is currently attached to.
                     /// </summary>
-                    private Map parentMap = null;
+                    private Map parentMap;
 
                     /// <summary>
                     ///   Gets the parent map this object is attached to. See <see cref="parentMap"/>.
                     /// </summary>
-                    public Map ParentMap { get { return parentMap; } }
+                    public Map ParentMap => parentMap;
 
                     /// <summary>
                     ///   The current X position of the object inside the attached map.
                     /// </summary>
-                    public ushort X { get { return parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).X; } }
+                    public ushort X => parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).X;
 
                     /// <summary>
                     ///   The current Y position of the object inside the attached map.
                     /// </summary>
-                    public ushort Y { get { return parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).Y; } }
+                    public ushort Y => parentMap.ObjectsLayer.StrategyHolder.StatusFor(StrategyHolder).Y;
 
                     /// <summary>
                     ///   The opposite X position of this object inside the attached map, with
