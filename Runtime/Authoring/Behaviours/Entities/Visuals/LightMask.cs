@@ -72,7 +72,7 @@ namespace GameMeanMachine.Unity.WindRose
 
                             protected void OnDisable()
                             {
-                                mask.gameObject.SetActive(false);
+                                if (mask) mask.gameObject.SetActive(false);
                             }
 
                             public override void DoUpdate()
