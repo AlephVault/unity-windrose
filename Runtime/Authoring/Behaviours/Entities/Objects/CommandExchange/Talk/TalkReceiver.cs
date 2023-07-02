@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using AlephVault.Unity.Support.Utils;
 
-namespace GameMeanMachine.Unity.WindRose
+namespace AlephVault.Unity.WindRose
 {
     namespace Authoring
     {

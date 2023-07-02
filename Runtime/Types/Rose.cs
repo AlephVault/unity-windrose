@@ -1,4 +1,4 @@
-﻿namespace GameMeanMachine.Unity.WindRose
+﻿namespace AlephVault.Unity.WindRose
 {
     namespace Types
     {

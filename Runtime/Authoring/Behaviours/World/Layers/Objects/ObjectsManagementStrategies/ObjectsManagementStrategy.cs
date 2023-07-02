@@ -1,9 +1,9 @@
-﻿using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies;
+﻿using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameMeanMachine.Unity.WindRose
+namespace AlephVault.Unity.WindRose
 {
     namespace Authoring
     {

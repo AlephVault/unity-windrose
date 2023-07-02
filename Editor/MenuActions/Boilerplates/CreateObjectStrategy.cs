@@ -6,7 +6,7 @@ using AlephVault.Unity.MenuActions.Utils;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameMeanMachine.Unity.WindRose
+namespace AlephVault.Unity.WindRose
 {
     namespace MenuActions
     {
@@ -84,7 +84,7 @@ WARNING: THIS MIGHT OVERRIDE EXISTING CODE. Always use proper source code manage
                 private static void DumpObjectStrategyTemplates(
                     string basename, bool tileStrategy, bool objectStrategies
                 ) {
-                    string directory = "Packages/com.gamemeanmachine.unity.windrose/" +
+                    string directory = "Packages/com.alephvault.unity.windrose/" +
                                        "Editor/MenuActions/Boilerplates/Templates";
                     TextAsset osText = AssetDatabase.LoadAssetAtPath<TextAsset>(
                         directory + "/ObjectStrategy.cs.txt"

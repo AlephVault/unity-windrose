@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies;
+using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies;
 using UnityEngine;
 
-namespace GameMeanMachine.Unity.WindRose
+namespace AlephVault.Unity.WindRose
 {
     namespace Authoring
     {
@@ -21,7 +21,7 @@ namespace GameMeanMachine.Unity.WindRose
                         {
                             namespace Solidness
                             {
-                                using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies.Solidness;
+                                using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies.Solidness;
                                 using Types;
 
                                 /// <summary>

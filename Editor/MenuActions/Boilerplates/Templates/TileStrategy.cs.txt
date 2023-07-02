@@ -1,4 +1,4 @@
-using GameMeanMachine.Unity.WindRose.Authoring.ScriptableObjects.Tiles.Strategies;
+using AlephVault.Unity.WindRose.Authoring.ScriptableObjects.Tiles.Strategies;
 
 namespace Core.Authoring.ScriptableObjects.Tiles.Strategies
 {

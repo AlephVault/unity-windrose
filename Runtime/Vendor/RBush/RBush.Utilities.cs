@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameMeanMachine.Unity.WindRose.Vendor.RBush
+namespace AlephVault.Unity.WindRose.Vendor.RBush
 {
 	public partial class RBush<T>
 	{

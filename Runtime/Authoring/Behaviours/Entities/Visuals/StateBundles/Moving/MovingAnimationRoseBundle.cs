@@ -1,6 +1,6 @@
-﻿using GameMeanMachine.Unity.WindRose.Types;
+﻿using AlephVault.Unity.WindRose.Types;
 
-namespace GameMeanMachine.Unity.WindRose
+namespace AlephVault.Unity.WindRose
 {
     namespace Authoring
     {

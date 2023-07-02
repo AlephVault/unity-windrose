@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace GameMeanMachine.Unity.WindRose.Vendor.RBush
+namespace AlephVault.Unity.WindRose.Vendor.RBush
 {
 	/// <summary>
 	/// An implementation of the R-tree data structure for 2-d spatial indexing.

@@ -1,8 +1,8 @@
 ﻿using System;
-using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies.Simple;
+using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies.Simple;
 using UnityEngine;
 
-namespace GameMeanMachine.Unity.WindRose
+namespace AlephVault.Unity.WindRose
 {
     using Types;
     namespace Authoring

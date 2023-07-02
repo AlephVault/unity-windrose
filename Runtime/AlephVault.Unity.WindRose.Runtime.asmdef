@@ -1,5 +1,5 @@
 {
-    "name": "GameMeanMachine.Unity.WindRose.Runtime",
+    "name": "AlephVault.Unity.WindRose.Runtime",
     "references": [
         "AlephVault.Unity.Support.Runtime",
         "AlephVault.Unity.Layout.Runtime"

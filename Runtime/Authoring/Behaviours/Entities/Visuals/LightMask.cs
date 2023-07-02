@@ -1,8 +1,8 @@
-using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.World.Layers.Darkness;
+using AlephVault.Unity.WindRose.Authoring.Behaviours.World.Layers.Darkness;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace GameMeanMachine.Unity.WindRose
+namespace AlephVault.Unity.WindRose
 {
     namespace Authoring
     {

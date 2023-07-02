@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-namespace GameMeanMachine.Unity.WindRose
+namespace AlephVault.Unity.WindRose
 {
     namespace Authoring
     {

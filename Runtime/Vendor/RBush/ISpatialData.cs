@@ -1,4 +1,4 @@
-﻿namespace GameMeanMachine.Unity.WindRose.Vendor.RBush
+﻿namespace AlephVault.Unity.WindRose.Vendor.RBush
 {
 	/// <summary>
 	/// Exposes an <see cref="Envelope"/> that describes the

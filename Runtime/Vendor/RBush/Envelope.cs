@@ -1,6 +1,6 @@
 ﻿using AlephVault.Unity.Support.Utils;
 
-namespace GameMeanMachine.Unity.WindRose.Vendor.RBush
+namespace AlephVault.Unity.WindRose.Vendor.RBush
 {
 	/// <summary>
 	/// A bounding envelope, used to identify the bounds of of the points within

@@ -1,5 +1,5 @@
 using System;
-using GameMeanMachine.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies;
+using AlephVault.Unity.WindRose.Authoring.Behaviours.Entities.Objects.Strategies;
 using UnityEngine;
 
 namespace Core.Authoring.Behaviours.MapObjects.ObjectStrategies

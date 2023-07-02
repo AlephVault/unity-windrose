@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GameMeanMachine.Unity.WindRose.Vendor.RBush
+namespace AlephVault.Unity.WindRose.Vendor.RBush
 {
 	public partial class RBush<T>
 	{

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using AlephVault.Unity.Support.Utils;
-using GameMeanMachine.Unity.WindRose.Vendor.RBush;
+using AlephVault.Unity.WindRose.Vendor.RBush;
 
-namespace GameMeanMachine.Unity.WindRose
+namespace AlephVault.Unity.WindRose
 {
     namespace Authoring
     {

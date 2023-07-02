@@ -1,8 +1,8 @@
 {
-    "name": "GameMeanMachine.Unity.WindRose.Editor",
+    "name": "AlephVault.Unity.WindRose.Editor",
     "rootNamespace": "",
     "references": [
-        "GameMeanMachine.Unity.WindRose.Runtime",
+        "AlephVault.Unity.WindRose.Runtime",
         "AlephVault.Unity.Support.Runtime",
         "AlephVault.Unity.MenuActions.Editor",
         "AlephVault.Unity.Layout.Runtime",
