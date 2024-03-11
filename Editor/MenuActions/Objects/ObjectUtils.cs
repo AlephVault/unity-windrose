@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using AlephVault.Unity.MenuActions.Types;
 using UnityEngine;
 using UnityEditor;
 using AlephVault.Unity.Support.Utils;
@@ -18,17 +17,17 @@ namespace AlephVault.Unity.WindRose
             /// </summary>
             public static class ObjectUtils
             {
-                private class CreateObjectWindow : EditorWindow
+                private class CreateObjectWindow : SmartEditorWindow
                 {
-                    private static int[] addStrategyOptions = new int[] { 0, 1, 2 };
-                    private static string[] addStrategyLabels = new string[] { "Simple (includes Solidness and Layout)", "Layout", "Nothing (will be added manually later)" };
-                    private static int[] addTriggerOptions = new int[] { 0, 1, 2 };
-                    private static string[] addTriggerLabels = new string[] { "No trigger", "Live trigger", "Platform" };
+                    private static int[] addStrategyOptions = { 0, 1, 2 };
+                    private static string[] addStrategyLabels = { "Simple (includes Solidness and Layout)", "Layout", "Nothing (will be added manually later)" };
+                    private static int[] addTriggerOptions = { 0, 1, 2 };
+                    private static string[] addTriggerLabels = { "No trigger", "Live trigger", "Platform" };
 
                     public Transform selectedTransform;
                     // Basic properties.
                     private string objectName = "New Object";
-                    private Vector2Int objectSize = new Vector2Int(1, 1);
+                    private Vector2Int objectSize = new (1, 1);
                     // Optional behaviours to send commands.
                     private bool addCommandSender = false;
                     private bool addTalkSender = false; // depends on addCommandSender.
@@ -40,14 +39,18 @@ namespace AlephVault.Unity.WindRose
                     // Object strategy setup.
                     private int addStrategy = 0;
 
-                    private void OnGUI()
+                    protected override float GetSmartWidth()
+                    {
+                        return 500;
+                    }
+                    
+                    protected override void OnAdjustedGUI()
                     {
                         GUIStyle longLabelStyle = MenuActionUtils.GetSingleLabelStyle();
                         GUIStyle indentedStyle = MenuActionUtils.GetIndentedStyle();
                         
                         // General settings start here.
 
-                        Rect contentRect = EditorGUILayout.BeginVertical();
                         titleContent = new GUIContent("Wind Rose - Creating a new object");
                         EditorGUILayout.LabelField("This wizard will create an object in the hierarchy of the current scene, under the selected objects layer in the hierarchy.", longLabelStyle);
 
@@ -81,21 +84,7 @@ namespace AlephVault.Unity.WindRose
                             EditorGUILayout.EndVertical();
                         }
                         addStrategy = EditorGUILayout.IntPopup("Object Strategy", addStrategy, addStrategyLabels, addStrategyOptions);
-                        if (GUILayout.Button("Create Object")) Execute();
-                        EditorGUILayout.EndVertical();
-
-                        try
-                        {
-                            float height = (contentRect.max - contentRect.min).y + 8;
-                            if (height > 8)
-                            {
-                                minSize = new Vector2(minSize.x, height);
-                                maxSize = minSize;
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                        }
+                        SmartButton("Create Object", Execute);
                     }
 
                     private void Execute()
@@ -103,37 +92,37 @@ namespace AlephVault.Unity.WindRose
                         GameObject gameObject = new GameObject(objectName);
                         gameObject.transform.parent = selectedTransform;
                         gameObject.SetActive(false);
-                        AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.MapObject>(gameObject, new Dictionary<string, object>() {
+                        Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.MapObject>(gameObject, new Dictionary<string, object>() {
                             { "width", (ushort)objectSize.x },
                             { "height", (ushort)objectSize.y }
                         });
                         gameObject.AddComponent<Authoring.Behaviours.Entities.Objects.ObjectStrategyHolder>();
                         if (addCommandSender)
                         {
-                            AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.CommandExchange.CloseCommandSender>(gameObject);
+                            Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.CommandExchange.CloseCommandSender>(gameObject);
                             if (addTalkSender)
                             {
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.CommandExchange.Talk.TalkSender>(gameObject);
+                                Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.CommandExchange.Talk.TalkSender>(gameObject);
                             }
                         }
                         switch (addTrigger)
                         {
                             case 1:
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<BoxCollider>(gameObject);
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Rigidbody>(gameObject);
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.TriggerLive>(gameObject);
+                                Layout.Utils.Behaviours.AddComponent<BoxCollider>(gameObject);
+                                Layout.Utils.Behaviours.AddComponent<Rigidbody>(gameObject);
+                                Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.TriggerLive>(gameObject);
                                 if (addCommandReceiver)
                                 {
-                                    AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.CommandExchange.CommandReceiver>(gameObject);
+                                    Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.CommandExchange.CommandReceiver>(gameObject);
                                     if (addTalkReceiver)
                                     {
-                                        AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.CommandExchange.Talk.TalkReceiver>(gameObject);
+                                        Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.CommandExchange.Talk.TalkReceiver>(gameObject);
                                     }
                                 }
                                 break;
                             case 2:
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<BoxCollider>(gameObject);
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.TriggerPlatform>(gameObject, new Dictionary<string, object>()
+                                Layout.Utils.Behaviours.AddComponent<BoxCollider>(gameObject);
+                                Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.TriggerPlatform>(gameObject, new Dictionary<string, object>()
                                 {
                                     { "innerMarginFactor", 0.25f }
                                 });
@@ -143,24 +132,21 @@ namespace AlephVault.Unity.WindRose
                         switch(addStrategy)
                         {
                             case 0:
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Strategies.Base.LayoutObjectStrategy>(gameObject);
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy>(gameObject);
-                                mainStrategy = AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Strategies.Simple.SimpleObjectStrategy>(gameObject);
+                                Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Strategies.Base.LayoutObjectStrategy>(gameObject);
+                                Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Strategies.Solidness.SolidnessObjectStrategy>(gameObject);
+                                mainStrategy = Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Strategies.Simple.SimpleObjectStrategy>(gameObject);
                                 break;
                             case 1:
-                                mainStrategy = AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Strategies.Base.LayoutObjectStrategy>(gameObject);
-                                break;
-                            default:
+                                mainStrategy = Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Strategies.Base.LayoutObjectStrategy>(gameObject);
                                 break;
                         }
                         Authoring.Behaviours.Entities.Objects.ObjectStrategyHolder currentHolder = gameObject.GetComponent<Authoring.Behaviours.Entities.Objects.ObjectStrategyHolder>();
-                        AlephVault.Unity.Layout.Utils.Behaviours.SetObjectFieldValues(currentHolder, new Dictionary<string, object>()
+                        Layout.Utils.Behaviours.SetObjectFieldValues(currentHolder, new Dictionary<string, object>()
                         {
                             { "objectStrategy", mainStrategy }
                         });
                         gameObject.SetActive(true);
                         Undo.RegisterCreatedObjectUndo(gameObject, "Create Object");
-                        Close();
                     }
                 }
 

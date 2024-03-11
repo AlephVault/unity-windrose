@@ -1,13 +1,13 @@
 {
   "name": "com.alephvault.unity.windrose",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "displayName": "Aleph Vault - Unity - WindRose",
   "description": "Allows the developer to create an orthogonal RPG game using a maps layout.",
   "unity": "2020.3",
   "dependencies": {
     "com.alephvault.unity.support": "0.0.2",
     "com.alephvault.unity.layout": "0.0.1",
-    "com.alephvault.unity.menuactions": "0.0.1",
+    "com.alephvault.unity.menuactions": "0.0.2",
     "com.alephvault.unity.boilerplates": "0.0.1"
   },
   "author": {

@@ -1,7 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor;
@@ -12,8 +10,6 @@ namespace AlephVault.Unity.WindRose
     {
         namespace Tiles
         {
-            using AlephVault.Unity.Layout.Utils;
-
             /// <summary>
             ///   Menu actions to create standard tiles from sprites.
             /// </summary>
@@ -52,7 +48,7 @@ namespace AlephVault.Unity.WindRose
                 [MenuItem("Assets/Create/Wind Rose/Tiles/Tiles (From 1+ selected sprites)", true)]
                 public static bool CanCreateTiles()
                 {
-                    return TileUtils.GetSelectedAssets<Sprite>().Count() >= 1;
+                    return TileUtils.GetSelectedAssets<Sprite>().Any();
                 }
 
                 /***************** Move these functions to another utility depending on Unity2DExtras

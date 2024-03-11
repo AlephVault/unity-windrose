@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using AlephVault.Unity.Boilerplates.Utils;
 using UnityEditor;
-using UnityEngine;
 
 namespace AlephVault.Unity.WindRose
 {

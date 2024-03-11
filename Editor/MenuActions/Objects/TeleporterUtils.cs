@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using AlephVault.Unity.Support.Utils;
 using AlephVault.Unity.MenuActions.Utils;
+using AlephVault.Unity.MenuActions.Types;
 
 namespace AlephVault.Unity.WindRose
 {
@@ -15,7 +16,7 @@ namespace AlephVault.Unity.WindRose
             /// </summary>
             public static class TeleporterUtils
             {
-                private class CreateTeleporterWindow : EditorWindow
+                private class CreateTeleporterWindow : SmartEditorWindow
                 {
                     public Transform selectedTransform;
                     private string objectName = "New Teleporter";
@@ -23,7 +24,12 @@ namespace AlephVault.Unity.WindRose
                     private bool addTeleportTargetBehaviour;
                     private bool useTaggedSystem;
 
-                    private void OnGUI()
+                    protected override float GetSmartWidth()
+                    {
+                        return 500;
+                    }
+                    
+                    protected override void OnAdjustedGUI()
                     {
                         GUIStyle longLabelStyle = MenuActionUtils.GetSingleLabelStyle();
                         GUIStyle captionLabelStyle = MenuActionUtils.GetCaptionLabelStyle();
@@ -43,7 +49,7 @@ namespace AlephVault.Unity.WindRose
 
                         EditorGUILayout.LabelField("A target must be manually set for this teleporter. The target must have dimensions supporting the intended object(s) to be transferred.", captionLabelStyle);
 
-                        if (GUILayout.Button("Create Object")) Execute();
+                        SmartButton("Create Object", Execute);
                     }
 
                     private void Execute()
@@ -51,29 +57,28 @@ namespace AlephVault.Unity.WindRose
                         GameObject gameObject = new GameObject(objectName);
                         gameObject.transform.parent = selectedTransform;
                         gameObject.SetActive(false);
-                        AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.MapObject>(gameObject, new Dictionary<string, object>() {
+                        Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.MapObject>(gameObject, new Dictionary<string, object>() {
                             { "width", (ushort)objectSize.x },
                             { "height", (ushort)objectSize.y }
                         });
                         if (!useTaggedSystem)
                         {
-                            AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.SimpleTeleporter>(gameObject);
+                            Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.SimpleTeleporter>(gameObject);
                             if (addTeleportTargetBehaviour)
                             {
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.SimpleTeleportTarget>(gameObject);
+                                Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.SimpleTeleportTarget>(gameObject);
                             }
                         }
                         else
                         {
-                            AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.TaggedTeleporter>(gameObject);
+                            Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.TaggedTeleporter>(gameObject);
                             if (addTeleportTargetBehaviour)
                             {
-                                AlephVault.Unity.Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.TaggedTeleportTarget>(gameObject);
+                                Layout.Utils.Behaviours.AddComponent<Authoring.Behaviours.Entities.Objects.Teleport.TaggedTeleportTarget>(gameObject);
                             }
                         }
                         gameObject.SetActive(true);
                         Undo.RegisterCreatedObjectUndo(gameObject, "Create Teleporter");
-                        Close();
                     }
                 }
 

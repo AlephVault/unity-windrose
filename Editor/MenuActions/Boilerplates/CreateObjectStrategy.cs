@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using AlephVault.Unity.Boilerplates.Utils;
+using AlephVault.Unity.MenuActions.Types;
 using AlephVault.Unity.MenuActions.Utils;
 using UnityEditor;
 using UnityEngine;
@@ -26,7 +26,7 @@ namespace AlephVault.Unity.WindRose
                 ///   file, or just the TileStrategy file, or just the other
                 ///   two files.
                 /// </summary>
-                public class CreateObjectStrategyWindow : EditorWindow
+                public class CreateObjectStrategyWindow : SmartEditorWindow
                 {
                     // The base name to use.
                     private Regex baseNameCriterion = new Regex("^[A-Z][A-Za-z0-9_]*$");
@@ -35,13 +35,17 @@ namespace AlephVault.Unity.WindRose
                     private bool objectStrategies = true;
                     private bool tileStrategy = true;
                     
-                    private void OnGUI()
+                    protected override float GetSmartWidth()
+                    {
+                        return 750;
+                    }
+                    
+                    protected override void OnAdjustedGUI()
                     {
                         GUIStyle longLabelStyle = MenuActionUtils.GetSingleLabelStyle();
                         GUIStyle captionLabelStyle = MenuActionUtils.GetCaptionLabelStyle();
                         GUIStyle indentedStyle = MenuActionUtils.GetIndentedStyle();
 
-                        EditorGUILayout.BeginVertical();
                         EditorGUILayout.LabelField("Strategies generation", captionLabelStyle);
                         EditorGUILayout.LabelField(@"
 This utility generates up to three strategy files, with boilerplate code and instructions on how to understand that code.
@@ -66,17 +70,13 @@ WARNING: THIS MIGHT OVERRIDE EXISTING CODE. Always use proper source code manage
                         objectStrategies = EditorGUILayout.ToggleLeft("Object Strategy files", objectStrategies);
                         tileStrategy = EditorGUILayout.ToggleLeft("Tile Strategy files", tileStrategy);
 
-                        bool execute = validBaseName && (objectStrategies || tileStrategy) &&
-                                       GUILayout.Button("Generate");
-                        EditorGUILayout.EndVertical();
-                        
-                        if (execute) Execute();
+                        if (validBaseName && (objectStrategies || tileStrategy))
+                            SmartButton("Generate", Execute);
                     }
 
                     private void Execute()
                     {
                         DumpObjectStrategyTemplates(baseName, tileStrategy, objectStrategies);
-                        Close();
                     }
                 }
                 
