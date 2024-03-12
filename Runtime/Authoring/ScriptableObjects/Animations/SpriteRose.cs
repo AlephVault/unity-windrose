@@ -19,7 +19,7 @@ namespace AlephVault.Unity.WindRose
                 ///   An sprite rose consist of 4 sprites: one for each direction.
                 ///   Intended for non-animated orientable objects.
                 /// </summary>
-                [CreateAssetMenu(fileName = "NewSpriteRose", menuName = "Wind Rose/Visual Resources/Sprite Rose", order = 201)]
+                [CreateAssetMenu(fileName = "NewSpriteRose", menuName = "AlephVault/Wind Rose/Visual Resources/Sprite Rose", order = 201)]
                 public class SpriteRose : ScriptableObject
                 {
                     /// <summary>

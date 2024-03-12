@@ -143,7 +143,7 @@ namespace AlephVault.Unity.WindRose
                 ///   It creates a <see cref="Authoring.Behaviours.Entities.Visuals.Visual"/> under the selected transform,
                 ///     in the scene editor, that has a <see cref="Authoring.Behaviours.Entities.Objects.MapObject"/> component.
                 /// </summary>
-                [MenuItem("GameObject/Wind Rose/Visuals/Create Visual", false, 11)]
+                [MenuItem("GameObject/AlephVault/Wind Rose/Visuals/Create Visual", false, 11)]
                 public static void CreateVisual()
                 {
                     CreateVisualWindow window = ScriptableObject.CreateInstance<CreateVisualWindow>();
@@ -157,7 +157,7 @@ namespace AlephVault.Unity.WindRose
                 ///   It enables such menu option when an <see cref="Authoring.Behaviours.Entities.Objects.MapObject"/>
                 ///     is selected in the scene editor.
                 /// </summary>
-                [MenuItem("GameObject/Wind Rose/Visuals/Create Visual", true)]
+                [MenuItem("GameObject/AlephVault/Wind Rose/Visuals/Create Visual", true)]
                 public static bool CanCreateVisual()
                 {
                     return Selection.activeTransform && Selection.activeTransform.GetComponent<Authoring.Behaviours.Entities.Objects.MapObject>();

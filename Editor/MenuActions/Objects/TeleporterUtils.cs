@@ -89,7 +89,7 @@ namespace AlephVault.Unity.WindRose
                 ///   teleporter (instead of a simple one). The difference between both teleporters is that the
                 ///   simple teleporter directly references the target, while the tagged teleporter
                 /// </summary>
-                [MenuItem("GameObject/Wind Rose/Objects/Create Teleporter", false, 12)]
+                [MenuItem("GameObject/AlephVault/Wind Rose/Objects/Create Teleporter", false, 12)]
                 public static void CreateTeleporter()
                 {
                     CreateTeleporterWindow window = ScriptableObject.CreateInstance<CreateTeleporterWindow>();
@@ -104,7 +104,7 @@ namespace AlephVault.Unity.WindRose
                 ///   It enables such menu option when an <see cref="Behaviours.World.Layers.Objects.ObjectsLayer"/>
                 ///     is selected in the scene editor.
                 /// </summary>
-                [MenuItem("GameObject/Wind Rose/Objects/Create Teleporter", true)]
+                [MenuItem("GameObject/AlephVault/Wind Rose/Objects/Create Teleporter", true)]
                 public static bool CanCreateTeleporter()
                 {
                     return Selection.activeTransform && Selection.activeTransform.GetComponent<Authoring.Behaviours.World.Layers.Objects.ObjectsLayer>();

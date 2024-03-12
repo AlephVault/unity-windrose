@@ -26,7 +26,7 @@ namespace AlephVault.Unity.WindRose
                 ///     instance of <see cref="BundledTile"/>, under the new /Bundled subdirectory, in the same directory, for each individual
                 ///     file and keeping the file name.
                 /// </summary>
-                [MenuItem("Assets/Create/Wind Rose/Tiles/Bundled Tiles (From 1+ selected non-bundled tiles)", false, priority = 202)]
+                [MenuItem("Assets/Create/AlephVault/Wind Rose/Tiles/Bundled Tiles (From 1+ selected non-bundled tiles)", false, priority = 202)]
                 public static void WrapIntoBundledTiles()
                 {
                     foreach(TileBase tileBase in GetSelectedNonBundledTiles())
@@ -53,7 +53,7 @@ namespace AlephVault.Unity.WindRose
                 ///   It enables such menu option when 1 or more <see cref="Tile"/> or <see cref="TileBase"/> objects are selected in
                 ///     the project explorer.
                 /// </summary>
-                [MenuItem("Assets/Create/Wind Rose/Tiles/Bundled Tiles (From 1+ selected non-bundled tiles)", true)]
+                [MenuItem("Assets/Create/AlephVault/Wind Rose/Tiles/Bundled Tiles (From 1+ selected non-bundled tiles)", true)]
                 public static bool CanWrapIntoBundledTiles()
                 {
                     return GetSelectedNonBundledTiles().Count() > 0;

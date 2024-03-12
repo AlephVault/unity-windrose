@@ -26,7 +26,7 @@ namespace AlephVault.Unity.WindRose
                 ///       - ScriptableObjects/TileStrategies.
                 ///       - Behaviours/: MapObjects/ObjectStrategies, Maps/ObjectStrategies.
                 /// </summary>
-                [MenuItem("Assets/Create/Wind Rose/Boilerplates/Project Startup", false, 11)]
+                [MenuItem("Assets/Create/AlephVault/Wind Rose/Boilerplates/Project Startup", false, 11)]
                 public static void ExecuteBoilerplate()
                 {
                     new Boilerplate()

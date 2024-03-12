@@ -155,7 +155,7 @@ namespace AlephVault.Unity.WindRose
                 ///   It creates a <see cref="Authoring.Behaviours.Entities.Objects.MapObject"/> under the selected objects
                 ///     layer, in the scene editor.
                 /// </summary>
-                [MenuItem("GameObject/Wind Rose/Objects/Create Object", false, 11)]
+                [MenuItem("GameObject/AlephVault/Wind Rose/Objects/Create Object", false, 11)]
                 public static void CreateObject()
                 {
                     CreateObjectWindow window = ScriptableObject.CreateInstance<CreateObjectWindow>();
@@ -172,7 +172,7 @@ namespace AlephVault.Unity.WindRose
                 ///   It enables such menu option when an <see cref="Behaviours.World.Layers.Objects.ObjectsLayer"/>
                 ///     is selected in the scene editor.
                 /// </summary>
-                [MenuItem("GameObject/Wind Rose/Objects/Create Object", true)]
+                [MenuItem("GameObject/AlephVault/Wind Rose/Objects/Create Object", true)]
                 public static bool CanCreateObject()
                 {
                     return Selection.activeTransform && Selection.activeTransform.GetComponent<Authoring.Behaviours.World.Layers.Objects.ObjectsLayer>();

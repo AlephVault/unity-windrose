@@ -194,7 +194,7 @@ namespace AlephVault.Unity.WindRose
                 ///   This method is used in a menu action: GameObject > Wind Rose > Maps > Create Map.
                 ///   It creates a map inside the selected object in the hierarchy.
                 /// </summary>
-                [MenuItem("GameObject/Wind Rose/Maps/Create Map", false, 11)]
+                [MenuItem("GameObject/AlephVault/Wind Rose/Maps/Create Map", false, 11)]
                 public static void CreateMap()
                 {
                     CreateMapWindow window = ScriptableObject.CreateInstance<CreateMapWindow>();
@@ -209,7 +209,7 @@ namespace AlephVault.Unity.WindRose
                 ///   hierarchy, or when the selected transform is not child of <see cref="MapObject"/>
                 ///   and is a child of <see cref="Scope"/>.
                 /// </summary>
-                [MenuItem("GameObject/Wind Rose/Maps/Create Map", true)]
+                [MenuItem("GameObject/AlephVault/Wind Rose/Maps/Create Map", true)]
                 public static bool CanCreateMap()
                 {
                     return Selection.activeTransform == null ||

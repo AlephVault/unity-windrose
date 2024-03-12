@@ -22,7 +22,7 @@ namespace AlephVault.Unity.WindRose
                         ///   Blocking cells cannot be walked through (as determined in
                         ///   the Layout map strategy).
                         /// </summary>
-                        [CreateAssetMenu(fileName = "NewLayoutTileStrategy", menuName = "Wind Rose/Tile Strategies/Layout", order = 201)]
+                        [CreateAssetMenu(fileName = "NewLayoutTileStrategy", menuName = "AlephVault/Wind Rose/Tile Strategies/Layout", order = 201)]
                         public class LayoutTileStrategy : TileStrategy
                         {
                             /// <summary>

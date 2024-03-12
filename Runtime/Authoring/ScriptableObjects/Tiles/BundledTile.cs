@@ -34,7 +34,7 @@ namespace AlephVault.Unity.WindRose
                 ///       referencing them.
                 ///   </para>
                 /// </summary>
-                [CreateAssetMenu(fileName = "NewBundledTile", menuName = "Wind Rose/Tiles/Bundled Tile", order = 201)]
+                [CreateAssetMenu(fileName = "NewBundledTile", menuName = "AlephVault/Wind Rose/Tiles/Bundled Tile", order = 201)]
                 public class BundledTile : TileBase
                 {
                     /// <summary>

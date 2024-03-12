@@ -20,7 +20,7 @@ namespace AlephVault.Unity.WindRose
                 ///   For each sprite being selected, it creates a tile under the new /Tiles subdirectory, in the same directory,
                 ///     for each individual sprite and keeping the sprite name.
                 /// </summary>
-                [MenuItem("Assets/Create/Wind Rose/Tiles/Tiles (From 1+ selected sprites)", false, priority = 101)]
+                [MenuItem("Assets/Create/AlephVault/Wind Rose/Tiles/Tiles (From 1+ selected sprites)", false, priority = 101)]
                 public static void CreateTiles()
                 {
                     foreach(Sprite sprite in TileUtils.GetSelectedAssets<Sprite>().ToArray())
@@ -45,7 +45,7 @@ namespace AlephVault.Unity.WindRose
                 ///   It enables such menu option when 1 or more <see cref="Sprite"/> objects are selected in
                 ///     the project explorer.
                 /// </summary>
-                [MenuItem("Assets/Create/Wind Rose/Tiles/Tiles (From 1+ selected sprites)", true)]
+                [MenuItem("Assets/Create/AlephVault/Wind Rose/Tiles/Tiles (From 1+ selected sprites)", true)]
                 public static bool CanCreateTiles()
                 {
                     return TileUtils.GetSelectedAssets<Sprite>().Any();
