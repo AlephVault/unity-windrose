@@ -34,7 +34,7 @@ namespace AlephVault.Unity.WindRose
                         GUIStyle longLabelStyle = MenuActionUtils.GetSingleLabelStyle();
                         GUIStyle captionLabelStyle = MenuActionUtils.GetCaptionLabelStyle();
 
-                        titleContent = new GUIContent("Wind Rose - Creating a new local teleporter object");
+                        titleContent = new GUIContent("WindRose - Creating a new local teleporter object");
                         EditorGUILayout.LabelField("This wizard will create a local teleporter object object under the currently selected objects layer in the hierarchy editor.", longLabelStyle);
 
                         EditorGUILayout.LabelField("This is the name the game object will have when added to the hierarchy.", longLabelStyle);
@@ -83,13 +83,13 @@ namespace AlephVault.Unity.WindRose
                 }
 
                 /// <summary>
-                ///   This method is used in the menu action: GameObject > Wind Rose > Objects > Create Teleporter.
+                ///   This method is used in the menu action: GameObject > WindRose > Objects > Create Teleporter.
                 ///   It creates a <see cref="Behaviours.Entities.Objects.Teleport.SimpleTeleporter"/> under the
                 ///   selected objects layer, in the scene editor. If appropriately flagged, it creates a tagged
                 ///   teleporter (instead of a simple one). The difference between both teleporters is that the
                 ///   simple teleporter directly references the target, while the tagged teleporter
                 /// </summary>
-                [MenuItem("GameObject/AlephVault/Wind Rose/Objects/Create Teleporter", false, 12)]
+                [MenuItem("GameObject/Aleph Vault/WindRose/Objects/Create Teleporter", false, 12)]
                 public static void CreateTeleporter()
                 {
                     CreateTeleporterWindow window = ScriptableObject.CreateInstance<CreateTeleporterWindow>();
@@ -100,11 +100,11 @@ namespace AlephVault.Unity.WindRose
                 }
 
                 /// <summary>
-                ///   Validates the menu item: GameObject > Wind Rose > Objects > Create Teleporter.
+                ///   Validates the menu item: GameObject > WindRose > Objects > Create Teleporter.
                 ///   It enables such menu option when an <see cref="Behaviours.World.Layers.Objects.ObjectsLayer"/>
                 ///     is selected in the scene editor.
                 /// </summary>
-                [MenuItem("GameObject/AlephVault/Wind Rose/Objects/Create Teleporter", true)]
+                [MenuItem("GameObject/Aleph Vault/WindRose/Objects/Create Teleporter", true)]
                 public static bool CanCreateTeleporter()
                 {
                     return Selection.activeTransform && Selection.activeTransform.GetComponent<Authoring.Behaviours.World.Layers.Objects.ObjectsLayer>();

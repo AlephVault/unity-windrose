@@ -51,7 +51,7 @@ namespace AlephVault.Unity.WindRose
                         
                         // General settings start here.
 
-                        titleContent = new GUIContent("Wind Rose - Creating a new object");
+                        titleContent = new GUIContent("WindRose - Creating a new object");
                         EditorGUILayout.LabelField("This wizard will create an object in the hierarchy of the current scene, under the selected objects layer in the hierarchy.", longLabelStyle);
 
                         // Object properties.
@@ -151,11 +151,11 @@ namespace AlephVault.Unity.WindRose
                 }
 
                 /// <summary>
-                ///   This method is used in the menu action: GameObject > Wind Rose > Objects > Create Object.
+                ///   This method is used in the menu action: GameObject > WindRose > Objects > Create Object.
                 ///   It creates a <see cref="Authoring.Behaviours.Entities.Objects.MapObject"/> under the selected objects
                 ///     layer, in the scene editor.
                 /// </summary>
-                [MenuItem("GameObject/AlephVault/Wind Rose/Objects/Create Object", false, 11)]
+                [MenuItem("GameObject/Aleph Vault/WindRose/Objects/Create Object", false, 11)]
                 public static void CreateObject()
                 {
                     CreateObjectWindow window = ScriptableObject.CreateInstance<CreateObjectWindow>();
@@ -168,11 +168,11 @@ namespace AlephVault.Unity.WindRose
                 }
 
                 /// <summary>
-                ///   Validates the menu item: GameObject > Wind Rose > Objects > Create Object.
+                ///   Validates the menu item: GameObject > WindRose > Objects > Create Object.
                 ///   It enables such menu option when an <see cref="Behaviours.World.Layers.Objects.ObjectsLayer"/>
                 ///     is selected in the scene editor.
                 /// </summary>
-                [MenuItem("GameObject/AlephVault/Wind Rose/Objects/Create Object", true)]
+                [MenuItem("GameObject/Aleph Vault/WindRose/Objects/Create Object", true)]
                 public static bool CanCreateObject()
                 {
                     return Selection.activeTransform && Selection.activeTransform.GetComponent<Authoring.Behaviours.World.Layers.Objects.ObjectsLayer>();

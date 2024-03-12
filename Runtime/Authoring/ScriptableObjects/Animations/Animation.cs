@@ -16,7 +16,7 @@ namespace AlephVault.Unity.WindRose
                 ///     rose (for certain direction in such rose) or as default animation for objects that are not
                 ///     orientable (i.e. they have no direction to look/move to).
                 /// </summary>
-                [CreateAssetMenu(fileName = "NewAnimation", menuName = "AlephVault/Wind Rose/Visual Resources/Animation", order = 202)]
+                [CreateAssetMenu(fileName = "NewAnimation", menuName = "Aleph Vault/WindRose/Visual Resources/Animation", order = 202)]
                 public class Animation : ScriptableObject
                 {
                     /// <summary>

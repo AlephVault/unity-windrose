@@ -66,7 +66,7 @@ namespace AlephVault.Unity.WindRose
 
                         // General settings start here.
 
-                        titleContent = new GUIContent("Wind Rose - Creating a new map");
+                        titleContent = new GUIContent("WindRose - Creating a new map");
                         EditorGUILayout.LabelField("This wizard will create a map in the hierarchy of the current scene, under the selected object in the hierarchy.", longLabelStyle);
 
                         // Map properties.
@@ -191,10 +191,10 @@ namespace AlephVault.Unity.WindRose
                 }
 
                 /// <summary>
-                ///   This method is used in a menu action: GameObject > Wind Rose > Maps > Create Map.
+                ///   This method is used in a menu action: GameObject > WindRose > Maps > Create Map.
                 ///   It creates a map inside the selected object in the hierarchy.
                 /// </summary>
-                [MenuItem("GameObject/AlephVault/Wind Rose/Maps/Create Map", false, 11)]
+                [MenuItem("GameObject/Aleph Vault/WindRose/Maps/Create Map", false, 11)]
                 public static void CreateMap()
                 {
                     CreateMapWindow window = ScriptableObject.CreateInstance<CreateMapWindow>();
@@ -204,12 +204,12 @@ namespace AlephVault.Unity.WindRose
                 }
 
                 /// <summary>
-                ///   Validates the menu item: GameObject > Wind Rose > Maps > Create Map.
+                ///   Validates the menu item: GameObject > WindRose > Maps > Create Map.
                 ///   It enables such menu option when no transform is selected in the scene
                 ///   hierarchy, or when the selected transform is not child of <see cref="MapObject"/>
                 ///   and is a child of <see cref="Scope"/>.
                 /// </summary>
-                [MenuItem("GameObject/AlephVault/Wind Rose/Maps/Create Map", true)]
+                [MenuItem("GameObject/Aleph Vault/WindRose/Maps/Create Map", true)]
                 public static bool CanCreateMap()
                 {
                     return Selection.activeTransform == null ||
