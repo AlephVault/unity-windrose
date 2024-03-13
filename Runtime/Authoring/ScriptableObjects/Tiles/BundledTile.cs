@@ -56,7 +56,7 @@ namespace AlephVault.Unity.WindRose
                         try
                         {
                             // Order / Flatten dependencies
-                            strategies = Assets.FlattenDependencies<Strategies.TileStrategy, RequireTileStrategy, TileStrategyDependencyException>(strategies);
+                            if (strategies != null) strategies = Assets.FlattenDependencies<Strategies.TileStrategy, RequireTileStrategy, TileStrategyDependencyException>(strategies);
                         }
                         catch (Exception e)
                         {
