@@ -35,6 +35,8 @@ namespace AlephVault.Unity.WindRose
                 [CreateAssetMenu(fileName = "NewBundledTile", menuName = "Aleph Vault/WindRose/Tiles/Bundled Tile", order = 201)]
                 public class BundledTile : TileBase
                 {
+                    private static GUIContent dTileIconSprite;
+                    
                     /// <summary>
                     ///   The underlying tile. It may be the tile you want, but it was little
                     ///     to no use if it is a BundledTile as well. Please, choose another
@@ -178,7 +180,7 @@ namespace AlephVault.Unity.WindRose
                     /// <returns>An array of attached tile strategy instances for the given type, or an empty array</returns>
                     public static T[] GetStrategiesFrom<T>(TileBase tile) where T : Strategies.TileStrategy
                     {
-                        return (tile is BundledTile) ? ((BundledTile)tile).GetStrategies<T>() : (new T[0]);
+                        return tile is BundledTile bundledTile ? bundledTile.GetStrategies<T>() : Array.Empty<T>();
                     }
                 }
             }
