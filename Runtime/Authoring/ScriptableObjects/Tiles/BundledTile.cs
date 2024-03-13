@@ -35,8 +35,6 @@ namespace AlephVault.Unity.WindRose
                 [CreateAssetMenu(fileName = "NewBundledTile", menuName = "Aleph Vault/WindRose/Tiles/Bundled Tile", order = 201)]
                 public class BundledTile : TileBase
                 {
-                    private static GUIContent dTileIconSprite;
-                    
                     /// <summary>
                     ///   The underlying tile. It may be the tile you want, but it was little
                     ///     to no use if it is a BundledTile as well. Please, choose another
