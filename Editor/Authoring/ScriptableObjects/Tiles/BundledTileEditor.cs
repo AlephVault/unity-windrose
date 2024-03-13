@@ -17,6 +17,7 @@ namespace AlephVault.Unity.WindRose
                 ///   An editor for the Bundled Tile. Its only aim
                 ///   is to provide a custom icon.
                 /// </summary>
+                [CanEditMultipleObjects]
                 [InitializeOnLoad]
                 [CustomEditor(typeof(BundledTile))]
                 public class BundledTileEditor : Editor
