@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,7 +11,7 @@ namespace AlephVault.Unity.WindRose
         {
             namespace Tiles
             {
-                using AlephVault.Unity.Layout.Utils;
+                using Layout.Utils;
 
                 /// <summary>
                 ///   <para>
@@ -60,11 +58,16 @@ namespace AlephVault.Unity.WindRose
                             // Order / Flatten dependencies
                             strategies = Assets.FlattenDependencies<Strategies.TileStrategy, RequireTileStrategy, TileStrategyDependencyException>(strategies);
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
-                            Resources.UnloadAsset(this);
+                            Debug.LogException(e, this);
                         }
                     }
+
+                    /// <summary>
+                    ///   Returns the source tile.
+                    /// </summary>
+                    public TileBase SourceTile => sourceTile;
 
                     /// <summary>
                     ///   This call is delegated into the source's <see cref="TileBase.GetTileAnimationData(Vector3Int, ITilemap, ref TileAnimationData)"/>.
