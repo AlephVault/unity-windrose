@@ -70,7 +70,7 @@ namespace AlephVault.Unity.WindRose
                             addTalkSender = EditorGUILayout.ToggleLeft("Talk Sender (A particular close command sender that dispatches a talk command to NPCs)", addTalkSender);
                             EditorGUILayout.EndVertical();
                         }
-                        addTrigger = EditorGUILayout.IntPopup("Trigge Type", addTrigger, addTriggerLabels, addTriggerOptions);
+                        addTrigger = EditorGUILayout.IntPopup("Trigger Type", addTrigger, addTriggerLabels, addTriggerOptions);
                         if (addTrigger == 1)
                         {
                             EditorGUILayout.BeginVertical(indentedStyle);
